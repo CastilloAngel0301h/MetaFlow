@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MetaFlow - Goku Neon Edition</title>
+    <title>MetaFlow - Goku Ultra Neon Edition</title>
     
     <link rel="manifest" id="manifest-placeholder">
     <meta name="theme-color" content="#050508">
@@ -14,14 +14,14 @@
 
     <style>
         :root {
-            --bg-dark: #050508;
-            --panel-bg: rgba(12, 14, 26, 0.92);
+            --bg-dark: #030308;
+            --panel-bg: rgba(8, 11, 24, 0.88);
             --goku-orange: #ff6600;
-            --goku-blue: #0051ff;
+            --goku-blue: #0066ff;
             --neon-cyan: #00f3ff;
-            --neon-magenta: #d946ef;
-            --neon-green: #39ff14;
-            --neon-yellow: #ffea00;
+            --neon-magenta: #e024e0;
+            --neon-green: #21ff14;
+            --neon-yellow: #ffee00;
             --aura-color: #ff6600;
             --text-main: #f8fafc;
         }
@@ -31,160 +31,172 @@
         body {
             background-color: var(--bg-dark);
             color: var(--text-main); min-height: 100vh; overflow-x: hidden;
+            background-image: linear-gradient(rgba(3, 3, 8, 0.85), rgba(3, 3, 8, 0.92)), 
+                              url('https://images.alphacoders.com/869/thumb-1920-869888.png');
+            background-size: cover; background-position: center; background-attachment: fixed;
         }
 
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: radial-gradient(circle at 50% 30%, #1e1005 0%, #08060f 60%, #020205 100%);
+            background: radial-gradient(circle at 50% 30%, rgba(255, 102, 0, 0.25) 0%, rgba(5, 5, 12, 0.95) 70%),
+                        url('https://images7.alphacoders.com/938/thumb-1920-938361.png') center/cover no-repeat;
             z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 0.6s ease-out, visibility 0.6s; overflow: hidden;
             border: 3px solid var(--goku-orange);
-            box-shadow: inset 0 0 50px rgba(255, 102, 0, 0.2);
+            box-shadow: inset 0 0 80px rgba(255, 102, 0, 0.4);
         }
 
         .hero-goku-badge {
-            width: 110px; height: 110px; border-radius: 50%; cursor: pointer; margin-bottom: 20px; z-index: 4;
-            background: radial-gradient(circle at 40% 40%, #ff8800, #cc3300 70%, #111 100%);
+            width: 120px; height: 120px; border-radius: 50%; cursor: pointer; margin-bottom: 20px; z-index: 4;
+            background: radial-gradient(circle at 40% 40%, #ffaa00, #cc3300 70%, #000 100%);
             border: 4px solid var(--neon-yellow);
             display: flex; align-items: center; justify-content: center;
-            font-size: 3rem; font-weight: 900; color: var(--neon-yellow);
-            box-shadow: 0 0 30px var(--goku-orange), 0 0 60px rgba(255, 234, 0, 0.4);
-            animation: floatHero 3s ease-in-out infinite alternate;
+            font-size: 3.5rem; font-weight: 900; color: var(--neon-yellow);
+            box-shadow: 0 0 35px var(--goku-orange), 0 0 70px rgba(255, 238, 0, 0.5);
+            animation: floatHero 2.5s ease-in-out infinite alternate;
             transition: transform 0.2s;
-            text-shadow: 0 0 10px rgba(255,234,0,0.8);
+            text-shadow: 0 0 15px rgba(255,238,0,0.9);
         }
         .hero-goku-badge:active { transform: scale(0.92); }
 
         @keyframes floatHero {
-            0% { transform: translateY(0) scale(0.98); box-shadow: 0 0 25px var(--goku-orange), 0 0 40px rgba(255, 234, 0, 0.3); }
-            100% { transform: translateY(-10px) scale(1.04); box-shadow: 0 0 40px var(--neon-yellow), 0 0 80px var(--goku-orange); }
+            0% { transform: translateY(0) scale(0.98); box-shadow: 0 0 25px var(--goku-orange), 0 0 40px rgba(255, 238, 0, 0.3); }
+            100% { transform: translateY(-12px) scale(1.05); box-shadow: 0 0 50px var(--neon-yellow), 0 0 90px var(--goku-orange); }
         }
 
-        .dragon-balls-container { display: flex; gap: 8px; margin-bottom: 22px; z-index: 3; flex-wrap: wrap; justify-content: center; }
+        .dragon-balls-container { display: flex; gap: 10px; margin-bottom: 22px; z-index: 3; flex-wrap: wrap; justify-content: center; }
         .dragon-ball {
-            width: 32px; height: 32px; cursor: pointer;
-            background: radial-gradient(circle at 35% 35%, #fff066, #ff9900 60%, #cc3300 100%);
-            border-radius: 50%; box-shadow: 0 0 12px #ff6600;
+            width: 36px; height: 36px; cursor: pointer;
+            background: radial-gradient(circle at 35% 35%, #ffff80, #ff9900 60%, #cc2200 100%);
+            border-radius: 50%; box-shadow: 0 0 14px #ff6600;
             display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
-            padding: 4px; animation: bounceBall 2.2s ease-in-out infinite alternate;
+            padding: 4px; animation: bounceBall 2s ease-in-out infinite alternate;
+            transition: transform 0.2s;
         }
-        .dragon-ball span { color: #b30000; font-size: 7px; line-height: 7px; font-weight: bold; }
+        .dragon-ball:hover { transform: scale(1.2); }
+        .dragon-ball span { color: #990000; font-size: 8px; line-height: 8px; font-weight: 900; }
 
         @keyframes bounceBall {
             0% { transform: translateY(0); }
-            100% { transform: translateY(-6px); }
+            100% { transform: translateY(-8px); }
         }
 
         .login-box {
-            background: rgba(10, 12, 24, 0.95); border: 2px solid var(--goku-orange);
-            box-shadow: 0 0 30px rgba(255, 102, 0, 0.3), inset 0 0 15px rgba(0, 81, 255, 0.15); 
-            padding: 24px; border-radius: 16px;
-            z-index: 5; text-align: center; width: 90%; max-width: 360px; backdrop-filter: blur(10px);
+            background: rgba(8, 11, 24, 0.94); border: 2px solid var(--goku-orange);
+            box-shadow: 0 0 40px rgba(255, 102, 0, 0.4), inset 0 0 20px rgba(0, 102, 255, 0.2); 
+            padding: 26px; border-radius: 20px;
+            z-index: 5; text-align: center; width: 90%; max-width: 380px; backdrop-filter: blur(12px);
         }
-        .login-box h1 { color: var(--neon-yellow); font-size: 2.2rem; letter-spacing: 2px; text-shadow: 0 0 15px var(--goku-orange); }
+        .login-box h1 { color: var(--neon-yellow); font-size: 2.4rem; letter-spacing: 2px; text-shadow: 0 0 20px var(--goku-orange); }
         .login-input {
-            width: 100%; padding: 12px; margin: 15px 0; background: #050508; border: 1.5px solid var(--goku-blue);
-            color: #fff; border-radius: 8px; font-size: 1.2rem; text-align: center; outline: none; box-shadow: inset 0 0 10px rgba(0, 81, 255, 0.4);
+            width: 100%; padding: 12px; margin: 15px 0; background: #030308; border: 2px solid var(--goku-blue);
+            color: #fff; border-radius: 10px; font-size: 1.3rem; text-align: center; outline: none; box-shadow: inset 0 0 12px rgba(0, 102, 255, 0.5);
+            letter-spacing: 4px;
         }
 
         #intro-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: radial-gradient(circle at 50% 50%, #150802 0%, #050508 80%);
+            background: radial-gradient(circle at 50% 50%, rgba(20, 8, 2, 0.9) 0%, rgba(3, 3, 8, 0.98) 80%),
+                        url('https://images4.alphacoders.com/936/thumb-1920-936378.png') center/cover no-repeat;
             z-index: 1900; display: none; flex-direction: column; align-items: center; justify-content: center;
             text-align: center; padding: 25px; opacity: 0; transition: opacity 0.8s ease;
             border: 4px solid var(--neon-yellow);
         }
-        .intro-title { font-size: 3.5rem; font-weight: 900; color: var(--neon-yellow); text-shadow: 0 0 25px var(--goku-orange); margin-bottom: 5px; }
-        .intro-author { font-size: 1rem; color: var(--neon-cyan); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px; font-weight: bold; }
-        .intro-quote { font-size: 1.1rem; color: #fff; font-style: italic; max-width: 500px; margin-bottom: 30px; text-shadow: 0 0 10px var(--goku-orange); }
-        .intro-welcome { font-size: 1.4rem; color: var(--neon-yellow); font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
+        .intro-title { font-size: 3.8rem; font-weight: 900; color: var(--neon-yellow); text-shadow: 0 0 30px var(--goku-orange); margin-bottom: 5px; }
+        .intro-author { font-size: 1.1rem; color: var(--neon-cyan); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 25px; font-weight: bold; }
+        .intro-quote { font-size: 1.2rem; color: #fff; font-style: italic; max-width: 550px; margin-bottom: 30px; text-shadow: 0 0 12px var(--goku-orange); }
+        .intro-welcome { font-size: 1.5rem; color: var(--neon-yellow); font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
 
-        #app-wrapper {
-            min-height: 100vh;
-            background: radial-gradient(circle at 50% 10%, #0e1224 0%, #050508 70%);
-        }
+        #app-wrapper { min-height: 100vh; }
 
         .header-banner {
-            width: 100%; background: rgba(10, 14, 26, 0.95);
-            border-bottom: 2px solid var(--goku-orange); box-shadow: 0 0 20px rgba(255, 102, 0, 0.25);
-            padding: 15px 20px; display: flex; align-items: center; justify-content: space-between;
-            position: sticky; top: 0; z-index: 100; backdrop-filter: blur(8px);
+            width: 100%; background: rgba(8, 11, 24, 0.95);
+            border-bottom: 2px solid var(--goku-orange); box-shadow: 0 0 25px rgba(255, 102, 0, 0.3);
+            padding: 15px 22px; display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px);
         }
-        .title-main { font-size: 1.4rem; font-weight: 900; color: var(--neon-yellow); text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 10px var(--goku-orange); }
+        .title-main { font-size: 1.5rem; font-weight: 900; color: var(--neon-yellow); text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 12px var(--goku-orange); }
 
         #app-main { display: none; padding: 20px; max-width: 1100px; margin: 0 auto; }
 
         .paros-container {
-            background: var(--panel-bg); border: 1px solid var(--goku-orange); border-radius: 12px; padding: 15px; margin: 20px 0;
-            display: flex; gap: 15px; align-items: center; flex-wrap: wrap; box-shadow: 0 0 15px rgba(255, 102, 0, 0.15); backdrop-filter: blur(8px);
+            background: var(--panel-bg); border: 1.5px solid var(--goku-orange); border-radius: 14px; padding: 18px; margin: 20px 0;
+            display: flex; gap: 15px; align-items: center; flex-wrap: wrap; box-shadow: 0 0 20px rgba(255, 102, 0, 0.2); backdrop-filter: blur(10px);
         }
-        .paros-container h4 { color: var(--neon-yellow); width: 100%; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        .paros-container h4 { color: var(--neon-yellow); width: 100%; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; }
 
         .carga-card {
-            background: var(--panel-bg); border: 1px solid rgba(0, 81, 255, 0.4); border-radius: 12px; padding: 15px; margin-bottom: 15px;
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); position: relative; backdrop-filter: blur(8px);
+            background: var(--panel-bg); border: 1.5px solid rgba(0, 102, 255, 0.5); border-radius: 14px; padding: 18px; margin-bottom: 18px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; box-shadow: 0 6px 20px rgba(0,0,0,0.6); position: relative; backdrop-filter: blur(10px);
         }
 
-        .input-group label { display: block; font-size: 0.75rem; color: var(--neon-cyan); margin-bottom: 5px; text-transform: uppercase; }
-        .input-group input { width: 100%; padding: 10px; background: #050508; border: 1px solid #333; color: #fff; border-radius: 6px; font-size: 1.1rem; outline: none; }
-        .input-group input:focus { border-color: var(--goku-orange); box-shadow: 0 0 8px var(--goku-orange); }
+        .input-group label { display: block; font-size: 0.78rem; color: var(--neon-cyan); margin-bottom: 6px; text-transform: uppercase; font-weight: bold; }
+        .input-group input { width: 100%; padding: 10px; background: #030308; border: 1px solid #444; color: #fff; border-radius: 8px; font-size: 1.1rem; outline: none; }
+        .input-group input:focus { border-color: var(--goku-orange); box-shadow: 0 0 10px var(--goku-orange); }
+
+        .ritmos-badge-grid {
+            grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px;
+            background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-top: 5px;
+        }
+        .ritmo-item { text-align: center; font-size: 0.75rem; color: #aaa; }
+        .ritmo-item span { display: block; font-weight: bold; color: var(--neon-yellow); font-size: 0.9rem; margin-top: 2px; }
 
         .btn-neon {
             background: transparent; color: #fff; font-weight: bold; padding: 12px 25px; border: 2px solid var(--goku-orange); border-radius: 8px;
             cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; width: 100%; font-size: 1rem;
-            box-shadow: 0 0 10px rgba(255, 102, 0, 0.2);
+            box-shadow: 0 0 12px rgba(255, 102, 0, 0.25);
         }
-        .btn-neon:hover { background: var(--goku-orange); color: #000; box-shadow: 0 0 25px var(--goku-orange); }
+        .btn-neon:hover { background: var(--goku-orange); color: #000; box-shadow: 0 0 30px var(--goku-orange); }
 
         .btn-add {
-            background: linear-gradient(90deg, var(--goku-orange), #ff9900); border: none; color: white; padding: 14px; width: 100%; border-radius: 8px;
-            font-weight: bold; cursor: pointer; margin-bottom: 25px; box-shadow: 0 0 15px rgba(255, 102, 0, 0.4); text-transform: uppercase; letter-spacing: 1.5px;
+            background: linear-gradient(90deg, var(--goku-orange), #ff9900); border: none; color: white; padding: 14px; width: 100%; border-radius: 10px;
+            font-weight: bold; cursor: pointer; margin-bottom: 25px; box-shadow: 0 0 20px rgba(255, 102, 0, 0.4); text-transform: uppercase; letter-spacing: 2px; font-size: 1rem;
         }
 
         .banner-eficiencia {
-            position: relative; background: rgba(8, 10, 20, 0.92);
-            border: 2px solid var(--aura-color); border-radius: 16px; padding: 30px 20px; margin: 25px 0;
-            text-align: center; box-shadow: 0 0 30px var(--aura-color), inset 0 0 20px var(--aura-color);
-            transition: all 0.5s ease; overflow: hidden; backdrop-filter: blur(8px);
+            position: relative; background: rgba(5, 7, 16, 0.92);
+            border: 2px solid var(--aura-color); border-radius: 18px; padding: 30px 20px; margin: 25px 0;
+            text-align: center; box-shadow: 0 0 35px var(--aura-color), inset 0 0 25px var(--aura-color);
+            transition: all 0.5s ease; overflow: hidden; backdrop-filter: blur(10px);
         }
 
-        .banner-eficiencia::before, .banner-eficiencia::after {
+        .banner-eficiencia::before {
             content: ''; position: absolute; left: 50%; bottom: -20px; width: 180%; height: 180%;
             background: radial-gradient(circle at bottom, var(--aura-color) 0%, transparent 60%);
-            opacity: 0.25; transform: translateX(-50%); pointer-events: none; z-index: 1;
+            opacity: 0.3; transform: translateX(-50%); pointer-events: none; z-index: 1;
             animation: flameAura 2s ease-in-out infinite alternate;
         }
 
         @keyframes flameAura {
             0% { transform: translateX(-50%) scale(0.95) translateY(0); filter: drop-shadow(0 0 10px var(--aura-color)); }
-            100% { transform: translateX(-50%) scale(1.05) translateY(-10px); filter: drop-shadow(0 0 25px var(--aura-color)); }
+            100% { transform: translateX(-50%) scale(1.05) translateY(-10px); filter: drop-shadow(0 0 30px var(--aura-color)); }
         }
 
         .eficiencia-contenido { position: relative; z-index: 2; }
-        .eficiencia-valor { font-size: 4.2rem; font-weight: 900; color: #fff; text-shadow: 0 0 25px var(--aura-color); }
-        .aura-nivel-tag { font-size: 1.2rem; font-weight: bold; color: var(--aura-color); letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 10px var(--aura-color); }
+        .eficiencia-valor { font-size: 4.5rem; font-weight: 900; color: #fff; text-shadow: 0 0 30px var(--aura-color); }
+        .aura-nivel-tag { font-size: 1.3rem; font-weight: bold; color: var(--aura-color); letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 12px var(--aura-color); }
 
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 20px; position: relative; z-index: 2; }
-        .stat-box { background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; color: #fff; font-size: 0.85rem; }
-        .stat-box span { display: block; font-size: 1.2rem; font-weight: bold; color: var(--neon-yellow); margin-top: 3px; }
+        .stat-box { background: rgba(0,0,0,0.75); border: 1px solid rgba(255,255,255,0.15); padding: 12px; border-radius: 10px; color: #fff; font-size: 0.82rem; }
+        .stat-box span { display: block; font-size: 1.25rem; font-weight: bold; color: var(--neon-yellow); margin-top: 4px; }
 
-        .timeline-box { background: var(--panel-bg); border-radius: 12px; border: 1px solid var(--goku-blue); overflow: hidden; margin-top: 15px; backdrop-filter: blur(8px); box-shadow: 0 0 15px rgba(0, 81, 255, 0.2); }
-        .time-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
+        .timeline-box { background: var(--panel-bg); border-radius: 14px; border: 1.5px solid var(--goku-blue); overflow: hidden; margin-top: 18px; backdrop-filter: blur(10px); box-shadow: 0 0 20px rgba(0, 102, 255, 0.25); }
+        .time-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.92rem; }
         
-        .time-row.carga { background: rgba(10, 20, 40, 0.85); border-left: 4px solid var(--goku-blue); color: #c2d6ff; font-weight: bold; letter-spacing: 1px;}
-        .time-row.carga .hora { color: var(--neon-cyan); font-weight: bold; font-family: monospace; font-size: 1rem;}
-        .time-row.receso { background: rgba(40, 25, 5, 0.85); border-left: 4px solid var(--goku-orange); color: #ffd699; font-size: 0.85rem;}
+        .time-row.carga { background: rgba(10, 24, 48, 0.85); border-left: 5px solid var(--goku-blue); color: #c2d6ff; font-weight: bold; }
+        .time-row.carga .hora { color: var(--neon-cyan); font-weight: bold; font-family: monospace; font-size: 1.05rem;}
+        .time-row.receso { background: rgba(45, 28, 5, 0.85); border-left: 5px solid var(--goku-orange); color: #ffd699; font-size: 0.88rem;}
         .time-row.receso .hora { color: var(--neon-yellow); font-weight: bold; }
         
-        .duracion-badge { color: #888; font-size: 0.8rem; margin-left: 8px; font-weight: normal; }
+        .duracion-badge { color: #aaa; font-size: 0.8rem; margin-left: 8px; font-weight: normal; }
 
         .summary-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
         .summary-card { 
-            background: rgba(10, 14, 26, 0.9); border: 1px solid rgba(255,255,255,0.1); 
-            padding: 15px; border-radius: 8px; text-align: center; 
+            background: rgba(8, 11, 24, 0.92); border: 1px solid rgba(255,255,255,0.12); 
+            padding: 16px; border-radius: 10px; text-align: center; 
         }
-        .summary-card .lbl { font-size: 0.75rem; color: var(--neon-green); font-weight: bold; text-transform: uppercase; letter-spacing: 1px;}
-        .summary-card .val { font-size: 1.3rem; font-weight: 900; color: #fff; margin-top: 5px; }
+        .summary-card .lbl { font-size: 0.78rem; color: var(--neon-green); font-weight: bold; text-transform: uppercase; letter-spacing: 1px;}
+        .summary-card .val { font-size: 1.4rem; font-weight: 900; color: #fff; margin-top: 5px; }
 
     </style>
 </head>
@@ -211,7 +223,7 @@
 
         <div class="login-box">
             <h1>MetaFlow</h1>
-            <p style="color: var(--neon-cyan); font-size: 0.75rem; letter-spacing: 1px; margin-bottom: 10px;">SISTEMA INTEGRADO DE CÁLCULOS DE EFICIENCIA Y PRODUCCIÓN</p>
+            <p style="color: var(--neon-cyan); font-size: 0.75rem; letter-spacing: 1px; margin-bottom: 10px;">SISTEMA INTEGRADO DE CÁLCULOS Y EFICIENCIA ULTRACUADRADA</p>
             <input type="password" id="pin" class="login-input" placeholder="PIN DE ACCESO" maxlength="6" inputmode="numeric" onfocus="playEsferaSound()">
             <button class="btn-neon" onclick="verificarAcceso()">INGRESAR</button>
             <p id="error-msg" style="color: #ff4500; margin-top: 12px; font-size: 0.85rem; display: none;"></p>
@@ -222,14 +234,14 @@
         <div class="intro-title">MetaFlow</div>
         <div class="intro-author">Creado por Ángel Castillo</div>
         <div class="intro-quote" id="intro-quote-text">"¡El poder viene en respuesta a una necesidad, no a un deseo!"</div>
-        <div class="intro-welcome">Bienvenido usuario: <span id="intro-user-name" style="color: var(--neon-yellow);"></span></div>
+        <div class="intro-welcome">Bienvenido guerrero: <span id="intro-user-name" style="color: var(--neon-yellow);"></span></div>
     </div>
 
     <div id="app-wrapper">
         <div class="header-banner">
             <div>
                 <div class="title-main">MetaFlow</div>
-                <div style="font-size: 0.70rem; color: var(--neon-yellow); letter-spacing: 1px; max-width: 250px;" id="nombre-usuario">SISTEMA INTEGRADO DE CÁLCULOS DE EFICIENCIA Y PRODUCCIÓN</div>
+                <div style="font-size: 0.72rem; color: var(--neon-yellow); letter-spacing: 1px; max-width: 280px;" id="nombre-usuario">SISTEMA INTEGRADO DE CÁLCULOS Y EFICIENCIA ULTRACUADRADA</div>
             </div>
             <div style="text-align: right; font-size: 0.8rem; color: #aaa;">
                 <div>CUADRE DE 12 HORAS</div>
@@ -239,8 +251,8 @@
 
         <div id="app-main">
             <div class="paros-container">
-                <h4>⏱️ Paros Externos (MINS)</h4>
-                <div class="input-group" style="flex: 1; min-width: 120px;">
+                <h4>⏱️ Paros Externos Fuera de Recesos (MINUTOS)</h4>
+                <div class="input-group" style="flex: 1; min-width: 140px;">
                     <input type="number" id="paro-minutos" value="0" min="0" oninput="playEsferaSound(); calcularTodo();" style="text-align: center; color: var(--neon-yellow); font-weight: bold;">
                 </div>
             </div>
@@ -251,15 +263,15 @@
 
             <div class="banner-eficiencia" id="aura-banner">
                 <div class="eficiencia-contenido">
-                    <div class="aura-nivel-tag" style="font-size: 0.8rem; margin-bottom: 5px; color: var(--neon-yellow);">EFICIENCIA PREMIUM STO</div>
+                    <div class="aura-nivel-tag" style="font-size: 0.85rem; margin-bottom: 5px; color: var(--neon-yellow);">EFICIENCIA FINAL DEL DÍA</div>
                     <div class="eficiencia-valor" id="efi-final">0.00%</div>
                     <div class="aura-nivel-tag" id="aura-tag" style="margin-top: 10px;">AURA GOKU NEÓN</div>
                 </div>
                 <div class="stats-grid">
-                    <div class="stat-box">ON<span><b id="efi-on-val">0.00%</b></span></div>
-                    <div class="stat-box">OFF<span><b id="efi-off-val">0.00%</b></span></div>
-                    <div class="stat-box">META DÍA<span><b id="meta-dia-val">0</b></span></div>
-                    <div class="stat-box">DOCENAS<span><b id="docenas-hechas-val">0</b></span></div>
+                    <div class="stat-box">META PROMEDIO<span><b id="meta-promedio-val">0.0</b> <small style="font-size: 0.7rem; color: #aaa;">dz/h</small></span></div>
+                    <div class="stat-box">META FINAL (11H)<span><b id="meta-dia-val">0.0</b> <small style="font-size: 0.7rem; color: #aaa;">dz</small></span></div>
+                    <div class="stat-box">TOTAL HECHAS<span><b id="docenas-hechas-val">0.00</b> <small style="font-size: 0.7rem; color: #aaa;">dz</small></span></div>
+                    <div class="stat-box">DOCENAS PERDIDAS<span><b id="docenas-perdidas-val" style="color: #ff4500;">0.00</b></span></div>
                 </div>
             </div>
 
@@ -267,16 +279,16 @@
             
             <div class="summary-footer">
                 <div class="summary-card">
-                    <div class="lbl">TIEMPO PRODUCCIÓN PURO</div>
-                    <div class="val">11H 00M</div>
+                    <div class="lbl">TIEMPO TRABAJABLE PURO</div>
+                    <div class="val">11 H 00 M</div>
                 </div>
                 <div class="summary-card" style="border-color: var(--goku-orange);">
-                    <div class="lbl" style="color: var(--neon-yellow);">RECESOS OBLIGATORIOS</div>
-                    <div class="val" style="color: var(--neon-yellow);">1H 00M</div>
+                    <div class="lbl" style="color: var(--neon-yellow);">RECESOS ABSORTIVOS (12H)</div>
+                    <div class="val" style="color: var(--neon-yellow);">1 H 00 M</div>
                 </div>
             </div>
-            
-            <button class="btn-neon" style="margin-top: 25px; border-color: var(--goku-orange); background: rgba(255, 102, 0, 0.1);">GUARDAR CÁLCULO PREMIUM</button>
+
+            <button class="btn-neon" style="margin-top: 25px; border-color: var(--goku-orange); background: rgba(255, 102, 0, 0.1);" onclick="playTransformSound()">GUARDAR CÁLCULO ULTRA INSTINTO</button>
 
         </div>
     </div>
@@ -289,25 +301,38 @@
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.type = 'sine';
-            osc.frequency.setValueAtTime(880, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(1760, audioCtx.currentTime + 0.12);
-            gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
+            osc.frequency.setValueAtTime(784, audioCtx.currentTime); // Sol5
+            osc.frequency.exponentialRampToValueAtTime(1567, audioCtx.currentTime + 0.15);
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
             osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.12);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.15);
         }
 
         function playTransformSound() {
             if (audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(120, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(900, audioCtx.currentTime + 0.45);
-            gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.45);
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.45);
+            
+            // Sub-oscilador grave
+            const osc1 = audioCtx.createOscillator();
+            const gain1 = audioCtx.createGain();
+            osc1.type = 'sawtooth';
+            osc1.frequency.setValueAtTime(100, audioCtx.currentTime);
+            osc1.frequency.exponentialRampToValueAtTime(850, audioCtx.currentTime + 0.5);
+            gain1.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+            osc1.connect(gain1); gain1.connect(audioCtx.destination);
+            osc1.start(); osc1.stop(audioCtx.currentTime + 0.5);
+
+            // Oscilador agudo (Resonancia Ki)
+            const osc2 = audioCtx.createOscillator();
+            const gain2 = audioCtx.createGain();
+            osc2.type = 'sine';
+            osc2.frequency.setValueAtTime(300, audioCtx.currentTime);
+            osc2.frequency.exponentialRampToValueAtTime(1800, audioCtx.currentTime + 0.4);
+            gain2.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+            osc2.connect(gain2); gain2.connect(audioCtx.destination);
+            osc2.start(); osc2.stop(audioCtx.currentTime + 0.4);
         }
 
         function toggleMusica() {
@@ -321,7 +346,7 @@
             { id: 1, meta: 700.0, hechas: 0 }
         ];
 
-        // Recesos fijos estrictamente para absorción en el reloj (timeline de 12h totales), sin alterar metas ni eficiencias puras de 11h
+        // Recesos Fijos para absorber tiempo dentro de las 12 horas totales (Sin afectar metas/eficiencias de 11h)
         const RECESOS = [
             { id: 'r1', nombre: 'PARO FIJO: RECESO 8:10 AM - 8:25 AM', inicioMin: 70, finMin: 85, duracion: 15 },
             { id: 'r2', nombre: 'PARO FIJO: ALMUERZO 11:20 AM - 11:50 AM', inicioMin: 260, finMin: 290, duracion: 30 },
@@ -339,9 +364,9 @@
 
         const frasesDragonBall = [
             '"¡El poder viene en respuesta a una necesidad, no a un deseo!"',
-            '"Trabajar duro y superar tus límites es la clave de todo guerrero."',
+            '"Trabajar duro y superar tus límites es la clave de todo guerrero SAU."',
             '"Los límites solo existen si tú los permites en tu mente."',
-            '"Incluso el guerrero más ordinario puede superar a un élite con esfuerzo."'
+            '"Incluso el guerrero más ordinario puede superar a un élite con esfuerzo constante."'
         ];
 
         let deferredPrompt;
@@ -397,7 +422,7 @@
             } else {
                 playEsferaSound();
                 const errorMsg = document.getElementById('error-msg');
-                errorMsg.innerText = "PIN Incorrecto.";
+                errorMsg.innerText = "PIN Incorrecto. Ingrese una clave autorizada.";
                 errorMsg.style.display = 'block';
             }
         }
@@ -420,25 +445,50 @@
             calcularTodo();
         }
 
+        function formatearHorasMinutos(horasDecimales) {
+            if (isNaN(horasDecimales) || horasDecimales <= 0) return "0h 0m";
+            let totalMinutos = Math.round(horasDecimales * 60);
+            let h = Math.floor(totalMinutos / 60);
+            let m = totalMinutos % 60;
+            return `${h}h ${m}m`;
+        }
+
         function renderizarCargas() {
             const container = document.getElementById('contenedor-cargas');
             container.innerHTML = '';
             
             cargas.forEach((c, index) => {
+                let ritmo100 = c.meta / 11;
+                let ritmo75 = ritmo100 * 0.75;
+                let ritmo875 = ritmo100 * 0.875;
+                let ritmo105 = ritmo100 * 1.05;
+
+                let baseDocenas = c.hechas > 0 ? c.hechas : c.meta;
+                let horas100 = ritmo100 > 0 ? baseDocenas / ritmo100 : 0;
+                let horas75 = ritmo75 > 0 ? baseDocenas / ritmo75 : 0;
+                let horas875 = ritmo875 > 0 ? baseDocenas / ritmo875 : 0;
+
                 container.innerHTML += `
                     <div class="carga-card">
-                        <div class="input-group">
-                            <label style="color: var(--neon-yellow); font-weight: bold;">CARGA #${index + 1}</label>
+                        <div class="input-group" style="grid-column: 1 / -1; display:flex; justify-content:space-between; align-items:center;">
+                            <label style="color: var(--neon-yellow); font-weight: 900; font-size:1rem;">CARGA #${index + 1}</label>
+                            ${cargas.length > 1 ? `<button onclick="eliminarCarga(${index})" style="background: transparent; border: none; color: #ff4500; cursor: pointer; font-weight: bold;">✕ Quitar Carga</button>` : ''}
                         </div>
                         <div class="input-group">
-                            <label>Meta Vinculada (pza/h)</label>
+                            <label>Meta de Carga (dz)</label>
                             <input type="number" value="${c.meta}" oninput="actualizarValor(${index}, 'meta', this.value)" style="color: var(--neon-yellow);">
                         </div>
                         <div class="input-group">
                             <label>Docenas Hechas</label>
                             <input type="number" value="${c.hechas}" oninput="actualizarValor(${index}, 'hechas', this.value)" style="color: var(--neon-green); font-weight: bold;">
                         </div>
-                        <button onclick="eliminarCarga(${index})" style="position: absolute; right: 15px; top: 15px; background: transparent; border: none; color: #ff4500; cursor: pointer; font-weight: bold;">Quitar</button>
+                        
+                        <div class="ritmos-badge-grid">
+                            <div class="ritmo-item">Ritmo 100%<span>${ritmo100.toFixed(2)} dz/h</span></div>
+                            <div class="ritmo-item">Tiempo 100%<span>${formatearHorasMinutos(horas100)}</span></div>
+                            <div class="ritmo-item">Tiempo 87.5%<span>${formatearHorasMinutos(horas875)}</span></div>
+                            <div class="ritmo-item">Tiempo 75%<span>${formatearHorasMinutos(horas75)}</span></div>
+                        </div>
                     </div>
                 `;
             });
@@ -463,23 +513,23 @@
             let nombreNivel = "Aura Goku Base";
 
             if (eficiencia === 0) {
-                color = "#334155";
-                nombreNivel = "ESPERANDO DATOS...";
+                color = "#475569";
+                nombreNivel = "ESPERANDO PRODUCCIÓN...";
             } else if (eficiencia < 50) {
-                color = "#ff6600";
-                nombreNivel = "Aura Naranja Kaio-Ken";
+                color = "#ff3300";
+                nombreNivel = "Aura Kaio-Ken x10 🔥";
             } else if (eficiencia < 75) {
                 color = "#ffea00";
-                nombreNivel = "Aura Super Saiyajin Oro";
+                nombreNivel = "Aura Super Saiyajin Oro ⚡";
             } else if (eficiencia < 95) {
                 color = "#00f3ff";
-                nombreNivel = "Aura Super Saiyajin Blue";
-            } else if (eficiencia <= 100.2) {
-                color = "#d946ef";
-                nombreNivel = "AURA ULTRA INSTINTU 🔥";
+                nombreNivel = "Aura Super Saiyajin Blue 💎";
+            } else if (eficiencia <= 100.5) {
+                color = "#e024e0";
+                nombreNivel = "AURA ULTRA INSTINTO DOMINADO ✨";
             } else {
-                color = "#39ff14";
-                nombreNivel = "Aura Super Saiyajin God Green ⚡";
+                color = "#21ff14";
+                nombreNivel = "Aura Modo Dios Super Saiyajin Green 🌌";
             }
 
             root.style.setProperty('--aura-color', color);
@@ -487,37 +537,42 @@
         }
 
         function calcularTodo() {
-            let sumaMetasPzaH = 0;
+            let sumaMetas = 0;
             let totalDocenas = 0;
+
             cargas.forEach(c => {
-                sumaMetasPzaH += c.meta;
+                sumaMetas += c.meta;
                 totalDocenas += c.hechas;
             });
 
-            let metaPromedioPzaH = cargas.length > 0 ? (sumaMetasPzaH / cargas.length) : 0;
+            // 1. Meta Promedio = Suma de las metas / Cantidad de Cargas
+            let metaPromedio = cargas.length > 0 ? (sumaMetas / cargas.length) : 0;
             
-            // LA CORRECCIÓN EXACTA: Multiplicar directo por 11 (las 11 horas puras de trabajo sin meter división por 12 en la meta total del día)
-            let metaDiaDocenas = metaPromedioPzaH * 11; 
+            // 2. Meta Final del Día en base estricta a las 11 horas trabajables
+            let metaDia11H = metaPromedio * 11;
 
+            // 3. Descuento de Paros Externos (Fuera de recesos):
             let parosExternosMins = parseFloat(document.getElementById('paro-minutos').value) || 0;
-            
-            // Los paros externos merman las 11 horas de trabajo
-            let minutosTrabajoEfectivos = 660 - parosExternosMins;
-            let metaAjustadaParos = metaPromedioPzaH * (minutosTrabajoEfectivos / 60);
-            let eficienciaOff = metaAjustadaParos > 0 ? (totalDocenas / metaAjustadaParos) * 100 : 0;
-            let eficienciaOn = eficienciaOff;
+            let docenasPerdidasParo = metaPromedio * (parosExternosMins / 60);
 
-            document.getElementById('efi-final').innerText = eficienciaOff.toFixed(2) + '%';
-            document.getElementById('efi-on-val').innerText = eficienciaOn.toFixed(2) + '%';
-            document.getElementById('efi-off-val').innerText = eficienciaOff.toFixed(2) + '%';
-            document.getElementById('meta-dia-val').innerText = metaDiaDocenas.toFixed(1);
+            // 4. Meta Final Ajustada por Paros Externos
+            let metaFinalAjustada = metaDia11H - docenasPerdidasParo;
+            if (metaFinalAjustada < 0) metaFinalAjustada = 0;
+
+            // 5. Eficiencia Final
+            let eficienciaFinal = metaFinalAjustada > 0 ? (totalDocenas / metaFinalAjustada) * 100 : 0;
+
+            document.getElementById('efi-final').innerText = eficienciaFinal.toFixed(2) + '%';
+            document.getElementById('meta-promedio-val').innerText = metaPromedio.toFixed(1);
+            document.getElementById('meta-dia-val').innerText = metaDia11H.toFixed(1);
             document.getElementById('docenas-hechas-val').innerText = totalDocenas.toFixed(2);
+            document.getElementById('docenas-perdidas-val').innerText = docenasPerdidasParo.toFixed(2);
 
-            actualizarAuraNeón(eficienciaOff);
-            generarBitacoraExacta(totalDocenas, parosExternosMins);
+            actualizarAuraNeón(eficienciaFinal);
+            generarBitacoraExacta(parosExternosMins);
         }
 
-        function generarBitacoraExacta(totalDocenas, parosExternosMins) {
+        function generarBitacoraExacta(parosExternosMins) {
             const container = document.getElementById('timeline-container');
             container.innerHTML = '';
             if (cargas.length === 0) return;
@@ -536,6 +591,7 @@
             if (sumaPesos === 0) sumaPesos = 1;
 
             let minutosTrabajoPuro = 660 - parosExternosMins;
+            if (minutosTrabajoPuro < 0) minutosTrabajoPuro = 0;
             let minsTrabajoAsignados = pesosCargas.map(p => (p / sumaPesos) * minutosTrabajoPuro);
 
             let relojActual = 0; 
@@ -572,23 +628,21 @@
                 let m = Math.round(duracionRealEnReloj % 60);
                 let badgeDuracion = h > 0 ? `(${h}h ${m}m)` : `(${m}m)`;
 
-                let bloqueCarga = `
+                container.innerHTML += `
                     <div class="time-row carga">
-                        <div>CARGA ${idx + 1}</div>
+                        <div>CARGA #${idx + 1} - Meta: ${c.meta} dz</div>
                         <div class="hora">${formatoHora(inicioCargaMins)} - ${formatoHora(relojActual)} <span class="duracion-badge">${badgeDuracion}</span></div>
                     </div>
                 `;
-
-                container.innerHTML += bloqueCarga;
             });
         }
 
         const manifestObj = {
-            "name": "MetaFlow App",
+            "name": "MetaFlow Goku App",
             "short_name": "MetaFlow",
             "start_url": ".",
             "display": "standalone",
-            "background_color": "#050508",
+            "background_color": "#030308",
             "theme_color": "#ff6600"
         };
         const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/json'});
