@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MetaFlow - DBZ Edition</title>
+    <title>MetaFlow - Goku Neon Edition</title>
     
     <link rel="manifest" id="manifest-placeholder">
     <meta name="theme-color" content="#050508">
@@ -15,12 +15,14 @@
     <style>
         :root {
             --bg-dark: #050508;
-            --panel-bg: rgba(10, 12, 22, 0.88);
+            --panel-bg: rgba(12, 14, 26, 0.92);
+            --goku-orange: #ff6600;
+            --goku-blue: #0051ff;
             --neon-cyan: #00f3ff;
             --neon-magenta: #d946ef;
             --neon-green: #39ff14;
             --neon-yellow: #ffea00;
-            --aura-color: #00f3ff;
+            --aura-color: #ff6600;
             --text-main: #f8fafc;
         }
 
@@ -33,30 +35,36 @@
 
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(5, 5, 12, 0.88)), 
-                        url('https://images.alphacoders.com/605/605939.png') no-repeat center center / cover;
+            background: radial-gradient(circle at 50% 30%, #1e1005 0%, #08060f 60%, #020205 100%);
             z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 0.6s ease-out, visibility 0.6s; overflow: hidden;
+            border: 3px solid var(--goku-orange);
+            box-shadow: inset 0 0 50px rgba(255, 102, 0, 0.2);
         }
 
-        .hero-dragon-img {
-            width: 200px; max-width: 70%; cursor: pointer; margin-bottom: 10px; z-index: 4;
-            filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.9));
+        .hero-goku-badge {
+            width: 110px; height: 110px; border-radius: 50%; cursor: pointer; margin-bottom: 20px; z-index: 4;
+            background: radial-gradient(circle at 40% 40%, #ff8800, #cc3300 70%, #111 100%);
+            border: 4px solid var(--neon-yellow);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3rem; font-weight: 900; color: var(--neon-yellow);
+            box-shadow: 0 0 30px var(--goku-orange), 0 0 60px rgba(255, 234, 0, 0.4);
             animation: floatHero 3s ease-in-out infinite alternate;
             transition: transform 0.2s;
+            text-shadow: 0 0 10px rgba(255,234,0,0.8);
         }
-        .hero-dragon-img:active { transform: scale(0.92); }
+        .hero-goku-badge:active { transform: scale(0.92); }
 
         @keyframes floatHero {
-            0% { transform: translateY(0) scale(0.98); filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.8)); }
-            100% { transform: translateY(-12px) scale(1.03); filter: drop-shadow(0 0 30px rgba(255, 234, 0, 0.9)); }
+            0% { transform: translateY(0) scale(0.98); box-shadow: 0 0 25px var(--goku-orange), 0 0 40px rgba(255, 234, 0, 0.3); }
+            100% { transform: translateY(-10px) scale(1.04); box-shadow: 0 0 40px var(--neon-yellow), 0 0 80px var(--goku-orange); }
         }
 
-        .dragon-balls-container { display: flex; gap: 8px; margin-bottom: 18px; z-index: 3; flex-wrap: wrap; justify-content: center; }
+        .dragon-balls-container { display: flex; gap: 8px; margin-bottom: 22px; z-index: 3; flex-wrap: wrap; justify-content: center; }
         .dragon-ball {
-            width: 34px; height: 34px; cursor: pointer;
+            width: 32px; height: 32px; cursor: pointer;
             background: radial-gradient(circle at 35% 35%, #fff066, #ff9900 60%, #cc3300 100%);
-            border-radius: 50%; box-shadow: 0 0 14px #ff6600;
+            border-radius: 50%; box-shadow: 0 0 12px #ff6600;
             display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
             padding: 4px; animation: bounceBall 2.2s ease-in-out infinite alternate;
         }
@@ -64,76 +72,77 @@
 
         @keyframes bounceBall {
             0% { transform: translateY(0); }
-            100% { transform: translateY(-8px); }
+            100% { transform: translateY(-6px); }
         }
 
         .login-box {
-            background: rgba(8, 10, 20, 0.92); border: 2px solid var(--neon-cyan);
-            box-shadow: 0 0 35px rgba(0, 243, 255, 0.4); padding: 22px; border-radius: 16px;
+            background: rgba(10, 12, 24, 0.95); border: 2px solid var(--goku-orange);
+            box-shadow: 0 0 30px rgba(255, 102, 0, 0.3), inset 0 0 15px rgba(0, 81, 255, 0.15); 
+            padding: 24px; border-radius: 16px;
             z-index: 5; text-align: center; width: 90%; max-width: 360px; backdrop-filter: blur(10px);
         }
-        .login-box h1 { color: var(--neon-cyan); font-size: 2rem; letter-spacing: 2px; text-shadow: 0 0 12px var(--neon-cyan); }
+        .login-box h1 { color: var(--neon-yellow); font-size: 2.2rem; letter-spacing: 2px; text-shadow: 0 0 15px var(--goku-orange); }
         .login-input {
-            width: 100%; padding: 12px; margin: 15px 0; background: #050508; border: 1.5px solid var(--neon-magenta);
-            color: #fff; border-radius: 8px; font-size: 1.2rem; text-align: center; outline: none; box-shadow: inset 0 0 8px rgba(217, 70, 239, 0.3);
+            width: 100%; padding: 12px; margin: 15px 0; background: #050508; border: 1.5px solid var(--goku-blue);
+            color: #fff; border-radius: 8px; font-size: 1.2rem; text-align: center; outline: none; box-shadow: inset 0 0 10px rgba(0, 81, 255, 0.4);
         }
 
         #intro-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(rgba(5, 5, 12, 0.8), rgba(0, 0, 0, 0.92)), 
-                        url('https://images.alphacoders.com/132/1327104.jpeg') no-repeat center center / cover;
+            background: radial-gradient(circle at 50% 50%, #150802 0%, #050508 80%);
             z-index: 1900; display: none; flex-direction: column; align-items: center; justify-content: center;
             text-align: center; padding: 25px; opacity: 0; transition: opacity 0.8s ease;
+            border: 4px solid var(--neon-yellow);
         }
-        .intro-title { font-size: 3.5rem; font-weight: 900; color: var(--neon-cyan); text-shadow: 0 0 30px var(--neon-cyan); margin-bottom: 5px; }
-        .intro-author { font-size: 1rem; color: var(--neon-magenta); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px; font-weight: bold; }
-        .intro-quote { font-size: 1.1rem; color: var(--neon-yellow); font-style: italic; max-width: 500px; margin-bottom: 30px; text-shadow: 0 0 10px rgba(255, 234, 0, 0.5); }
-        .intro-welcome { font-size: 1.4rem; color: #fff; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
+        .intro-title { font-size: 3.5rem; font-weight: 900; color: var(--neon-yellow); text-shadow: 0 0 25px var(--goku-orange); margin-bottom: 5px; }
+        .intro-author { font-size: 1rem; color: var(--neon-cyan); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px; font-weight: bold; }
+        .intro-quote { font-size: 1.1rem; color: #fff; font-style: italic; max-width: 500px; margin-bottom: 30px; text-shadow: 0 0 10px var(--goku-orange); }
+        .intro-welcome { font-size: 1.4rem; color: var(--neon-yellow); font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
 
         #app-wrapper {
             min-height: 100vh;
-            background: linear-gradient(rgba(5, 5, 8, 0.88), rgba(5, 5, 8, 0.95)), 
-                        url('https://images5.alphacoders.com/134/1342921.png') no-repeat center center fixed / cover;
+            background: radial-gradient(circle at 50% 10%, #0e1224 0%, #050508 70%);
         }
 
         .header-banner {
-            width: 100%; background: rgba(10, 12, 22, 0.95);
-            border-bottom: 2px solid var(--neon-cyan); box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+            width: 100%; background: rgba(10, 14, 26, 0.95);
+            border-bottom: 2px solid var(--goku-orange); box-shadow: 0 0 20px rgba(255, 102, 0, 0.25);
             padding: 15px 20px; display: flex; align-items: center; justify-content: space-between;
             position: sticky; top: 0; z-index: 100; backdrop-filter: blur(8px);
         }
-        .title-main { font-size: 1.4rem; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 10px var(--neon-cyan); }
+        .title-main { font-size: 1.4rem; font-weight: 900; color: var(--neon-yellow); text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 10px var(--goku-orange); }
 
         #app-main { display: none; padding: 20px; max-width: 1100px; margin: 0 auto; }
 
         .paros-container {
-            background: var(--panel-bg); border: 1px solid var(--neon-yellow); border-radius: 12px; padding: 15px; margin: 20px 0;
-            display: flex; gap: 15px; align-items: center; flex-wrap: wrap; box-shadow: 0 0 15px rgba(255, 234, 0, 0.15); backdrop-filter: blur(8px);
+            background: var(--panel-bg); border: 1px solid var(--goku-orange); border-radius: 12px; padding: 15px; margin: 20px 0;
+            display: flex; gap: 15px; align-items: center; flex-wrap: wrap; box-shadow: 0 0 15px rgba(255, 102, 0, 0.15); backdrop-filter: blur(8px);
         }
         .paros-container h4 { color: var(--neon-yellow); width: 100%; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
 
         .carga-card {
-            background: var(--panel-bg); border: 1px solid rgba(0, 243, 255, 0.3); border-radius: 12px; padding: 15px; margin-bottom: 15px;
+            background: var(--panel-bg); border: 1px solid rgba(0, 81, 255, 0.4); border-radius: 12px; padding: 15px; margin-bottom: 15px;
             display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); position: relative; backdrop-filter: blur(8px);
         }
 
         .input-group label { display: block; font-size: 0.75rem; color: var(--neon-cyan); margin-bottom: 5px; text-transform: uppercase; }
-        .input-group input { width: 100%; padding: 10px; background: #080910; border: 1px solid #333; color: #fff; border-radius: 6px; font-size: 1.1rem; outline: none; }
-        .input-group input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 8px var(--neon-cyan); }
+        .input-group input { width: 100%; padding: 10px; background: #050508; border: 1px solid #333; color: #fff; border-radius: 6px; font-size: 1.1rem; outline: none; }
+        .input-group input:focus { border-color: var(--goku-orange); box-shadow: 0 0 8px var(--goku-orange); }
 
         .btn-neon {
-            background: transparent; color: #fff; font-weight: bold; padding: 12px 25px; border: 2px solid var(--neon-cyan); border-radius: 8px;
+            background: transparent; color: #fff; font-weight: bold; padding: 12px 25px; border: 2px solid var(--goku-orange); border-radius: 8px;
             cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; width: 100%; font-size: 1rem;
+            box-shadow: 0 0 10px rgba(255, 102, 0, 0.2);
         }
-        .btn-neon:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 20px var(--neon-cyan); }
+        .btn-neon:hover { background: var(--goku-orange); color: #000; box-shadow: 0 0 25px var(--goku-orange); }
 
         .btn-add {
-            background: linear-gradient(90deg, var(--neon-magenta), #8b5cf6); border: none; color: white; padding: 14px; width: 100%; border-radius: 8px;
-            font-weight: bold; cursor: pointer; margin-bottom: 25px; box-shadow: 0 0 15px rgba(217, 70, 239, 0.4); text-transform: uppercase; letter-spacing: 1.5px;
+            background: linear-gradient(90deg, var(--goku-orange), #ff9900); border: none; color: white; padding: 14px; width: 100%; border-radius: 8px;
+            font-weight: bold; cursor: pointer; margin-bottom: 25px; box-shadow: 0 0 15px rgba(255, 102, 0, 0.4); text-transform: uppercase; letter-spacing: 1.5px;
         }
 
         .banner-eficiencia {
-            position: relative; background: rgba(5, 5, 12, 0.92);
+            position: relative; background: rgba(8, 10, 20, 0.92);
             border: 2px solid var(--aura-color); border-radius: 16px; padding: 30px 20px; margin: 25px 0;
             text-align: center; box-shadow: 0 0 30px var(--aura-color), inset 0 0 20px var(--aura-color);
             transition: all 0.5s ease; overflow: hidden; backdrop-filter: blur(8px);
@@ -157,21 +166,21 @@
 
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 20px; position: relative; z-index: 2; }
         .stat-box { background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; color: #fff; font-size: 0.85rem; }
-        .stat-box span { display: block; font-size: 1.2rem; font-weight: bold; color: var(--neon-cyan); margin-top: 3px; }
+        .stat-box span { display: block; font-size: 1.2rem; font-weight: bold; color: var(--neon-yellow); margin-top: 3px; }
 
-        .timeline-box { background: var(--panel-bg); border-radius: 12px; border: 1px solid #2a2d3d; overflow: hidden; margin-top: 15px; backdrop-filter: blur(8px); }
+        .timeline-box { background: var(--panel-bg); border-radius: 12px; border: 1px solid var(--goku-blue); overflow: hidden; margin-top: 15px; backdrop-filter: blur(8px); box-shadow: 0 0 15px rgba(0, 81, 255, 0.2); }
         .time-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
         
-        .time-row.carga { background: rgba(10, 15, 25, 0.8); border-left: 4px solid #4a5d85; color: #b3c5e5; font-weight: bold; letter-spacing: 1px;}
-        .time-row.carga .hora { color: #00f3ff; font-weight: bold; font-family: monospace; font-size: 1rem;}
-        .time-row.receso { background: rgba(30, 25, 5, 0.8); border-left: 4px solid #a68a24; color: #d8c273; font-size: 0.85rem;}
-        .time-row.receso .hora { color: #a68a24; font-weight: bold; }
+        .time-row.carga { background: rgba(10, 20, 40, 0.85); border-left: 4px solid var(--goku-blue); color: #c2d6ff; font-weight: bold; letter-spacing: 1px;}
+        .time-row.carga .hora { color: var(--neon-cyan); font-weight: bold; font-family: monospace; font-size: 1rem;}
+        .time-row.receso { background: rgba(40, 25, 5, 0.85); border-left: 4px solid var(--goku-orange); color: #ffd699; font-size: 0.85rem;}
+        .time-row.receso .hora { color: var(--neon-yellow); font-weight: bold; }
         
-        .duracion-badge { color: #666; font-size: 0.8rem; margin-left: 8px; font-weight: normal; }
+        .duracion-badge { color: #888; font-size: 0.8rem; margin-left: 8px; font-weight: normal; }
 
         .summary-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
         .summary-card { 
-            background: rgba(10, 12, 22, 0.9); border: 1px solid rgba(255,255,255,0.1); 
+            background: rgba(10, 14, 26, 0.9); border: 1px solid rgba(255,255,255,0.1); 
             padding: 15px; border-radius: 8px; text-align: center; 
         }
         .summary-card .lbl { font-size: 0.75rem; color: var(--neon-green); font-weight: bold; text-transform: uppercase; letter-spacing: 1px;}
@@ -183,12 +192,12 @@
 
     <audio id="audio-cancion" src="https://ia800908.us.archive.org/21/items/tv-size-dan-dan-kokoro-hikareteku-instrumental/TV-Size%20DAN%20DAN%20Kokoro%20Hikareteku%20%28Instrumental%29.mp3" preload="auto" loop></audio>
 
-    <div id="pwa-install-banner" style="display:none; background: var(--neon-magenta); color:#fff; text-align:center; padding:10px; font-weight:bold; cursor:pointer;" onclick="triggerInstalacionPWA()">
+    <div id="pwa-install-banner" style="display:none; background: var(--goku-orange); color:#fff; text-align:center; padding:10px; font-weight:bold; cursor:pointer;" onclick="triggerInstalacionPWA()">
         📲 Toca aquí para instalar MetaFlow como App en tu teléfono
     </div>
 
     <div id="splash-screen">
-        <img class="hero-dragon-img" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHIxd2ptbmNzNjVsYmZ6OHlueHFxM3dtcG0xZmRhbmphcjN2cXJ5ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/vbfA1C0m1xZ7vC6uE4/giphy.gif" alt="Shenlong Goku DBZ" onclick="toggleMusica()">
+        <div class="hero-goku-badge" onclick="toggleMusica()" title="Toca para activar música">⚡</div>
 
         <div class="dragon-balls-container">
             <div class="dragon-ball" onclick="playEsferaSound()"><span>★</span></div>
@@ -202,7 +211,7 @@
 
         <div class="login-box">
             <h1>MetaFlow</h1>
-            <p style="color: #aaa; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 10px;">SISTEMA INTEGRADO DE CÁLCULOS DE EFICIENCIA Y PRODUCCIÓN</p>
+            <p style="color: var(--neon-cyan); font-size: 0.75rem; letter-spacing: 1px; margin-bottom: 10px;">SISTEMA INTEGRADO DE CÁLCULOS DE EFICIENCIA Y PRODUCCIÓN</p>
             <input type="password" id="pin" class="login-input" placeholder="PIN DE ACCESO" maxlength="6" inputmode="numeric" onfocus="playEsferaSound()">
             <button class="btn-neon" onclick="verificarAcceso()">INGRESAR</button>
             <p id="error-msg" style="color: #ff4500; margin-top: 12px; font-size: 0.85rem; display: none;"></p>
@@ -213,14 +222,14 @@
         <div class="intro-title">MetaFlow</div>
         <div class="intro-author">Creado por Ángel Castillo</div>
         <div class="intro-quote" id="intro-quote-text">"¡El poder viene en respuesta a una necesidad, no a un deseo!"</div>
-        <div class="intro-welcome">Bienvenido usuario: <span id="intro-user-name" style="color: var(--neon-cyan);"></span></div>
+        <div class="intro-welcome">Bienvenido usuario: <span id="intro-user-name" style="color: var(--neon-yellow);"></span></div>
     </div>
 
     <div id="app-wrapper">
         <div class="header-banner">
             <div>
                 <div class="title-main">MetaFlow</div>
-                <div style="font-size: 0.70rem; color: var(--neon-cyan); letter-spacing: 1px; max-width: 250px;" id="nombre-usuario">SISTEMA INTEGRADO DE CÁLCULOS DE EFICIENCIA Y PRODUCCIÓN</div>
+                <div style="font-size: 0.70rem; color: var(--neon-yellow); letter-spacing: 1px; max-width: 250px;" id="nombre-usuario">SISTEMA INTEGRADO DE CÁLCULOS DE EFICIENCIA Y PRODUCCIÓN</div>
             </div>
             <div style="text-align: right; font-size: 0.8rem; color: #aaa;">
                 <div>CUADRE DE 12 HORAS</div>
@@ -232,7 +241,7 @@
             <div class="paros-container">
                 <h4>⏱️ Paros Externos (MINS)</h4>
                 <div class="input-group" style="flex: 1; min-width: 120px;">
-                    <input type="number" id="paro-minutos" value="0" min="0" oninput="playEsferaSound(); calcularTodo();" style="text-align: center; color: var(--neon-magenta); font-weight: bold;">
+                    <input type="number" id="paro-minutos" value="0" min="0" oninput="playEsferaSound(); calcularTodo();" style="text-align: center; color: var(--neon-yellow); font-weight: bold;">
                 </div>
             </div>
 
@@ -242,9 +251,9 @@
 
             <div class="banner-eficiencia" id="aura-banner">
                 <div class="eficiencia-contenido">
-                    <div class="aura-nivel-tag" style="font-size: 0.8rem; margin-bottom: 5px;">EFICIENCIA PREMIUM STO</div>
+                    <div class="aura-nivel-tag" style="font-size: 0.8rem; margin-bottom: 5px; color: var(--neon-yellow);">EFICIENCIA PREMIUM STO</div>
                     <div class="eficiencia-valor" id="efi-final">0.00%</div>
-                    <div class="aura-nivel-tag" id="aura-tag" style="margin-top: 10px;">AURA BASE NEÓN</div>
+                    <div class="aura-nivel-tag" id="aura-tag" style="margin-top: 10px;">AURA GOKU NEÓN</div>
                 </div>
                 <div class="stats-grid">
                     <div class="stat-box">ON<span><b id="efi-on-val">0.00%</b></span></div>
@@ -261,13 +270,13 @@
                     <div class="lbl">TIEMPO PRODUCCIÓN PURO</div>
                     <div class="val">11H 00M</div>
                 </div>
-                <div class="summary-card" style="border-color: #a68a24;">
-                    <div class="lbl" style="color: #d8c273;">RECESOS OBLIGATORIOS</div>
-                    <div class="val" style="color: #d8c273;">1H 00M</div>
+                <div class="summary-card" style="border-color: var(--goku-orange);">
+                    <div class="lbl" style="color: var(--neon-yellow);">RECESOS OBLIGATORIOS</div>
+                    <div class="val" style="color: var(--neon-yellow);">1H 00M</div>
                 </div>
             </div>
             
-            <button class="btn-neon" style="margin-top: 25px; border-color: var(--neon-magenta); background: rgba(217, 70, 239, 0.1);">GUARDAR CÁLCULO PREMIUM</button>
+            <button class="btn-neon" style="margin-top: 25px; border-color: var(--goku-orange); background: rgba(255, 102, 0, 0.1);">GUARDAR CÁLCULO PREMIUM</button>
 
         </div>
     </div>
@@ -419,7 +428,7 @@
                 container.innerHTML += `
                     <div class="carga-card">
                         <div class="input-group">
-                            <label style="color: var(--neon-magenta); font-weight: bold;">CARGA #${index + 1}</label>
+                            <label style="color: var(--neon-yellow); font-weight: bold;">CARGA #${index + 1}</label>
                         </div>
                         <div class="input-group">
                             <label>Meta Vinculada (pza/h)</label>
@@ -450,27 +459,27 @@
         function actualizarAuraNeón(eficiencia) {
             let root = document.documentElement;
             let tag = document.getElementById('aura-tag');
-            let color = "#1a1d24";
-            let nombreNivel = "Aura Base Oscura";
+            let color = "#ff6600";
+            let nombreNivel = "Aura Goku Base";
 
             if (eficiencia === 0) {
-                color = "#2a2e3d";
+                color = "#334155";
                 nombreNivel = "ESPERANDO DATOS...";
             } else if (eficiencia < 50) {
-                color = "#ffea00";
-                nombreNivel = "Aura Amarilla Neón";
+                color = "#ff6600";
+                nombreNivel = "Aura Naranja Kaio-Ken";
             } else if (eficiencia < 75) {
-                color = "#ffd700";
-                nombreNivel = "Aura Dorado Intenso Neón";
+                color = "#ffea00";
+                nombreNivel = "Aura Super Saiyajin Oro";
             } else if (eficiencia < 95) {
-                color = "#ff003c";
-                nombreNivel = "Aura Rojo Fuego Neón";
+                color = "#00f3ff";
+                nombreNivel = "Aura Super Saiyajin Blue";
             } else if (eficiencia <= 100.2) {
                 color = "#d946ef";
-                nombreNivel = "AURA PREMIUM STO 🔥";
+                nombreNivel = "AURA ULTRA INSTINTU 🔥";
             } else {
-                color = "#22c55e";
-                nombreNivel = "Aura Plata Verde Neón ⚡";
+                color = "#39ff14";
+                nombreNivel = "Aura Super Saiyajin God Green ⚡";
             }
 
             root.style.setProperty('--aura-color', color);
@@ -513,8 +522,15 @@
             container.innerHTML = '';
             if (cargas.length === 0) return;
 
+            // Las horas de cada carga dependen de su eficiencia / producción final relativa
+            let totalHechasCargas = cargas.reduce((acc, c) => acc + c.hechas, 0);
+
             let pesosCargas = cargas.map(c => {
-                return c.meta > 0 ? (c.hechas / c.meta) : 0;
+                if (totalHechasCargas > 0) {
+                    return c.hechas > 0 ? c.hechas : 0.01;
+                } else {
+                    return c.meta > 0 ? c.meta : 1;
+                }
             });
 
             let sumaPesos = pesosCargas.reduce((a, b) => a + b, 0);
@@ -524,7 +540,6 @@
             let minsTrabajoAsignados = pesosCargas.map(p => (p / sumaPesos) * minutosTrabajoPuro);
 
             let relojActual = 0; 
-            let html = '';
 
             cargas.forEach((c, idx) => {
                 let tiempoRestanteCarga = minsTrabajoAsignados[idx];
@@ -537,7 +552,7 @@
                         let minsEnReceso = recesoActual.finMin - relojActual;
                         relojActual += minsEnReceso;
                         
-                        html += `
+                        container.innerHTML += `
                             <div class="time-row receso">
                                 <div>↳ ${recesoActual.nombre}</div>
                                 <div class="hora">${formatoHora(recesoActual.inicioMin)} - ${formatoHora(recesoActual.finMin)} <span class="duracion-badge">(${recesoActual.duracion} min)</span></div>
@@ -566,28 +581,6 @@
                 `;
 
                 container.innerHTML += bloqueCarga;
-                
-                let inicioIteracion = inicioCargaMins;
-                let tiempoTemp = minsTrabajoAsignados[idx];
-                
-                while(tiempoTemp > 0.01) {
-                    let rec = RECESOS.find(r => inicioIteracion >= r.inicioMin && inicioIteracion < r.finMin);
-                    if (rec) {
-                        container.innerHTML += `
-                            <div class="time-row receso">
-                                <div>↳ ${rec.nombre}</div>
-                                <div class="hora">${formatoHora(rec.inicioMin)} - ${formatoHora(rec.finMin)} <span class="duracion-badge">(${rec.duracion} min)</span></div>
-                            </div>
-                        `;
-                        inicioIteracion = rec.finMin;
-                    } else {
-                        let nextR = RECESOS.find(r => r.inicioMin > inicioIteracion);
-                        let limit = nextR ? (nextR.inicioMin - inicioIteracion) : Infinity;
-                        let jump = Math.min(tiempoTemp, limit);
-                        inicioIteracion += jump;
-                        tiempoTemp -= jump;
-                    }
-                }
             });
         }
 
@@ -597,7 +590,7 @@
             "start_url": ".",
             "display": "standalone",
             "background_color": "#050508",
-            "theme_color": "#00f3ff"
+            "theme_color": "#ff6600"
         };
         const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/json'});
         document.getElementById('manifest-placeholder').setAttribute('href', URL.createObjectURL(manifestBlob));
