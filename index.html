@@ -3,389 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MetaFlow - Calculadora Premium DBZ</title>
+    <title>MetaFlow - DBS Neon</title>
     
     <link rel="manifest" id="manifest-placeholder">
     <meta name="theme-color" content="#050508">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="MetaFlow">
-
+    
     <style>
         :root {
             --bg-dark: #050508;
-            --panel-bg: rgba(10, 12, 22, 0.92);
+            --panel-bg: rgba(10, 12, 22, 0.85);
             --neon-cyan: #00f3ff;
             --neon-magenta: #d946ef;
             --neon-green: #39ff14;
             --neon-yellow: #ffea00;
-            --aura-color: #d946ef;
             --text-main: #f8fafc;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
 
         body {
             background-color: var(--bg-dark);
-            color: var(--text-main); min-height: 100vh; overflow-x: hidden;
+            color: var(--text-main); 
+            min-height: 100vh; 
+            overflow-x: hidden;
         }
 
-        /* 1. VENTANA DE BLOQUEO / LOGIN CON FONDO DBZ 1 */
+        /* 1. VENTANA DE BLOQUEO / LOGIN DB SUPER */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(5, 5, 12, 0.88)), 
-                        url('https://images.alphacoders.com/605/605939.png') no-repeat center center / cover;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(5, 5, 12, 0.95)), 
+                        url('https://images.alphacoders.com/978/978931.jpg') no-repeat center center / cover;
             z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.6s ease-out, visibility 0.6s; overflow: hidden;
+            transition: opacity 0.6s ease-out; overflow: hidden;
         }
 
         .hero-dragon-img {
-            width: 200px; max-width: 70%; cursor: pointer; margin-bottom: 10px; z-index: 4;
-            filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.9));
+            width: 220px; max-width: 70%; cursor: pointer; margin-bottom: 20px; z-index: 4;
+            filter: drop-shadow(0 0 25px rgba(0, 243, 255, 0.9));
             animation: floatHero 3s ease-in-out infinite alternate;
         }
 
         @keyframes floatHero {
             0% { transform: translateY(0) scale(0.98); filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.8)); }
-            100% { transform: translateY(-12px) scale(1.03); filter: drop-shadow(0 0 30px rgba(255, 234, 0, 0.9)); }
-        }
-
-        .dragon-balls-container { display: flex; gap: 8px; margin-bottom: 18px; z-index: 3; flex-wrap: wrap; justify-content: center; }
-        .dragon-ball {
-            width: 34px; height: 34px; cursor: pointer;
-            background: radial-gradient(circle at 35% 35%, #fff066, #ff9900 60%, #cc3300 100%);
-            border-radius: 50%; box-shadow: 0 0 14px #ff6600;
-            display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
-            padding: 4px; animation: bounceBall 2.2s ease-in-out infinite alternate;
-        }
-        .dragon-ball span { color: #b30000; font-size: 7px; line-height: 7px; font-weight: bold; }
-
-        @keyframes bounceBall {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-8px); }
+            100% { transform: translateY(-15px) scale(1.05); filter: drop-shadow(0 0 35px rgba(217, 70, 239, 0.9)); }
         }
 
         .login-box {
-            background: rgba(8, 10, 20, 0.92); border: 2px solid var(--neon-cyan);
-            box-shadow: 0 0 35px rgba(0, 243, 255, 0.4); padding: 22px; border-radius: 16px;
-            z-index: 5; text-align: center; width: 90%; max-width: 360px; backdrop-filter: blur(10px);
+            background: rgba(8, 10, 20, 0.85); border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.3); padding: 25px; border-radius: 16px;
+            z-index: 5; text-align: center; width: 90%; max-width: 360px; backdrop-filter: blur(12px);
         }
-        .login-box h1 { color: var(--neon-cyan); font-size: 1.8rem; letter-spacing: 2px; text-shadow: 0 0 12px var(--neon-cyan); }
+        
+        .login-box h1 { 
+            color: var(--neon-cyan); font-size: 2.2rem; letter-spacing: 3px; 
+            text-shadow: 0 0 15px var(--neon-cyan); margin-bottom: 5px;
+            font-weight: 900; font-style: italic;
+        }
+        
         .login-input {
-            width: 100%; padding: 12px; margin: 15px 0; background: #050508; border: 1.5px solid var(--neon-magenta);
-            color: #fff; border-radius: 8px; font-size: 1.2rem; text-align: center; outline: none; box-shadow: inset 0 0 8px rgba(217, 70, 239, 0.3);
+            width: 100%; padding: 15px; margin: 20px 0; background: #050508; border: 2px solid var(--neon-magenta);
+            color: var(--neon-cyan); border-radius: 8px; font-size: 1.5rem; text-align: center; 
+            outline: none; box-shadow: inset 0 0 10px rgba(217, 70, 239, 0.4); font-weight: bold;
         }
 
-        /* 2. VENTANA DE PRESENTACIÓN CON FONDO DBZ 2 */
-        #intro-screen {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(rgba(5, 5, 12, 0.8), rgba(0, 0, 0, 0.92)), 
-                        url('https://images.alphacoders.com/132/1327104.jpeg') no-repeat center center / cover;
-            z-index: 1900; display: none; flex-direction: column; align-items: center; justify-content: center;
-            text-align: center; padding: 25px; opacity: 0; transition: opacity 0.8s ease;
-        }
-        .intro-title { font-size: 3rem; font-weight: 900; color: var(--neon-cyan); text-shadow: 0 0 30px var(--neon-cyan); margin-bottom: 5px; }
-        .intro-author { font-size: 1rem; color: var(--neon-magenta); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px; font-weight: bold; }
-        .intro-quote { font-size: 1.1rem; color: var(--neon-yellow); font-style: italic; max-width: 500px; margin-bottom: 30px; }
-        .intro-welcome { font-size: 1.3rem; color: #fff; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
-
-        /* 3. VENTANA PRINCIPAL CON FONDO DBZ 3 */
+        /* 2. APP PRINCIPAL DB SUPER NEON */
         #app-wrapper {
-            min-height: 100vh;
-            background: linear-gradient(rgba(5, 5, 8, 0.88), rgba(5, 5, 8, 0.95)), 
-                        url('https://images5.alphacoders.com/134/1342921.png') no-repeat center center fixed / cover;
+            min-height: 100vh; display: none;
+            background: linear-gradient(rgba(5, 5, 8, 0.90), rgba(5, 5, 8, 0.95)), 
+                        url('https://images4.alphacoders.com/937/937829.jpg') no-repeat center center fixed / cover;
         }
 
         .header-banner {
             width: 100%; background: rgba(10, 12, 22, 0.95);
-            border-bottom: 2px solid var(--neon-cyan); box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
-            padding: 12px 20px; display: flex; align-items: center; justify-content: space-between;
-            position: sticky; top: 0; z-index: 100; backdrop-filter: blur(8px);
+            border-bottom: 2px solid var(--neon-magenta); box-shadow: 0 0 25px rgba(217, 70, 239, 0.3);
+            padding: 15px 20px; display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px);
         }
-        .title-main { font-size: 1.2rem; font-weight: 900; color: var(--neon-magenta); text-transform: uppercase; letter-spacing: 2px; }
+        .title-main { font-size: 1.5rem; font-weight: 900; color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 3px; font-style: italic; text-shadow: 0 0 10px var(--neon-cyan);}
 
-        #app-main { display: none; padding: 15px; max-width: 1000px; margin: 0 auto; }
+        #app-main { padding: 15px; max-width: 1000px; margin: 0 auto; }
 
-        .top-actions { display: flex; gap: 15px; margin-bottom: 15px; align-items: center; }
-        .paros-input-box { flex: 1; background: var(--panel-bg); border: 1px solid #2a2d3d; border-radius: 8px; padding: 10px; }
-        .paros-input-box label { font-size: 0.7rem; color: #aaa; text-transform: uppercase; display: block; margin-bottom: 4px; }
-        .paros-input-box input { width: 100%; background: transparent; border: none; color: #ff0055; font-size: 1.1rem; font-weight: bold; outline: none; }
+        .top-actions { display: flex; gap: 15px; margin-bottom: 20px; align-items: center; }
+        .paros-input-box { flex: 1; background: var(--panel-bg); border: 1px solid var(--neon-cyan); border-radius: 8px; padding: 12px; box-shadow: 0 0 10px rgba(0, 243, 255, 0.1); }
+        .paros-input-box label { font-size: 0.75rem; color: var(--neon-cyan); text-transform: uppercase; display: block; margin-bottom: 5px; font-weight: bold;}
+        .paros-input-box input { width: 100%; background: transparent; border: none; color: var(--neon-magenta); font-size: 1.3rem; font-weight: bold; outline: none; }
 
-        .btn-add-carga {
-            background: linear-gradient(90deg, #a855f7, #ec4899); border: none; color: white;
+        .btn-neon {
+            background: transparent; border: 2px solid var(--neon-magenta); color: #fff;
             padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;
-            text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 15px rgba(236, 72, 153, 0.4);
+            text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 15px rgba(217, 70, 239, 0.4);
+            transition: 0.3s;
         }
+        .btn-neon:active { background: var(--neon-magenta); color: #000; box-shadow: 0 0 25px var(--neon-magenta); }
 
         .carga-card {
-            background: var(--panel-bg); border: 1px solid #1f2438; border-radius: 10px; padding: 12px; margin-bottom: 12px;
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; position: relative;
+            background: var(--panel-bg); border: 1px solid #1f2438; border-left: 4px solid var(--neon-cyan); 
+            border-radius: 10px; padding: 15px; margin-bottom: 15px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; position: relative;
+            backdrop-filter: blur(5px); transition: 0.3s;
         }
-        .carga-title { color: var(--neon-magenta); font-weight: bold; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 5px; }
+        .carga-card:hover { border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0, 243, 255, 0.2); }
+        
+        .carga-title { color: var(--neon-magenta); font-weight: 900; font-size: 1rem; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px;}
+        .btn-remove { position: absolute; right: 15px; top: 15px; background: transparent; border: none; color: #ff0055; cursor: pointer; font-weight: bold; font-size: 0.9rem;}
 
-        .input-group label { display: block; font-size: 0.68rem; color: #888; margin-bottom: 3px; text-transform: uppercase; }
-        .input-group input, .input-group select {
-            width: 100%; padding: 8px; background: #080910; border: 1px solid #2d3248; color: #fff; border-radius: 6px; font-size: 0.95rem; outline: none;
+        .input-group label { display: block; font-size: 0.7rem; color: #aaa; margin-bottom: 4px; text-transform: uppercase; font-weight: bold;}
+        .input-group input {
+            width: 100%; padding: 10px; background: #050508; border: 1px solid #2d3248; color: #fff; 
+            border-radius: 6px; font-size: 1rem; outline: none; transition: 0.3s;
         }
-        .input-group input.docenas-input { color: var(--neon-green); font-weight: bold; }
+        .input-group input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 8px rgba(0, 243, 255, 0.3); }
+        .input-group input.docenas-input { color: var(--neon-green); font-weight: bold; font-size: 1.1rem; border-color: rgba(57, 255, 20, 0.4); }
 
-        .btn-remove { position: absolute; right: 10px; top: 8px; background: transparent; border: none; color: #ff4500; cursor: pointer; font-weight: bold; }
-
-        /* BANNER PURPURA EXACTO A LA IMAGEN */
+        /* BANNER ORIGINAL: ON / OFF / DOCENAS ON / DOCENAS OFF */
         .banner-eficiencia {
-            background: linear-gradient(135deg, #a813e3, #8000ff);
-            border-radius: 16px; padding: 25px; margin: 20px 0; text-align: center;
-            box-shadow: 0 0 30px rgba(168, 19, 227, 0.5); color: #fff; position: relative;
+            background: linear-gradient(135deg, rgba(10, 12, 22, 0.95), rgba(20, 10, 30, 0.95));
+            border: 2px solid var(--neon-cyan);
+            border-radius: 16px; padding: 20px; margin: 25px 0; text-align: center;
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.3); color: #fff;
         }
-        .efi-title { font-size: 0.75rem; letter-spacing: 2px; font-weight: bold; text-transform: uppercase; opacity: 0.9; }
-        .efi-percent { font-size: 3.8rem; font-weight: 900; margin: 5px 0; text-shadow: 0 0 20px rgba(255,255,255,0.6); }
+        .efi-title { font-size: 0.85rem; letter-spacing: 3px; font-weight: bold; color: var(--neon-magenta); text-transform: uppercase; }
+        .efi-percent { font-size: 3.5rem; font-weight: 900; margin: 10px 0; color: var(--neon-cyan); text-shadow: 0 0 20px var(--neon-cyan); font-style: italic;}
 
-        .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 12px; }
+        .stats-grid { 
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; 
+            margin-top: 15px; border-top: 1px solid rgba(0, 243, 255, 0.2); padding-top: 15px; 
+        }
         .stat-item { text-align: center; }
-        .stat-item .lbl { font-size: 0.65rem; opacity: 0.8; text-transform: uppercase; }
-        .stat-item .val { font-size: 1.1rem; font-weight: bold; margin-top: 2px; }
+        .stat-item .lbl { font-size: 0.7rem; color: #aaa; text-transform: uppercase; font-weight: bold; letter-spacing: 1px;}
+        .stat-item .val { font-size: 1.2rem; font-weight: 900; margin-top: 5px; }
+        .stat-item .val.on-color { color: var(--neon-green); text-shadow: 0 0 10px rgba(57, 255, 20, 0.5); }
+        .stat-item .val.off-color { color: #ff0055; text-shadow: 0 0 10px rgba(255, 0, 85, 0.5); }
 
-        /* BITÁCORA FIEL A LA CAPTURA */
-        .bitacora-container { background: #080a12; border-radius: 10px; border: 1px solid #1a1e2e; padding: 10px; margin-top: 15px; }
-        .carga-row {
-            display: flex; justify-content: space-between; align-items: center; padding: 12px;
-            background: rgba(15, 18, 30, 0.8); border-radius: 6px; margin-bottom: 4px; font-size: 0.85rem; font-weight: bold;
+        /* LÓGICA DE BITÁCORA FIEL A LA IMAGEN (PERO CON ESTILO NEÓN) */
+        .bitacora-container { 
+            background: rgba(5, 5, 10, 0.8); border-radius: 12px; 
+            border: 1px solid var(--neon-magenta); padding: 15px; margin-top: 20px;
+            box-shadow: 0 0 15px rgba(217, 70, 239, 0.15);
         }
-        .carga-row .name { color: #fff; text-transform: uppercase; }
-        .carga-row .time { color: var(--neon-cyan); letter-spacing: 0.5px; }
-        .carga-row .dur { color: #888; font-size: 0.75rem; margin-left: 5px; font-weight: normal; }
+        .bitacora-title {
+            color: var(--neon-cyan); font-weight: 900; font-style: italic; letter-spacing: 2px;
+            margin-bottom: 15px; font-size: 1.1rem; text-align: center;
+        }
+        .carga-row {
+            display: flex; justify-content: space-between; align-items: center; padding: 12px 15px;
+            background: rgba(20, 25, 40, 0.9); border-radius: 6px; margin-bottom: 5px; 
+            font-size: 0.9rem; font-weight: bold; border-left: 3px solid var(--neon-cyan);
+        }
+        .carga-row .name { color: #fff; text-transform: uppercase; letter-spacing: 1px;}
+        .carga-row .time { color: var(--neon-green); letter-spacing: 1px; }
+        .carga-row .dur { color: #aaa; font-size: 0.8rem; margin-left: 8px; font-weight: normal; }
 
         .paro-row {
-            display: flex; justify-content: space-between; align-items: center; padding: 8px 12px 8px 25px;
-            background: rgba(45, 38, 10, 0.6); border-left: 3px solid var(--neon-yellow);
-            border-radius: 4px; margin-bottom: 6px; font-size: 0.78rem; color: var(--neon-yellow);
+            display: flex; justify-content: space-between; align-items: center; padding: 8px 15px 8px 30px;
+            background: rgba(40, 30, 5, 0.8); border-left: 3px solid var(--neon-yellow);
+            border-radius: 4px; margin-bottom: 8px; font-size: 0.8rem; color: var(--neon-yellow);
         }
-        .paro-row .time-tag { font-weight: bold; }
+        .paro-row .time-tag { font-weight: bold; letter-spacing: 1px;}
 
-        .summary-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .summary-card { background: #080a12; border: 1px solid #1a1e2e; padding: 12px; border-radius: 8px; text-align: center; }
-        .summary-card .lbl { font-size: 0.65rem; color: var(--neon-green); font-weight: bold; text-transform: uppercase; }
-        .summary-card .val { font-size: 1.1rem; font-weight: bold; color: #fff; margin-top: 3px; }
+        .summary-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .summary-card { 
+            background: rgba(10, 12, 22, 0.9); border: 1px solid rgba(255,255,255,0.1); 
+            padding: 15px; border-radius: 8px; text-align: center; 
+        }
+        .summary-card .lbl { font-size: 0.75rem; color: var(--neon-cyan); font-weight: bold; text-transform: uppercase; letter-spacing: 1px;}
+        .summary-card .val { font-size: 1.3rem; font-weight: 900; color: #fff; margin-top: 5px; }
 
         .btn-guardar {
-            width: 100%; background: linear-gradient(90deg, #ec4899, #8b5cf6); border: none; color: white;
-            padding: 15px; border-radius: 10px; font-weight: bold; font-size: 1rem; margin-top: 15px;
-            cursor: pointer; text-transform: uppercase; letter-spacing: 1.5px; box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
+            width: 100%; background: var(--neon-magenta); border: none; color: #000;
+            padding: 18px; border-radius: 10px; font-weight: 900; font-size: 1.1rem; margin-top: 25px;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 3px; font-style: italic;
+            box-shadow: 0 0 25px rgba(217, 70, 239, 0.5); transition: 0.3s;
         }
+        .btn-guardar:active { transform: scale(0.98); background: var(--neon-cyan); box-shadow: 0 0 25px var(--neon-cyan); }
     </style>
 </head>
 <body>
 
-    <audio id="audio-cancion" src="https://ia800908.us.archive.org/21/items/tv-size-dan-dan-kokoro-hikareteku-instrumental/TV-Size%20DAN%20DAN%20Kokoro%20Hikareteku%20%28Instrumental%29.mp3" preload="auto" loop></audio>
+    <audio id="audio-ui" src="https://ia800908.us.archive.org/21/items/tv-size-dan-dan-kokoro-hikareteku-instrumental/TV-Size%20DAN%20DAN%20Kokoro%20Hikareteku%20%28Instrumental%29.mp3" preload="auto" loop></audio>
 
-    <div id="pwa-install-banner" style="display:none; background: var(--neon-magenta); color:#fff; text-align:center; padding:8px; font-weight:bold; cursor:pointer;" onclick="triggerInstalacionPWA()">
-        📲 Toca aquí para instalar MetaFlow como App en tu teléfono
-    </div>
-
-    <!-- 1. LOGIN / BLOQUEO -->
+    <!-- 1. LOGIN DBS -->
     <div id="splash-screen">
-        <img class="hero-dragon-img" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHIxd2ptbmNzNjVsYmZ6OHlueHFxM3dtcG0xZmRhbmphcjN2cXJ5ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/vbfA1C0m1xZ7vC6uE4/giphy.gif" alt="Goku DBZ" onclick="toggleMusica()">
-
-        <div class="dragon-balls-container">
-            <div class="dragon-ball" onclick="playEsferaSound()"><span>★</span></div>
-            <div class="dragon-ball" onclick="playEsferaSound()"><span>★<br>★</span></div>
-            <div class="dragon-ball" onclick="playEsferaSound()"><span>★<br>★ ★</span></div>
-            <div class="dragon-ball" onclick="playEsferaSound()"><span>★★<br>★★</span></div>
-            <div class="dragon-ball" onclick="playEsferaSound()"><span>★★<br>★<br>★★</span></div>
-            <div class="dragon-ball" onclick="playEsferaSound()"><span>★★★<br>★★★</span></div>
-            <div class="dragon-ball" onclick="playEsferaSound()"><span>★★★<br>★<br>★★★</span></div>
-        </div>
+        <img class="hero-dragon-img" src="https://media.giphy.com/media/19JSJ5ucu91R5D7a3w/giphy.gif" alt="Goku Ultra Instinct" onclick="toggleMusica()">
 
         <div class="login-box">
-            <h1>CALCULADORA PREMIUM</h1>
-            <p style="color: #aaa; font-size: 0.75rem; letter-spacing: 1px; margin-bottom: 10px;">CONEXIÓN DB DRIVE • CUADRE 12 HORAS</p>
-            <input type="password" id="pin" class="login-input" placeholder="PIN DE ACCESO" maxlength="6" inputmode="numeric" onfocus="playEsferaSound()">
-            <button class="btn-add-carga" style="width: 100%;" onclick="verificarAcceso()">INGRESAR</button>
-            <p id="error-msg" style="color: #ff4500; margin-top: 12px; font-size: 0.85rem; display: none;"></p>
+            <h1>METAFLOW</h1>
+            <p style="color: var(--neon-magenta); font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 10px; font-weight: bold;">SISTEMA DE EFICIENCIA DBS</p>
+            <input type="password" id="pin" class="login-input" placeholder="PIN DE ACCESO" maxlength="6" inputmode="numeric" onfocus="playBeep()">
+            <button class="btn-neon" style="width: 100%;" onclick="verificarAcceso()">INICIAR SISTEMA</button>
+            <p id="error-msg" style="color: #ff0055; margin-top: 15px; font-size: 0.9rem; font-weight: bold; display: none; text-shadow: 0 0 5px #ff0055;"></p>
         </div>
     </div>
 
-    <!-- 2. PRESENTACIÓN -->
-    <div id="intro-screen">
-        <div class="intro-title">MetaFlow</div>
-        <div class="intro-author">Creado por Ángel Castillo</div>
-        <div class="intro-quote" id="intro-quote-text">"¡El poder viene en respuesta a una necesidad, no a un deseo!"</div>
-        <div class="intro-welcome">Bienvenido usuario: <span id="intro-user-name" style="color: var(--neon-cyan);"></span></div>
-    </div>
-
-    <!-- 3. PANEL PRINCIPAL -->
+    <!-- 2. APP PRINCIPAL -->
     <div id="app-wrapper">
         <div class="header-banner">
             <div>
-                <div class="title-main">CALCULADORA PREMIUM</div>
-                <div style="font-size: 0.65rem; color: #aaa;" id="nombre-usuario">CONEXIÓN DB DRIVE • CUADRE 12 HORAS</div>
+                <div class="title-main">METAFLOW</div>
+                <div style="font-size: 0.7rem; color: #aaa; font-weight: bold; letter-spacing: 1px;" id="nombre-usuario">OPERADOR: CÁLCULO</div>
             </div>
-            <button style="background: #1e293b; color: #38bdf8; border: none; padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: bold;">SYNC</button>
+            <button class="btn-neon" style="padding: 6px 12px; font-size: 0.75rem;">SYNC</button>
         </div>
 
         <div id="app-main">
             <div class="top-actions">
                 <div class="paros-input-box">
                     <label>PAROS EXTERNOS (MINS)</label>
-                    <input type="number" id="paros-mins" value="0" min="0" oninput="playEsferaSound(); calcularTodo();">
+                    <input type="number" id="paros-mins" value="0" min="0" oninput="playBeep(); calcularTodo();">
                 </div>
-                <button class="btn-add-carga" onclick="playTransformSound(); agregarCarga();">+ AÑADIR CARGA</button>
+                <button class="btn-neon" onclick="playPowerUp(); agregarCarga();">+ AÑADIR CARGA</button>
             </div>
 
             <div id="contenedor-cargas"></div>
 
-            <!-- BANNER PURPURA DE EFICIENCIA PREMUM -->
+            <!-- BANNER ORIGINAL QUE PEDISTE MANTENER -->
             <div class="banner-eficiencia">
-                <div class="efi-title">EFICIENCIA PREMIUM STD</div>
+                <div class="efi-title">EFICIENCIA GLOBAL</div>
                 <div class="efi-percent" id="efi-final">0.00%</div>
-                <div class="stats-row">
-                    <div class="stat-item"><div class="lbl">ON</div><div class="val" id="val-on">0.00%</div></div>
-                    <div class="stat-item"><div class="lbl">OFF</div><div class="val" id="val-off">0.00%</div></div>
-                    <div class="stat-item"><div class="lbl">META DÍA</div><div class="val" id="val-meta-dia">0.0</div></div>
-                    <div class="stat-item"><div class="lbl">DOCENAS</div><div class="val" id="val-docenas">0.00</div></div>
+                <div class="stats-grid">
+                    <div class="stat-item"><div class="lbl">EFI ON</div><div class="val on-color" id="val-efi-on">0.00%</div></div>
+                    <div class="stat-item"><div class="lbl">EFI OFF</div><div class="val off-color" id="val-efi-off">0.00%</div></div>
+                    <div class="stat-item"><div class="lbl">DOC. ON</div><div class="val on-color" id="val-doc-on">0.0</div></div>
+                    <div class="stat-item"><div class="lbl">DOC. OFF</div><div class="val off-color" id="val-doc-off">0.0</div></div>
                 </div>
             </div>
 
-            <!-- BITÁCORA FIEL A TU IMAGEN -->
-            <div class="bitacora-container" id="bitacora-list"></div>
+            <!-- BITÁCORA CON LA LÓGICA DE LA IMAGEN (TIEMPOS CONTINUOS Y RECESOS) -->
+            <div class="bitacora-container">
+                <div class="bitacora-title">CUADRE DE PRODUCCIÓN - 12 HORAS</div>
+                <div id="bitacora-list"></div>
+            </div>
 
             <div class="summary-footer">
                 <div class="summary-card">
                     <div class="lbl">TIEMPO PRODUCCIÓN PURO</div>
                     <div class="val">11H 00M</div>
                 </div>
-                <div class="summary-card">
+                <div class="summary-card" style="border-color: var(--neon-yellow);">
                     <div class="lbl" style="color: var(--neon-yellow);">RECESOS OBLIGATORIOS</div>
                     <div class="val" style="color: var(--neon-yellow);">1H 00M</div>
                 </div>
             </div>
 
-            <button class="btn-guardar" onclick="playTransformSound()">GUARDAR CÁLCULO PREMIUM</button>
+            <button class="btn-guardar" onclick="playPowerUp()">GUARDAR BITÁCORA</button>
         </div>
     </div>
 
     <script>
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-        function playEsferaSound() {
+        function playBeep() {
             if (audioCtx.state === 'suspended') audioCtx.resume();
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(880, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(1760, audioCtx.currentTime + 0.12);
-            gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.12);
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
         }
 
-        function playTransformSound() {
+        function playPowerUp() {
             if (audioCtx.state === 'suspended') audioCtx.resume();
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(120, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(900, audioCtx.currentTime + 0.4);
-            gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.4);
+            osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.3);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.3);
         }
 
         function toggleMusica() {
-            const cancion = document.getElementById('audio-cancion');
-            playEsferaSound();
+            const cancion = document.getElementById('audio-ui');
+            playBeep();
             if (cancion.paused) { cancion.play().catch(() => {}); } 
             else { cancion.pause(); }
         }
 
-        // DATOS INICIALES COMO LA FOTO DE TU APP REAL
         let cargas = [
-            { estilo: '1717.0', talla: 'M', proceso: 'VOLTEO', metaPzaHr: 700.0, hechas: 126 },
-            { estilo: '1717.0', talla: 'M', proceso: 'VOLTEO', metaPzaHr: 700.0, hechas: 126 },
-            { estilo: '9018.0', talla: 'S', proceso: 'VOLTEO-SORTING', metaPzaHr: 550.0, hechas: 220 },
-            { estilo: '1566.0', talla: 'S', proceso: 'VOLTEO-SORTING', metaPzaHr: 271.0, hechas: 40 }
+            { estilo: '1717.0', talla: 'M', metaPzaHr: 700.0, hechas: 126 },
+            { estilo: '9018.0', talla: 'S', metaPzaHr: 550.0, hechas: 220 }
         ];
 
+        // LÓGICA DE TIEMPOS DE LA IMAGEN
         const RECESOS_FIJOS = [
-            { id: 1, nombre: 'PARO FIJO: RECESO 8:10 AM - 8:25 AM', inicioMin: 70, finMin: 85, duracion: 15, tag: '08:10 AM - 08:25 AM (15 min)' },
-            { id: 2, nombre: 'PARO FIJO: ALMUERZO 11:20 AM - 11:50 AM', inicioMin: 260, finMin: 290, duracion: 30, tag: '11:20 AM - 11:50 AM (30 min)' },
-            { id: 3, nombre: 'PARO FIJO: RECESO 3:10 PM - 3:25 PM', inicioMin: 490, finMin: 505, duracion: 15, tag: '03:10 PM - 03:25 PM (15 min)' }
+            { id: 1, nombre: 'PARO FIJO: RECESO', inicioMin: 70, finMin: 85, duracion: 15, tag: '08:10 AM - 08:25 AM (15 min)' },
+            { id: 2, nombre: 'PARO FIJO: ALMUERZO', inicioMin: 260, finMin: 290, duracion: 30, tag: '11:20 AM - 11:50 AM (30 min)' },
+            { id: 3, nombre: 'PARO FIJO: RECESO', inicioMin: 490, finMin: 505, duracion: 15, tag: '03:10 PM - 03:25 PM (15 min)' }
         ];
 
         const usuariosAutorizados = [
-            { pin: "2004", nombre: "Angel Castillo 🚢" },
-            { pin: "5863", nombre: "Kevin Ramón Pineda ⚔️" },
-            { pin: "8198", nombre: "Carlos David Garcia 🦅" },
-            { pin: "1734", nombre: "Libny Castillo ⚡" },
-            { pin: "4321", nombre: "Derick Alexander Carvajal 🔥" }
+            { pin: "2004", nombre: "Ángel Castillo" },
+            { pin: "1234", nombre: "Karina Cabrera" }
         ];
 
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault(); deferredPrompt = e;
-            document.getElementById('pwa-install-banner').style.display = 'block';
-        });
-
-        function triggerInstalacionPWA() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then(() => {
-                    document.getElementById('pwa-install-banner').style.display = 'none';
-                    deferredPrompt = null;
-                });
-            }
-        }
-
         function verificarAcceso() {
-            const pinIngresado = document.getElementById('pin').value;
-            const usuario = usuariosAutorizados.find(u => u.pin === pinIngresado);
+            const pin = document.getElementById('pin').value;
+            const user = usuariosAutorizados.find(u => u.pin === pin);
 
-            if (usuario) {
-                playTransformSound();
-                triggerInstalacionPWA();
-                document.getElementById('nombre-usuario').innerText = "OPERADOR: " + usuario.nombre.toUpperCase();
-                document.getElementById('intro-user-name').innerText = usuario.nombre;
-
+            if (user) {
+                playPowerUp();
+                document.getElementById('nombre-usuario').innerText = "OPERADOR: " + user.nombre.toUpperCase();
+                
                 const splash = document.getElementById('splash-screen');
-                const intro = document.getElementById('intro-screen');
-
                 splash.style.opacity = '0';
                 setTimeout(() => {
                     splash.style.display = 'none';
-                    intro.style.display = 'flex';
-                    setTimeout(() => { intro.style.opacity = '1'; }, 50);
-
-                    setTimeout(() => {
-                        intro.style.opacity = '0';
-                        setTimeout(() => {
-                            intro.style.display = 'none';
-                            document.getElementById('app-main').style.display = 'block';
-                            renderizarCargas();
-                        }, 800);
-                    }, 2800);
+                    document.getElementById('app-wrapper').style.display = 'block';
+                    renderizarCargas();
                 }, 600);
             } else {
-                playEsferaSound();
-                document.getElementById('error-msg').innerText = "PIN Incorrecto.";
+                playBeep();
+                document.getElementById('error-msg').innerText = "PIN INCORRECTO";
                 document.getElementById('error-msg').style.display = 'block';
             }
         }
 
         function agregarCarga() {
-            cargas.push({ estilo: '1717.0', talla: 'M', proceso: 'VOLTEO', metaPzaHr: 500.0, hechas: 100 });
+            cargas.push({ estilo: 'NUEVO', talla: 'M', metaPzaHr: 500.0, hechas: 0 });
             renderizarCargas();
         }
 
         function eliminarCarga(index) {
             if (cargas.length > 1) {
-                playEsferaSound();
+                playBeep();
                 cargas.splice(index, 1);
                 renderizarCargas();
             }
@@ -404,7 +350,7 @@
                 container.innerHTML += `
                     <div class="carga-card">
                         <div class="carga-title">CARGA #${i + 1}</div>
-                        <button class="btn-remove" onclick="eliminarCarga(${i})">Quitar</button>
+                        <button class="btn-remove" onclick="eliminarCarga(${i})">QUITAR</button>
                         
                         <div class="input-group">
                             <label>ESTILO</label>
@@ -415,15 +361,12 @@
                             <input type="text" value="${c.talla}" onchange="actualizarCarga(${i}, 'talla', this.value)">
                         </div>
                         <div class="input-group">
-                            <label>PROCESO</label>
-                            <input type="text" value="${c.proceso}" onchange="actualizarCarga(${i}, 'proceso', this.value)">
+                            <label>META (PZA/H)</label>
+                            <input type="number" value="${c.metaPzaHr}" oninput="actualizarCarga(${i}, 'metaPzaHr', this.value)">
                         </div>
                         <div class="input-group">
                             <label>DOCENAS HECHAS</label>
                             <input type="number" class="docenas-input" value="${c.hechas}" oninput="actualizarCarga(${i}, 'hechas', this.value)">
-                        </div>
-                        <div style="grid-column: 1 / -1; font-size: 0.7rem; color: #eab308; margin-top: 2px;">
-                            Meta Vinculada Drive: <b>${c.metaPzaHr.toFixed(1)} pza/h</b>
                         </div>
                     </div>
                 `;
@@ -450,40 +393,39 @@
         }
 
         function calcularTodo() {
-            let totalDocenasHechas = cargas.reduce((acc, c) => acc + c.hechas, 0);
-            
-            // Meta Día basada en 11 horas de trabajo neto sobre el promedio de metas
+            let totalDocenas = cargas.reduce((acc, c) => acc + c.hechas, 0);
             let metaPromedioPzaHr = cargas.reduce((acc, c) => acc + c.metaPzaHr, 0) / (cargas.length || 1);
-            let metaDiaDocenas = (metaPromedioPzaHr * 11) / 12; // De piezas a docenas
+            let metaDiaDocenas = (metaPromedioPzaHr * 11) / 12; 
 
             let parosMins = parseFloat(document.getElementById('paros-mins').value) || 0;
-            let factorParos = 1 - (parosMins / 660);
+            let horasOn = 11 - (parosMins / 60);
+            let metaOn = (metaPromedioPzaHr * horasOn) / 12;
 
-            let efiGlobal = metaDiaDocenas > 0 ? (totalDocenasHechas / (metaDiaDocenas * factorParos)) * 100 : 0;
+            let efiOff = metaDiaDocenas > 0 ? (totalDocenas / metaDiaDocenas) * 100 : 0;
+            let efiOn = metaOn > 0 ? (totalDocenas / metaOn) * 100 : 0;
 
-            document.getElementById('efi-final').innerText = efiGlobal.toFixed(2) + '%';
-            document.getElementById('val-on').innerText = efiGlobal.toFixed(2) + '%';
-            document.getElementById('val-off').innerText = efiGlobal.toFixed(2) + '%';
-            document.getElementById('val-meta-dia').innerText = metaDiaDocenas.toFixed(1);
-            document.getElementById('val-docenas').innerText = totalDocenasHechas.toFixed(2);
+            document.getElementById('efi-final').innerText = efiOff.toFixed(2) + '%';
+            document.getElementById('val-efi-on').innerText = efiOn.toFixed(2) + '%';
+            document.getElementById('val-efi-off').innerText = efiOff.toFixed(2) + '%';
+            document.getElementById('val-doc-on').innerText = totalDocenas.toFixed(1);
+            document.getElementById('val-doc-off').innerText = metaDiaDocenas.toFixed(1);
 
-            generarBitacoraExactaImagen(totalDocenasHechas);
+            // MANTENEMOS LA LÓGICA DE TIEMPOS DE TU IMAGEN
+            generarBitacora(totalDocenas);
         }
 
-        /* LÓGICA DE BITÁCORA FIEL A LA IMAGEN */
-        function generarBitacoraExactaImagen(totalDocenasHechas) {
+        function generarBitacora(totalDocenas) {
             const container = document.getElementById('bitacora-list');
             container.innerHTML = '';
 
             if (cargas.length === 0) return;
 
-            // Ponderación de minutos puros de trabajo por carga (Total: 660 min = 11H)
             let minutosTrabajoPuro = cargas.map(c => {
-                if (totalDocenasHechas === 0) return 660 / cargas.length;
-                return (c.hechas / totalDocenasHechas) * 660;
+                if (totalDocenas === 0) return 660 / cargas.length;
+                return (c.hechas / totalDocenas) * 660; // 660 mins = 11 Horas
             });
 
-            let relojActualMins = 0; // 0 Mins = 07:00 AM
+            let relojActualMins = 0; // 0 = 07:00 AM
 
             cargas.forEach((c, idx) => {
                 let minsPuros = minutosTrabajoPuro[idx];
@@ -491,7 +433,6 @@
                 let parosEncontrados = [];
                 let acumuladoParosCarga = 0;
 
-                // Verificar qué recesos fijos caen durante el tiempo de esta carga
                 RECESOS_FIJOS.forEach(r => {
                     let finEstimado = inicioCargaMins + minsPuros + acumuladoParosCarga;
                     if (inicioCargaMins < r.finMin && finEstimado > r.inicioMin) {
@@ -504,7 +445,6 @@
                 let finCargaMins = inicioCargaMins + duracionTotalBloque;
                 relojActualMins = finCargaMins;
 
-                // Renderizar renglón principal de la carga
                 container.innerHTML += `
                     <div class="carga-row">
                         <div class="name">CARGA ${idx + 1}</div>
@@ -515,7 +455,6 @@
                     </div>
                 `;
 
-                // Renderizar renglones secundarios de PAROS FIJOS si le corresponden a esta carga
                 parosEncontrados.forEach(rf => {
                     container.innerHTML += `
                         <div class="paro-row">
@@ -526,18 +465,6 @@
                 });
             });
         }
-
-        const manifestObj = {
-            "name": "Calculadora Premium",
-            "short_name": "MetaFlow",
-            "start_url": ".",
-            "display": "standalone",
-            "background_color": "#050508",
-            "theme_color": "#00f3ff"
-        };
-
-        const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/json'});
-        document.getElementById('manifest-placeholder').setAttribute('href', URL.createObjectURL(manifestBlob));
     </script>
 </body>
 </html>
