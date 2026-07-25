@@ -31,7 +31,6 @@
             color: var(--text-main); min-height: 100vh; overflow-x: hidden;
         }
 
-        /* 1. VENTANA DE BLOQUEO / LOGIN CON FONDO DBZ 1 */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(5, 5, 12, 0.88)), 
@@ -40,7 +39,6 @@
             transition: opacity 0.6s ease-out, visibility 0.6s; overflow: hidden;
         }
 
-        /* HERO ANIMADO */
         .hero-dragon-img {
             width: 200px; max-width: 70%; cursor: pointer; margin-bottom: 10px; z-index: 4;
             filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.9));
@@ -80,7 +78,6 @@
             color: #fff; border-radius: 8px; font-size: 1.2rem; text-align: center; outline: none; box-shadow: inset 0 0 8px rgba(217, 70, 239, 0.3);
         }
 
-        /* 2. VENTANA DE PRESENTACIÓN CON FONDO DBZ 2 */
         #intro-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: linear-gradient(rgba(5, 5, 12, 0.8), rgba(0, 0, 0, 0.92)), 
@@ -93,7 +90,6 @@
         .intro-quote { font-size: 1.1rem; color: var(--neon-yellow); font-style: italic; max-width: 500px; margin-bottom: 30px; text-shadow: 0 0 10px rgba(255, 234, 0, 0.5); }
         .intro-welcome { font-size: 1.4rem; color: #fff; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
 
-        /* 3. VENTANA PRINCIPAL CON FONDO DBZ 3 */
         #app-wrapper {
             min-height: 100vh;
             background: linear-gradient(rgba(5, 5, 8, 0.88), rgba(5, 5, 8, 0.95)), 
@@ -166,7 +162,6 @@
         .timeline-box { background: var(--panel-bg); border-radius: 12px; border: 1px solid #2a2d3d; overflow: hidden; margin-top: 15px; backdrop-filter: blur(8px); }
         .time-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
         
-        /* ESTILOS FIELES A LA IMAGEN 149374_2.jpg */
         .time-row.carga { background: rgba(10, 15, 25, 0.8); border-left: 4px solid #4a5d85; color: #b3c5e5; font-weight: bold; letter-spacing: 1px;}
         .time-row.carga .hora { color: #00f3ff; font-weight: bold; font-family: monospace; font-size: 1rem;}
         .time-row.receso { background: rgba(30, 25, 5, 0.8); border-left: 4px solid #a68a24; color: #d8c273; font-size: 0.85rem;}
@@ -316,12 +311,11 @@
             else { cancion.pause(); }
         }
 
-        // ESTADO INICIAL: 1 CARGA (Como pediste, y luego el botón añade las demás)
         let cargas = [
             { id: 1, meta: 700.0, hechas: 0 }
         ];
 
-        // LÓGICA DE TIEMPOS EXACTA A LA IMAGEN 149374_2.jpg
+        // Los recesos se muestran puramente en el timeline sin restar a las 11 horas fijas de producción ni alterar metas
         const RECESOS = [
             { id: 'r1', nombre: 'PARO FIJO: RECESO 8:10 AM - 8:25 AM', inicioMin: 70, finMin: 85, duracion: 15 },
             { id: 'r2', nombre: 'PARO FIJO: ALMUERZO 11:20 AM - 11:50 AM', inicioMin: 260, finMin: 290, duracion: 30 },
@@ -487,7 +481,6 @@
         }
 
         function calcularTodo() {
-            // Lógica MATEMÁTICA IDÉNTICA al Cuadre de 12 Horas de la imagen
             let sumaMetasPzaH = 0;
             let totalDocenas = 0;
             cargas.forEach(c => {
@@ -496,12 +489,16 @@
             });
 
             let metaPromedioPzaH = cargas.length > 0 ? (sumaMetasPzaH / cargas.length) : 0;
-            // Meta del día basada en 11 horas de producción pura
+            // La meta y eficiencia se calculan con 11 horas netas puras fijas (los recesos NO restan producción ni afectan meta)
             let metaDiaDocenas = (metaPromedioPzaH * 11) / 12; 
 
             let parosExternosMins = parseFloat(document.getElementById('paro-minutos').value) || 0;
-            let eficienciaOff = metaDiaDocenas > 0 ? (totalDocenas / metaDiaDocenas) * 100 : 0;
-            let eficienciaOn = eficienciaOff; // En el diseño original OFF y ON marcan lo mismo si no hay ajuste manual
+            
+            // EFICIENCIA PURA: Los paros externos SÍ afectan (reducen el tiempo disponible), pero los recesos NO afectan eficiencia ni meta
+            let minutosEfectivos = 660 - parosExternosMins;
+            let metaAjustadaParos = (metaPromedioPzaH * (minutosEfectivos / 60)) / 12;
+            let eficienciaOff = metaAjustadaParos > 0 ? (totalDocenas / metaAjustadaParos) * 100 : 0;
+            let eficienciaOn = eficienciaOff;
 
             document.getElementById('efi-final').innerText = eficienciaOff.toFixed(2) + '%';
             document.getElementById('efi-on-val').innerText = eficienciaOn.toFixed(2) + '%';
@@ -513,41 +510,32 @@
             generarBitacoraExacta(totalDocenas, parosExternosMins);
         }
 
-        /* LÓGICA DE TIEMPOS DINÁMICOS SEGÚN PESO DE CADA CARGA (DOCENAS / META) */
         function generarBitacoraExacta(totalDocenas, parosExternosMins) {
             const container = document.getElementById('timeline-container');
             container.innerHTML = '';
             if (cargas.length === 0) return;
 
-            // 1. Asignar el "peso" de cada carga.
-            // Según la imagen, una carga requiere tiempo proporcional a (Docenas / Meta)
             let pesosCargas = cargas.map(c => {
                 return c.meta > 0 ? (c.hechas / c.meta) : 0;
             });
 
             let sumaPesos = pesosCargas.reduce((a, b) => a + b, 0);
-            if (sumaPesos === 0) sumaPesos = 1; // Prevenir división por cero si no hay docenas aún
+            if (sumaPesos === 0) sumaPesos = 1;
 
-            // 2. El tiempo de producción puro es 660 mins (11 horas) menos los paros externos
             let minutosTrabajoPuro = 660 - parosExternosMins;
-            
-            // Reparto proporcional
             let minsTrabajoAsignados = pesosCargas.map(p => (p / sumaPesos) * minutosTrabajoPuro);
 
-            let relojActual = 0; // Inicia 07:00 AM (0 mins)
+            let relojActual = 0; 
             let html = '';
 
             cargas.forEach((c, idx) => {
                 let tiempoRestanteCarga = minsTrabajoAsignados[idx];
                 let inicioCargaMins = relojActual;
                 
-                // Algoritmo de avance en el reloj absorbiendo recesos
                 while (tiempoRestanteCarga > 0.01) {
-                    // Ver si el reloj actual está dentro de un receso
                     let recesoActual = RECESOS.find(r => relojActual >= r.inicioMin && relojActual < r.finMin);
                     
                     if (recesoActual) {
-                        // Saltar al fin del receso sin restar tiempo de carga
                         let minsEnReceso = recesoActual.finMin - relojActual;
                         relojActual += minsEnReceso;
                         
@@ -558,7 +546,6 @@
                             </div>
                         `;
                     } else {
-                        // Buscar el próximo receso para ver cuánto podemos avanzar
                         let proxReceso = RECESOS.find(r => r.inicioMin > relojActual);
                         let minsHastaProxReceso = proxReceso ? (proxReceso.inicioMin - relojActual) : Infinity;
                         
@@ -573,9 +560,6 @@
                 let m = Math.round(duracionRealEnReloj % 60);
                 let badgeDuracion = h > 0 ? `(${h}h ${m}m)` : `(${m}m)`;
 
-                html = html.substring(0, html.lastIndexOf('<div class="time-row receso"')); // truco para ordenar el HTML si se insertó el receso antes de la fila de la carga
-
-                // Insertar el bloque de la carga en la posición correcta
                 let bloqueCarga = `
                     <div class="time-row carga">
                         <div>CARGA ${idx + 1}</div>
@@ -583,11 +567,8 @@
                     </div>
                 `;
 
-                // Aquí reconstruimos para que el bloque de carga quede por encima de los recesos que haya "tragado"
-                let prevHtml = container.innerHTML;
                 container.innerHTML += bloqueCarga;
                 
-                // Procesar recesos dentro del bloque de ESTA carga específica para renderizarlos debajo
                 let inicioIteracion = inicioCargaMins;
                 let tiempoTemp = minsTrabajoAsignados[idx];
                 
