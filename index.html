@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Control de Producción - Saiyan Edition</title>
+    
+    <!-- Configuración PWA / iOS / Android -->
+    <meta name="theme-color" content="#030712">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MetaSaiyan">
+    
+    <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22Control%20de%20Produccion%20DBZ%22,%22short_name%22:%22MetaSaiyan%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%23030712%22,%22theme_color%22:%22%232563eb%22}">
+
+    <style>
+        :root {
+            --neon-orange: #ff6600;
+            --neon-blue: #00f0ff;
+            --neon-yellow: #ffee00;
+            --bg-dark: #030712;
+            --card-bg: rgba(15, 23, 42, 0.85);
+            --border-glow: rgba(0, 240, 255, 0.4);
+        }
+
+        * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+        
+        body {
+            margin: 0; padding: 0;
+            background: var(--bg-dark);
+            color: #f8fafc;
+            min-height: 100vh;
+            /* Fondo con aura de energía DBZ */
+            background-image: 
+                radial-gradient(circle at 50% 20%, rgba(255, 102, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 240, 255, 0.1) 0%, transparent 40%),
+                linear-gradient(to bottom, #030712, #0b0f19);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        /* Pantalla de Inicio / Splash Screen */
+        #splash-screen {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(3, 7, 18, 0.95);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(10px);
+            transition: opacity 0.5s ease;
+        }
+
+        .dbz-title {
+            font-size: 2.2rem; font-weight: 900; text-align: center;
+            text-transform: uppercase; letter-spacing: 2px;
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-orange), 0 0 20px var(--neon-orange), 0 0 40px var(--neon-orange);
+            animation: auraPulse 2s infinite alternate;
+            margin-bottom: 2rem;
+            padding: 0 1rem;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, var(--neon-orange), #d97706);
+            color: #fff; font-weight: bold; font-size: 1.2rem;
+            padding: 1rem 2.5rem; border: none; border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--neon-orange), inset 0 0 10px rgba(255,255,255,0.5);
+            text-transform: uppercase; letter-spacing: 1px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-start:active { transform: scale(0.95); }
+
+        /* App Principal */
+        .app-container {
+            max-width: 1100px; margin: 0 auto; padding: 1rem;
+            display: none; animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        /* Tarjetas con Efecto Neón y Borde DBZ */
+        .card-neon {
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-glow);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+            padding: 1.25rem; margin-bottom: 1.25rem;
+            backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-neon::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-orange), var(--neon-yellow));
+        }
+
+        /* Métricas */
+        .metrics-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .metric-card {
+            background: rgba(3, 7, 18, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px; padding: 1rem; text-align: center;
+        }
+
+        .metric-card label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; display: block; }
+        .metric-value {
+            font-size: 1.5rem; font-weight: bold; margin-top: 0.3rem;
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+        }
+
+        /* Form / Inputs */
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+        label { font-size: 0.85rem; color: #cbd5e1; display: block; margin-top: 0.5rem; }
+        
+        input, select {
+            width: 100%; padding: 0.75rem; margin-top: 0.25rem; margin-bottom: 0.75rem;
+            border-radius: 8px; border: 1px solid #334155;
+            background: rgba(3, 7, 18, 0.8); color: #fff; font-size: 0.95rem;
+            outline: none; transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+        }
+
+        .btn-action {
+            width: 100%; padding: 0.75rem; margin-top: 0.5rem;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            border: none; border-radius: 8px; color: #fff; font-weight: bold;
+            cursor: pointer; box-shadow: 0 0 10px rgba(37, 99, 235, 0.4);
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover { box-shadow: 0 0 15px rgba(0, 240, 255, 0.6); }
+
+        /* Tablas */
+        table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+        th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #1e293b; font-size: 0.85rem; }
+        th { color: #94a3b8; background: rgba(3, 7, 18, 0.5); text-transform: uppercase; font-size: 0.75rem; }
+        
+        .badge {
+            background: rgba(0, 240, 255, 0.15); color: var(--neon-blue);
+            border: 1px solid var(--neon-blue); padding: 0.2rem 0.5rem; border-radius: 6px;
+        }
+
+        /* Animaciones */
+        @keyframes auraPulse {
+            0% { text-shadow: 0 0 10px var(--neon-orange), 0 0 20px var(--neon-orange); }
+            100% { text-shadow: 0 0 20px var(--neon-yellow), 0 0 35px var(--neon-orange), 0 0 50px var(--neon-orange); }
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <!-- PANTALLA DE INICIO (SPLASH) -->
+    <div id="splash-screen">
+        <div class="dbz-title">⚡ CONTROL DE PRODUCCIÓN ⚡<br><span style="font-size: 1.2rem; color: var(--neon-blue);">MODO SAIYAJIN</span></div>
+        <button class="btn-start" onclick="iniciarApp()">¡INICIAR SISTEMA!</button>
+    </div>
+
+    <!-- APLICACIÓN PRINCIPAL -->
+    <div class="app-container" id="main-app">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2 style="margin:0; font-size: 1.4rem; text-shadow: 0 0 10px var(--neon-blue);">🔥 PANEL DE EFICIENCIA</h2>
+            <span class="badge" style="letter-spacing: 1px;">TURNO 11 HRS</span>
+        </div>
+
+        <!-- MÉRTRICAS DE CONTROL -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <label>Meta Promedio Base</label>
+                <div class="metric-value" id="mBase">0 dz</div>
+            </div>
+            <div class="metric-card">
+                <label>Docenas Hechas</label>
+                <div class="metric-value" id="mHechas" style="color: var(--neon-yellow); text-shadow: 0 0 8px rgba(255,238,0,0.5);">0 dz</div>
+            </div>
+            <div class="metric-card">
+                <label>Eficiencia ON</label>
+                <div class="metric-value" id="eOn">0%</div>
+            </div>
+            <div class="metric-card">
+                <label>Eficiencia OFF (Ajustada)</label>
+                <div class="metric-value" id="eOff" style="color: var(--neon-orange); text-shadow: 0 0 8px rgba(255,102,0,0.5);">0%</div>
+            </div>
+        </div>
+
+        <!-- FORMULARIO DE CARGAS Y PAROS -->
+        <div class="grid-2">
+            <div class="card-neon">
+                <h3 style="margin-top:0; color: var(--neon-blue);">➕ Registrar Carga</h3>
+                <form id="formCarga">
+                    <label>Meta Docenas:</label>
+                    <input type="number" id="metaDz" value="550" required step="10">
+                    <label>Docenas Hechas:</label>
+                    <input type="number" id="hechasDz" value="0" required step="10">
+                    <button type="submit" class="btn-action">Guardar Carga</button>
+                </form>
+            </div>
+
+            <div class="card-neon">
+                <h3 style="margin-top:0; color: var(--neon-orange);">⚠️ Registrar Paro / Tiempo Muerto</h3>
+                <form id="formParo">
+                    <label>Hora Inicio:</label>
+                    <input type="time" id="hInicio" value="09:20" required>
+                    <label>Hora Fin:</label>
+                    <input type="time" id="hFin" value="09:40" required>
+                    <label>Tipo de Paro:</label>
+                    <select id="tipoParo">
+                        <option value="fuera">Fuera de Tiempo (Afecta Apertura/Cierre)</option>
+                        <option value="dentro">Dentro de Tiempo (Suma Minutos)</option>
+                    </select>
+                    <button type="submit" class="btn-action" style="background: linear-gradient(135deg, var(--neon-orange), #c2410c);">Guardar Paro</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- RESUMEN CARGAS -->
+        <div class="card-neon">
+            <h3 style="margin-top:0;">📋 Resumen por Cargas</h3>
+            <div style="overflow-x: auto;">
+                <table id="tablaCargas">
+                    <thead>
+                        <tr>
+                            <th>Carga</th>
+                            <th>Meta (dz)</th>
+                            <th>Hechas (dz)</th>
+                            <th>Eficiencia ON</th>
+                            <th>Tiempo Requerido</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PAROS Y RECESOS -->
+        <div class="grid-2">
+            <div class="card-neon">
+                <h3 style="margin-top:0;">⏱️ Paros Descontados</h3>
+                <div style="overflow-x: auto;">
+                    <table id="tablaParos">
+                        <thead>
+                            <tr><th>Rango</th><th>Duración</th><th>Tipo</th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card-neon">
+                <h3 style="margin-top:0; color: var(--neon-yellow);">☕ Recesos Programados</h3>
+                <ul style="padding-left: 1.2rem; line-height: 1.8; color: #cbd5e1; font-size: 0.9rem;">
+                    <li><b>Receso 1:</b> 08:10 – 08:25 (15 min)</li>
+                    <li><b>Receso 2:</b> 11:20 – 11:50 (30 min)</li>
+                    <li><b>Receso 3:</b> 15:10 – 15:25 (15 min)</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
