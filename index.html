@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MetaFlow - Dragon Ball Edition</title>
+    
+    <link rel="manifest" id="manifest-placeholder">
+    <meta name="theme-color" content="#050508">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MetaFlow">
+
+    <style>
+        :root {
+            --bg-dark: #050508;
+            --panel-bg: rgba(10, 12, 22, 0.88);
+            --neon-cyan: #00f3ff;
+            --neon-magenta: #d946ef;
+            --neon-green: #39ff14;
+            --neon-yellow: #ffea00;
+            --aura-color: #00f3ff;
+            --text-main: #f8fafc;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main); min-height: 100vh; overflow-x: hidden;
+        }
+
+        /* 1. VENTANA DE LOGIN / BLOQUEO CON FONDO 1 */
+        #splash-screen {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(5, 5, 12, 0.85)), 
+                        url('https://share.google/oMzYfjTJuM2hFcsbi') no-repeat center center / cover;
+            z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.6s ease-out, visibility 0.6s; overflow: hidden;
+        }
+
+        /* IMAGEN ANIMADA SOBRE LAS ESFERAS */
+        .hero-dragon-img {
+            width: 240px; max-width: 75%; cursor: pointer; margin-bottom: 5px; z-index: 4;
+            filter: drop-shadow(0 0 18px rgba(0, 243, 255, 0.9));
+            animation: floatHero 3s ease-in-out infinite alternate;
+            transition: transform 0.2s;
+        }
+        .hero-dragon-img:active { transform: scale(0.95); }
+
+        @keyframes floatHero {
+            0% { transform: translateY(0) scale(0.98); filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.8)); }
+            100% { transform: translateY(-12px) scale(1.03); filter: drop-shadow(0 0 30px rgba(255, 234, 0, 0.9)); }
+        }
+
+        .dragon-balls-container { display: flex; gap: 8px; margin-bottom: 18px; z-index: 3; flex-wrap: wrap; justify-content: center; }
+        .dragon-ball {
+            width: 34px; height: 34px; cursor: pointer;
+            background: radial-gradient(circle at 35% 35%, #fff066, #ff9900 60%, #cc3300 100%);
+            border-radius: 50%; box-shadow: 0 0 14px #ff6600;
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+            padding: 4px; animation: bounceBall 2.2s ease-in-out infinite alternate;
+        }
+        .dragon-ball span { color: #b30000; font-size: 7px; line-height: 7px; font-weight: bold; }
+
+        @keyframes bounceBall {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-8px); }
+        }
+
+        .login-box {
+            background: rgba(8, 10, 20, 0.92); border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 35px rgba(0, 243, 255, 0.4); padding: 22px; border-radius: 16px;
+            z-index: 5; text-align: center; width: 90%; max-width: 360px; backdrop-filter: blur(10px);
+        }
+        .login-box h1 { color: var(--neon-cyan); font-size: 2rem; letter-spacing: 2px; text-shadow: 0 0 12px var(--neon-cyan); }
+        .login-input {
+            width: 100%; padding: 12px; margin: 15px 0; background: #050508; border: 1.5px solid var(--neon-magenta);
+            color: #fff; border-radius: 8px; font-size: 1.2rem; text-align: center; outline: none; box-shadow: inset 0 0 8px rgba(217, 70, 239, 0.3);
+        }
+
+        /* 2. VENTANA DE PRESENTACIÓN CON FONDO 2 */
+        #intro-screen {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(5, 5, 12, 0.8), rgba(0, 0, 0, 0.9)), 
+                        url('https://share.google/COC8tj39PUYeMkEwg') no-repeat center center / cover;
+            z-index: 1900; display: none; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 25px; opacity: 0; transition: opacity 0.8s ease;
+        }
+        .intro-title { font-size: 3.5rem; font-weight: 900; color: var(--neon-cyan); text-shadow: 0 0 30px var(--neon-cyan); margin-bottom: 5px; }
+        .intro-author { font-size: 1rem; color: var(--neon-magenta); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px; font-weight: bold; }
+        .intro-quote { font-size: 1.1rem; color: var(--neon-yellow); font-style: italic; max-width: 500px; margin-bottom: 30px; text-shadow: 0 0 10px rgba(255, 234, 0, 0.5); }
+        .intro-welcome { font-size: 1.4rem; color: #fff; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
+
+        /* 3. VENTANA PRINCIPAL CON FONDO 3 */
+        #app-wrapper {
+            min-height: 100vh;
+            background: linear-gradient(rgba(5, 5, 8, 0.85), rgba(5, 5, 8, 0.92)), 
+                        url('https://share.google/kUUryQD5M0WgTsjsR') no-repeat center center fixed / cover;
+        }
+
+        .header-banner {
+            width: 100%; background: rgba(10, 12, 22, 0.95);
+            border-bottom: 2px solid var(--neon-cyan); box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+            padding: 15px 20px; display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 100; backdrop-filter: blur(8px);
+        }
+        .title-main { font-size: 1.4rem; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 10px var(--neon-cyan); }
+
+        #app-main { display: none; padding: 20px; max-width: 1100px; margin: 0 auto; }
+
+        .paros-container {
+            background: var(--panel-bg); border: 1px solid var(--neon-yellow); border-radius: 12px; padding: 15px; margin: 20px 0;
+            display: flex; gap: 15px; align-items: center; flex-wrap: wrap; box-shadow: 0 0 15px rgba(255, 234, 0, 0.15); backdrop-filter: blur(8px);
+        }
+        .paros-container h4 { color: var(--neon-yellow); width: 100%; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        .carga-card {
+            background: var(--panel-bg); border: 1px solid rgba(0, 243, 255, 0.3); border-radius: 12px; padding: 15px; margin-bottom: 15px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); position: relative; backdrop-filter: blur(8px);
+        }
+
+        .input-group label { display: block; font-size: 0.75rem; color: var(--neon-cyan); margin-bottom: 5px; text-transform: uppercase; }
+        .input-group input { width: 100%; padding: 10px; background: #080910; border: 1px solid #333; color: #fff; border-radius: 6px; font-size: 1.1rem; outline: none; }
+        .input-group input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 8px var(--neon-cyan); }
+
+        .btn-neon {
+            background: transparent; color: #fff; font-weight: bold; padding: 12px 25px; border: 2px solid var(--neon-cyan); border-radius: 8px;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; width: 100%; font-size: 1rem;
+        }
+        .btn-neon:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 20px var(--neon-cyan); }
+
+        .btn-add {
+            background: linear-gradient(90deg, var(--neon-magenta), #8b5cf6); border: none; color: white; padding: 14px; width: 100%; border-radius: 8px;
+            font-weight: bold; cursor: pointer; margin-bottom: 25px; box-shadow: 0 0 15px rgba(217, 70, 239, 0.4); text-transform: uppercase; letter-spacing: 1.5px;
+        }
+
+        .banner-eficiencia {
+            position: relative; background: rgba(5, 5, 12, 0.92);
+            border: 2px solid var(--aura-color); border-radius: 16px; padding: 30px 20px; margin: 25px 0;
+            text-align: center; box-shadow: 0 0 30px var(--aura-color), inset 0 0 20px var(--aura-color);
+            transition: all 0.5s ease; overflow: hidden; backdrop-filter: blur(8px);
+        }
+
+        .banner-eficiencia::before, .banner-eficiencia::after {
+            content: ''; position: absolute; left: 50%; bottom: -20px; width: 180%; height: 180%;
+            background: radial-gradient(circle at bottom, var(--aura-color) 0%, transparent 60%);
+            opacity: 0.25; transform: translateX(-50%); pointer-events: none; z-index: 1;
+            animation: flameAura 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes flameAura {
+            0% { transform: translateX(-50%) scale(0.95) translateY(0); filter: drop-shadow(0 0 10px var(--aura-color)); }
+            100% { transform: translateX(-50%) scale(1.05) translateY(-10px); filter: drop-shadow(0 0 25px var(--aura-color)); }
+        }
+
+        .eficiencia-contenido { position: relative; z-index: 2; }
+        .eficiencia-valor { font-size: 4.2rem; font-weight: 900; color: #fff; text-shadow: 0 0 25px var(--aura-color); }
+        .aura-nivel-tag { font-size: 1.2rem; font-weight: bold; color: var(--aura-color); letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 10px var(--aura-color); }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 20px; position: relative; z-index: 2; }
+        .stat-box { background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; color: #fff; font-size: 0.85rem; }
+        .stat-box span { display: block; font-size: 1.2rem; font-weight: bold; color: var(--neon-cyan); margin-top: 3px; }
+
+        .timeline-box { background: var(--panel-bg); border-radius: 12px; border: 1px solid #2a2d3d; overflow: hidden; margin-top: 15px; backdrop-filter: blur(8px); }
+        .time-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
+        .time-row.carga { border-left: 4px solid var(--neon-cyan); color: #fff; }
+        .time-row.receso { border-left: 4px solid var(--neon-yellow); background: rgba(255, 234, 0, 0.04); color: var(--neon-yellow); }
+        .time-row .hora { font-weight: bold; color: var(--neon-cyan); }
+        .time-row.receso .hora { color: var(--neon-yellow); }
+    </style>
+</head>
+<body>
+
+    <!-- REPRODUCTOR AUDIO DE MI CORAZÓN ENCANTADO -->
+    <audio id="audio-cancion" src="https://ia800908.us.archive.org/21/items/tv-size-dan-dan-kokoro-hikareteku-instrumental/TV-Size%20DAN%20DAN%20Kokoro%20Hikareteku%20%28Instrumental%29.mp3" preload="auto" loop></audio>
+
+    <div id="pwa-install-banner" style="display:none; background: var(--neon-magenta); color:#fff; text-align:center; padding:10px; font-weight:bold; cursor:pointer;" onclick="triggerInstalacionPWA()">
+        📲 Toca aquí para instalar MetaFlow como App en tu teléfono
+    </div>
+
+    <!-- 1. PANTALLA DE ACCESO (FONDO 1) -->
+    <div id="splash-screen">
+        <!-- Imagen Animada Principal sobre las Esferas -->
+        <img class="hero-dragon-img" src="https://share.google/dBTWSyforhyFEaogw" alt="Hero Animado DB" onclick="toggleMusica()">
+
+        <div class="dragon-balls-container">
+            <div class="dragon-ball" onclick="playEsferaSound()"><span>★</span></div>
+            <div class="dragon-ball" onclick="playEsferaSound()"><span>★<br>★</span></div>
+            <div class="dragon-ball" onclick="playEsferaSound()"><span>★<br>★ ★</span></div>
+            <div class="dragon-ball" onclick="playEsferaSound()"><span>★★<br>★★</span></div>
+            <div class="dragon-ball" onclick="playEsferaSound()"><span>★★<br>★<br>★★</span></div>
+            <div class="dragon-ball" onclick="playEsferaSound()"><span>★★★<br>★★★</span></div>
+            <div class="dragon-ball" onclick="playEsferaSound()"><span>★★★<br>★<br>★★★</span></div>
+        </div>
+
+        <div class="login-box">
+            <h1>MetaFlow</h1>
+            <p style="color: #aaa; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 10px;">SISTEMA INTELIGENTE DE CONTROL</p>
+            <input type="password" id="pin" class="login-input" placeholder="PIN DE ACCESO" maxlength="6" inputmode="numeric" onfocus="playEsferaSound()">
+            <button class="btn-neon" onclick="verificarAcceso()">INGRESAR</button>
+            <p id="error-msg" style="color: #ff4500; margin-top: 12px; font-size: 0.85rem; display: none;"></p>
+        </div>
+    </div>
+
+    <!-- 2. PANTALLA INTRO DE BIENVENIDA (FONDO 2) -->
+    <div id="intro-screen">
+        <div class="intro-title">MetaFlow</div>
+        <div class="intro-author">Creado por Ángel Castillo</div>
+        <div class="intro-quote" id="intro-quote-text">"¡El poder viene en respuesta a una necesidad, no a un deseo!"</div>
+        <div class="intro-welcome">Bienvenido usuario: <span id="intro-user-name" style="color: var(--neon-cyan);"></span></div>
+    </div>
+
+    <!-- 3. CONTENEDOR PRINCIPAL CON FONDO 3 -->
+    <div id="app-wrapper">
+        <div class="header-banner">
+            <div>
+                <div class="title-main">MetaFlow</div>
+                <div style="font-size: 0.75rem; color: var(--neon-cyan); letter-spacing: 1px;" id="nombre-usuario">SISTEMA INTELIGENTE DE TIEMPOS</div>
+            </div>
+            <div style="text-align: right; font-size: 0.8rem; color: #aaa;">
+                <div>TURNO DE 11 HRS</div>
+                <div style="color: var(--neon-green); font-weight: bold;">07:00 AM - 07:00 PM</div>
+            </div>
+        </div>
+
+        <div id="app-main">
+            <div class="paros-container">
+                <h4>⏱️ Paros Externos / Tiempo Muerto (OFF)</h4>
+                <div class="input-group" style="flex: 1; min-width: 120px;">
+                    <label>Horas Paro</label>
+                    <input type="number" id="paro-horas" value="0" min="0" oninput="playEsferaSound(); calcularTodo();">
+                </div>
+                <div class="input-group" style="flex: 1; min-width: 120px;">
+                    <label>Minutos Paro</label>
+                    <input type="number" id="paro-minutos" value="0" min="0" max="59" oninput="playEsferaSound(); calcularTodo();">
+                </div>
+            </div>
+
+            <div id="contenedor-cargas"></div>
+            
+            <button class="btn-add" onclick="playTransformSound(); agregarCarga();">+ AÑADIR NUEVA CARGA</button>
+
+            <div class="banner-eficiencia" id="aura-banner">
+                <div class="eficiencia-contenido">
+                    <div class="eficiencia-valor" id="efi-final">0.00%</div>
+                    <div class="aura-nivel-tag" id="aura-tag">AURA BASE NEÓN</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box">META ON<span><b id="meta-on">0</b></span></div>
+                    <div class="stat-box">DOCENAS OFF<span><b id="docenas-off">0</b></span></div>
+                    <div class="stat-box">META FINAL<span><b id="meta-final">0</b></span></div>
+                    <div class="stat-box">DOCENAS HECHAS<span><b id="hechas-total">0</b></span></div>
+                </div>
+            </div>
+
+            <h3 style="color: var(--neon-cyan); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 25px;">Bitácora de Ritmo e Tiempos Reales (07:00 AM - 07:00 PM)</h3>
+            <div class="timeline-box" id="timeline-container"></div>
+        </div>
+    </div>
+
+    <script>
+        // SINTETIZADOR WEB AUDIO API PARA EFECTOS
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playEsferaSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(880, audioCtx.currentTime); // Nota A5
+            osc.frequency.exponentialRampToValueAtTime(1760, audioCtx.currentTime + 0.15); // Ramp up al estilo item DB
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.15);
+        }
+
+        function playTransformSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.5); // Carga de Ki
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.5);
+        }
+
+        function toggleMusica() {
+            const cancion = document.getElementById('audio-cancion');
+            playEsferaSound();
+            if (cancion.paused) {
+                cancion.play().catch(() => {});
+            } else {
+                cancion.pause();
+            }
+        }
+
+        let cargas = [
+            { id: 1, meta: 700, hechas: 126 },
+            { id: 2, meta: 550, hechas: 100 }
+        ];
+
+        const TOTAL_MINUTOS_PRODUCTIVOS = 660; 
+        const RECESOS = [
+            { id: 'r1', nombre: 'Receso Mañana', inicioMin: 70, finMin: 85, duracion: 15, label: '08:10 AM - 08:25 AM' },
+            { id: 'r2', nombre: 'Almuerzo', inicioMin: 260, finMin: 290, duracion: 30, label: '11:20 AM - 11:50 AM' },
+            { id: 'r3', nombre: 'Receso Tarde', inicioMin: 490, finMin: 505, duracion: 15, label: '03:10 PM - 03:25 PM' }
+        ];
+
+        const usuariosAutorizados = [
+            { pin: "2004", nombre: "Angel Castillo 🚢" },
+            { pin: "5863", nombre: "Kevin Ramón Pineda ⚔️" },
+            { pin: "8198", nombre: "Carlos David Garcia 🦅" },
+            { pin: "1734", nombre: "Libny Castillo ⚡" },
+            { pin: "4321", nombre: "Derick Alexander Carvajal 🔥" },
+            { pin: "1800", nombre: "Usuario Invitado 🗺️" }
+        ];
+
+        const frasesDragonBall = [
+            '"¡El poder viene en respuesta a una necesidad, no a un deseo!"',
+            '"Trabajar duro y superar tus límites es la clave de todo guerrero."',
+            '"Los límites solo existen si tú los permites en tu mente."',
+            '"Incluso el guerrero más ordinario puede superar a un élite con esfuerzo."',
+            '"No importa cuántas veces te caigas, lo importante es levantarse más fuerte."'
+        ];
+
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('pwa-install-banner').style.display = 'block';
+        });
+
+        function triggerInstalacionPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        document.getElementById('pwa-install-banner').style.display = 'none';
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+
+        function verificarAcceso() {
+            const pinIngresado = document.getElementById('pin').value;
+            const usuario = usuariosAutorizados.find(u => u.pin === pinIngresado);
+
+            if (usuario) {
+                playTransformSound();
+                triggerInstalacionPWA();
+
+                document.getElementById('nombre-usuario').innerText = "OPERADOR: " + usuario.nombre.toUpperCase();
+                document.getElementById('intro-user-name').innerText = usuario.nombre;
+                
+                const fraseAzar = frasesDragonBall[Math.floor(Math.random() * frasesDragonBall.length)];
+                document.getElementById('intro-quote-text').innerText = fraseAzar;
+
+                const splash = document.getElementById('splash-screen');
+                const intro = document.getElementById('intro-screen');
+
+                splash.style.opacity = '0';
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                    intro.style.display = 'flex';
+                    setTimeout(() => { intro.style.opacity = '1'; }, 50);
+
+                    setTimeout(() => {
+                        intro.style.opacity = '0';
+                        setTimeout(() => {
+                            intro.style.display = 'none';
+                            document.getElementById('app-main').style.display = 'block';
+                            renderizarCargas();
+                        }, 800);
+                    }, 3500);
+
+                }, 600);
+
+            } else {
+                playEsferaSound();
+                const errorMsg = document.getElementById('error-msg');
+                errorMsg.innerText = "PIN Incorrecto. Ingrese una clave autorizada.";
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        function agregarCarga() {
+            cargas.push({ id: cargas.length + 1, meta: 500, hechas: 100 });
+            renderizarCargas();
+        }
+
+        function eliminarCarga(index) {
+            if (cargas.length > 1) {
+                playEsferaSound();
+                cargas.splice(index, 1);
+                renderizarCargas();
+            }
+        }
+
+        function actualizarValor(index, campo, valor) {
+            cargas[index][campo] = parseFloat(valor) || 0;
+            calcularTodo();
+        }
+
+        function renderizarCargas() {
+            const container = document.getElementById('contenedor-cargas');
+            container.innerHTML = '';
+            
+            cargas.forEach((c, index) => {
+                let ritmoTeorico = (c.meta / 11).toFixed(1);
+                container.innerHTML += `
+                    <div class="carga-card">
+                        <div class="input-group">
+                            <label>Carga #${index + 1} (${ritmoTeorico} Doc/Hr)</label>
+                            <input type="text" value="CARGA #${index + 1}" disabled style="color: var(--neon-magenta); font-weight: bold;">
+                        </div>
+                        <div class="input-group">
+                            <label>Meta Docenas</label>
+                            <input type="number" value="${c.meta}" oninput="actualizarValor(${index}, 'meta', this.value)">
+                        </div>
+                        <div class="input-group">
+                            <label>Docenas Hechas</label>
+                            <input type="number" value="${c.hechas}" oninput="actualizarValor(${index}, 'hechas', this.value)" style="color: var(--neon-cyan);">
+                        </div>
+                        <button onclick="eliminarCarga(${index})" style="position: absolute; right: 10px; top: 10px; background: transparent; border: none; color: #ff4500; cursor: pointer; font-weight: bold;">✕</button>
+                    </div>
+                `;
+            });
+            calcularTodo();
+        }
+
+        function formatoHora(minutosDesde7AM) {
+            let totalMins = 7 * 60 + minutosDesde7AM;
+            let h = Math.floor(totalMins / 60);
+            let m = Math.round(totalMins % 60);
+            if (m >= 60) { h += 1; m = 0; }
+            let ampm = h >= 12 ? 'PM' : 'AM';
+            let displayH = h > 12 ? h - 12 : h;
+            if (displayH === 0) displayH = 12;
+            return `${displayH.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
+        }
+
+        function actualizarAuraNeón(eficiencia) {
+            let root = document.documentElement;
+            let tag = document.getElementById('aura-tag');
+            let color = "#1a1d24";
+            let nombreNivel = "Aura Base Oscura";
+
+            if (eficiencia < 30) {
+                color = "#2a2e3d";
+                nombreNivel = "Aura Neutra Neón";
+            } else if (eficiencia < 50) {
+                color = "#ffea00";
+                nombreNivel = "Aura Amarilla Neón";
+            } else if (eficiencia < 65) {
+                color = "#fffb00";
+                nombreNivel = "Aura Amarillo Claro Neón";
+            } else if (eficiencia < 75) {
+                color = "#ffd700";
+                nombreNivel = "Aura Dorado Intenso Neón";
+            } else if (eficiencia < 85) {
+                color = "#990033";
+                nombreNivel = "Aura Rojo Vino Neón";
+            } else if (eficiencia < 95) {
+                color = "#ff003c";
+                nombreNivel = "Aura Rojo Fuego Neón";
+            } else if (eficiencia < 99) {
+                color = "#00f3ff";
+                nombreNivel = "Aura Azul Celeste Neón";
+            } else {
+                color = "#22c55e";
+                nombreNivel = "Aura Plata Verde Neón ⚡";
+            }
+
+            root.style.setProperty('--aura-color', color);
+            tag.innerText = nombreNivel;
+        }
+
+        function calcularTodo() {
+            let sumaMetas = cargas.reduce((acc, c) => acc + c.meta, 0);
+            let sumaHechas = cargas.reduce((acc, c) => acc + c.hechas, 0);
+            let metaOn = cargas.length > 0 ? (sumaMetas / cargas.length) : 0;
+
+            let pHoras = parseFloat(document.getElementById('paro-horas').value) || 0;
+            let pMinutos = parseFloat(document.getElementById('paro-minutos').value) || 0;
+            let horasParoTotales = pHoras + (pMinutos / 60);
+
+            let tasaPorHora = metaOn / 11;
+            let docenasOff = tasaPorHora * horasParoTotales;
+            let metaFinal = Math.max(0, metaOn - docenasOff);
+
+            let eficienciaFinal = metaFinal > 0 ? (sumaHechas / metaFinal) * 100 : 0;
+
+            document.getElementById('efi-final').innerText = eficienciaFinal.toFixed(2) + '%';
+            document.getElementById('meta-on').innerText = metaOn.toFixed(1);
+            document.getElementById('docenas-off').innerText = docenasOff.toFixed(1);
+            document.getElementById('meta-final').innerText = metaFinal.toFixed(1);
+            document.getElementById('hechas-total').innerText = sumaHechas;
+
+            actualizarAuraNeón(eficienciaFinal);
+            generarBitacoraLógica(sumaMetas);
+        }
+
+        function generarBitacoraLógica(sumaMetas) {
+            const container = document.getElementById('timeline-container');
+            container.innerHTML = '';
+
+            if (cargas.length === 0) return;
+
+            let minutosMinimosReales = [];
+            let minutosTotalesCalculados = 0;
+
+            cargas.forEach(c => {
+                let ritmoTeoricoHoras = c.meta / 11;
+                let efiIndividual = c.meta > 0 ? (c.hechas / c.meta) : 0;
+
+                let minsCarga = 0;
+                if (c.hechas > 0 && efiIndividual > 0) {
+                    let ritmoRealHora = ritmoTeoricoHoras * efiIndividual;
+                    let horasTomadas = c.hechas / ritmoRealHora;
+                    minsCarga = horasTomadas * 60;
+                } else {
+                    let proporcionMeta = sumaMetas > 0 ? (c.meta / sumaMetas) : (1 / cargas.length);
+                    minsCarga = proporcionMeta * TOTAL_MINUTOS_PRODUCTIVOS;
+                }
+
+                minutosMinimosReales.push(minsCarga);
+                minutosTotalesCalculados += minsCarga;
+            });
+
+            let duracionesFinales = minutosMinimosReales.map(m => {
+                return (m / minutosTotalesCalculados) * TOTAL_MINUTOS_PRODUCTIVOS;
+            });
+
+            let relojMinutos = 0;
+            let html = '';
+
+            cargas.forEach((c, idx) => {
+                let tiempoRestanteCarga = duracionesFinales[idx];
+                let inicioBloqueCarga = relojMinutos;
+
+                while (tiempoRestanteCarga > 0.1) {
+                    let recesoProximo = RECESOS.find(r => relojMinutos >= r.inicioMin && relojMinutos < r.finMin);
+
+                    if (recesoProximo) {
+                        html += `
+                            <div class="time-row receso">
+                                <div><b>PARO FIJO:</b> ${recesoProximo.nombre} (${recesoProximo.label})</div>
+                                <div class="hora">${recesoProximo.duracion} MIN</div>
+                            </div>
+                        `;
+                        relojMinutos = recesoProximo.finMin;
+                        inicioBloqueCarga = relojMinutos;
+                    }
+
+                    let siguienteReceso = RECESOS.find(r => r.inicioMin > relojMinutos);
+                    let limiteHastaReceso = siguienteReceso ? (siguienteReceso.inicioMin - relojMinutos) : tiempoRestanteCarga;
+
+                    let avance = Math.min(tiempoRestanteCarga, limiteHastaReceso);
+                    let finBloqueCarga = inicioBloqueCarga + avance;
+                    
+                    tiempoRestanteCarga -= avance;
+                    relojMinutos = finBloqueCarga;
+
+                    let efiCarga = c.meta > 0 ? ((c.hechas / c.meta) * 100).toFixed(1) : "0.0";
+                    let duracionMinsTexto = Math.round(avance);
+
+                    html += `
+                        <div class="time-row carga">
+                            <div>
+                                <b>CARGA #${idx + 1}</b> | Meta: ${c.meta} | Hechas: ${c.hechas} 
+                                <span style="color: var(--aura-color); margin-left: 8px;">(${efiCarga}% Efi - ${duracionMinsTexto} min)</span>
+                            </div>
+                            <div class="hora">${formatoHora(inicioBloqueCarga)} - ${formatoHora(finBloqueCarga)}</div>
+                        </div>
+                    `;
+
+                    inicioBloqueCarga = relojMinutos;
+                }
+            });
+
+            let recesoFinal = RECESOS.find(r => relojMinutos >= r.inicioMin && relojMinutos < r.finMin);
+            if (recesoFinal) {
+                html += `
+                    <div class="time-row receso">
+                        <div><b>PARO FIJO:</b> ${recesoFinal.nombre} (${recesoFinal.label})</div>
+                        <div class="hora">${recesoFinal.duracion} MIN</div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        const manifestObj = {
+            "name": "MetaFlow App",
+            "short_name": "MetaFlow",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#050508",
+            "theme_color": "#00f3ff"
+        };
+
+        const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/json'});
+        document.getElementById('manifest-placeholder').setAttribute('href', URL.createObjectURL(manifestBlob));
+    </script>
+</body>
+</html>
