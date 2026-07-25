@@ -2,205 +2,261 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meta Flow - PWA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>META FLOW - PWA EDITION</title>
+    
+    <!-- PWA Setup via Blob URL (Manifest inyectado sin archivos externos) -->
+    <link rel="manifest" id="manifest-placeholder">
+    <meta name="theme-color" content="#050508">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Meta Flow">
+
     <style>
         :root {
             --bg-dark: #050508;
-            --panel-bg: rgba(10, 12, 20, 0.85);
+            --panel-bg: rgba(10, 12, 22, 0.88);
             --neon-cyan: #00f3ff;
             --neon-magenta: #d946ef;
             --neon-green: #39ff14;
             --neon-yellow: #ffea00;
+            --neon-orange: #ff5e00;
             --text-main: #f8fafc;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
 
         body {
             background-color: var(--bg-dark);
-            background-image: linear-gradient(rgba(5, 5, 8, 0.9), rgba(5, 5, 8, 0.9)), url('https://images.unsplash.com/photo-1614729939124-032d0b56c9ce?q=80&w=2000&auto=format&fit=crop');
+            background-image: radial-gradient(circle at center, rgba(0, 243, 255, 0.1) 0%, rgba(5, 5, 8, 0.95) 100%), 
+                              url('https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=2000&auto=format&fit=crop');
             background-size: cover;
+            background-position: center;
             background-attachment: fixed;
             color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
+        /* --- SPLASH SCREEN ANIMACIONES --- */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000; z-index: 1000;
+            background: #000; z-index: 2000;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 1s ease-out;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
             overflow: hidden;
         }
 
-        .shenron-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://i.pinimg.com/originals/a0/0b/cc/a00bcce9d7240c1eebfbe4d693beaa1c.gif') center/cover;
-            opacity: 0.4; pointer-events: none;
-        }
-
-        /* Animación de Shenlong cruzando la pantalla */
+        /* Shenlong Volando */
         .shenron-flyer {
-            position: absolute; width: 300px; pointer-events: none; z-index: 1;
-            animation: flyShenron 4s linear infinite;
-            opacity: 0.7;
+            position: absolute; width: 450px; pointer-events: none; z-index: 1;
+            filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.8));
+            animation: flyShenron 8s linear infinite;
         }
         @keyframes flyShenron {
-            0% { transform: translate(-350px, 150px) rotate(-15deg); }
-            50% { transform: translate(calc(100vw + 150px), -100px) rotate(10deg); }
-            100% { transform: translate(-350px, 150px) rotate(-15deg); }
+            0% { transform: translate(-450px, 60vh) rotate(-10deg) scale(0.8); }
+            50% { transform: translate(50vw, 10vh) rotate(5deg) scale(1.1); }
+            100% { transform: translate(calc(100vw + 450px), -20vh) rotate(-10deg) scale(0.8); }
         }
 
+        /* Goku en Nube Voladora */
+        .goku-cloud {
+            position: absolute; width: 140px; pointer-events: none; z-index: 2;
+            animation: flyCloud 6s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 12px var(--neon-yellow));
+        }
+        @keyframes flyCloud {
+            0% { transform: translate(-180%, 20px) scaleX(1); }
+            100% { transform: translate(180%, -30px) scaleX(1); }
+        }
+
+        /* Esferas del Dragón con Estrellas Reales (1-7) */
         .dragon-balls-container {
-            display: flex; gap: 15px; margin-bottom: 30px; z-index: 2;
+            display: flex; gap: 12px; margin-bottom: 25px; z-index: 3; flex-wrap: wrap; justify-content: center;
         }
-
         .dragon-ball {
-            width: 35px; height: 35px;
-            background: radial-gradient(circle at 30% 30%, #ffaa00, #ff4500);
+            width: 42px; height: 42px;
+            background: radial-gradient(circle at 35% 35%, #fff066, #ff9900 60%, #cc3300 100%);
             border-radius: 50%;
-            box-shadow: 0 0 15px #ff4500, inset 0 0 10px rgba(255,255,255,0.5);
-            animation: bounce 1.5s infinite alternate;
+            box-shadow: 0 0 15px #ff6600, inset 0 0 8px rgba(255,255,255,0.8);
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+            padding: 6px; position: relative;
+            animation: bounceBall 1.8s ease-in-out infinite alternate;
         }
-        .dragon-ball:nth-child(2) { animation-delay: 0.2s; }
-        .dragon-ball:nth-child(3) { animation-delay: 0.4s; }
-        .dragon-ball:nth-child(4) { animation-delay: 0.6s; }
-        .dragon-ball:nth-child(5) { animation-delay: 0.8s; }
-        .dragon-ball:nth-child(6) { animation-delay: 1.0s; }
-        .dragon-ball:nth-child(7) { animation-delay: 1.2s; }
+        .dragon-ball span { color: #cc0000; font-size: 8px; line-height: 8px; text-shadow: 0 0 2px #fff; }
+        .dragon-ball:nth-child(1) { animation-delay: 0.1s; }
+        .dragon-ball:nth-child(2) { animation-delay: 0.3s; }
+        .dragon-ball:nth-child(3) { animation-delay: 0.5s; }
+        .dragon-ball:nth-child(4) { animation-delay: 0.7s; }
+        .dragon-ball:nth-child(5) { animation-delay: 0.9s; }
+        .dragon-ball:nth-child(6) { animation-delay: 1.1s; }
+        .dragon-ball:nth-child(7) { animation-delay: 1.3s; }
 
-        @keyframes bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-15px); box-shadow: 0 20px 25px #ff4500; } }
+        @keyframes bounceBall {
+            0% { transform: translateY(0); box-shadow: 0 0 12px #ff6600; }
+            100% { transform: translateY(-18px); box-shadow: 0 15px 20px #ff6600; }
+        }
 
         .login-box {
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(8, 10, 18, 0.92);
             border: 2px solid var(--neon-cyan);
-            box-shadow: 0 0 25px rgba(0, 243, 255, 0.5);
-            padding: 30px; border-radius: 15px; z-index: 5;
-            text-align: center; width: 90%; max-width: 400px;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.4), inset 0 0 15px rgba(0, 243, 255, 0.2);
+            padding: 30px; border-radius: 16px; z-index: 5;
+            text-align: center; width: 90%; max-width: 380px; backdrop-filter: blur(10px);
+        }
+        .login-box h1 { color: var(--neon-cyan); margin-bottom: 5px; font-size: 2.2rem; letter-spacing: 2px; text-shadow: 0 0 12px var(--neon-cyan); }
+        .login-input {
+            width: 100%; padding: 14px; margin: 20px 0;
+            background: #050508; border: 1.5px solid var(--neon-magenta);
+            color: #fff; border-radius: 8px; font-size: 1.2rem; text-align: center; outline: none;
+            box-shadow: inset 0 0 8px rgba(217, 70, 239, 0.3);
+        }
+        .login-input:focus { box-shadow: 0 0 15px var(--neon-magenta); border-color: #fff; }
+
+        /* --- MEMBRETE SEVEN DEADLY SINS --- */
+        .sins-header-banner {
+            width: 100%; background: linear-gradient(180deg, rgba(20, 5, 30, 0.95) 0%, rgba(5, 5, 8, 0.85) 100%);
+            border-bottom: 2px solid var(--neon-magenta);
+            box-shadow: 0 0 25px rgba(217, 70, 239, 0.4);
+            padding: 15px 20px; display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 100; backdrop-filter: blur(8px);
+        }
+        .sins-logo-container { display: flex; align-items: center; gap: 15px; }
+        .sins-symbol {
+            width: 50px; height: 50px; border-radius: 50%;
+            border: 2px solid var(--neon-magenta);
+            box-shadow: 0 0 15px var(--neon-magenta);
+            object-fit: cover;
+        }
+        .sins-title {
+            font-size: 1.4rem; font-weight: 900; color: #fff; text-transform: uppercase;
+            letter-spacing: 3px; text-shadow: 0 0 10px var(--neon-magenta), 0 0 20px var(--neon-cyan);
         }
 
-        .login-box h1 { color: var(--neon-cyan); margin-bottom: 10px; text-transform: uppercase; font-size: 2rem; text-shadow: 0 0 10px var(--neon-cyan); }
-        .login-input {
-            width: 100%; padding: 12px; margin-bottom: 15px;
-            background: #111; border: 1px solid var(--neon-magenta);
-            color: #fff; border-radius: 8px; font-size: 1.1rem; text-align: center;
-            outline: none; transition: 0.3s;
+        #app-main { display: none; padding: 20px; max-width: 1100px; margin: 0 auto; }
+
+        .paros-container {
+            background: var(--panel-bg); border: 1px solid var(--neon-yellow);
+            border-radius: 12px; padding: 15px; margin: 20px 0;
+            display: flex; gap: 15px; align-items: center; flex-wrap: wrap;
+            box-shadow: 0 0 15px rgba(255, 234, 0, 0.15);
         }
-        .login-input:focus { box-shadow: 0 0 15px var(--neon-magenta); }
-        
+        .paros-container h4 { color: var(--neon-yellow); width: 100%; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        .carga-card {
+            background: var(--panel-bg); border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 12px; padding: 15px; margin-bottom: 15px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5); position: relative;
+        }
+
+        .input-group label { display: block; font-size: 0.75rem; color: var(--neon-cyan); margin-bottom: 5px; text-transform: uppercase; }
+        .input-group input {
+            width: 100%; padding: 10px; background: #080910; border: 1px solid #333;
+            color: #fff; border-radius: 6px; font-size: 1.1rem; outline: none;
+        }
+        .input-group input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 8px var(--neon-cyan); }
+
         .btn-neon {
             background: transparent; color: #fff; font-weight: bold;
-            padding: 12px 30px; border: 2px solid var(--neon-cyan); border-radius: 8px;
+            padding: 12px 25px; border: 2px solid var(--neon-cyan); border-radius: 8px;
             cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
-            transition: 0.3s; width: 100%; font-size: 1.1rem;
+            transition: 0.3s; width: 100%; font-size: 1rem;
         }
         .btn-neon:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 20px var(--neon-cyan); }
 
-        #app-main { display: none; padding: 20px; max-width: 1200px; margin: 0 auto; }
-        
-        .header-bar {
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 2px solid var(--neon-magenta); padding-bottom: 15px; margin-bottom: 20px;
+        .btn-add {
+            background: linear-gradient(90deg, var(--neon-magenta), #8b5cf6);
+            border: none; color: white; padding: 14px; width: 100%; border-radius: 8px;
+            font-weight: bold; cursor: pointer; margin-bottom: 25px;
+            box-shadow: 0 0 15px rgba(217, 70, 239, 0.4); text-transform: uppercase; letter-spacing: 1.5px;
         }
-        .header-title { font-size: 1.8rem; font-weight: 900; color: var(--neon-cyan); text-shadow: 0 0 8px var(--neon-cyan); }
-        .header-sub { font-size: 0.8rem; color: #aaa; text-transform: uppercase; }
-        
-        .carga-card {
-            background: var(--panel-bg); border: 1px solid rgba(217, 70, 239, 0.3);
-            border-radius: 12px; padding: 15px; margin-bottom: 15px;
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-        }
-        
-        .input-group label { display: block; font-size: 0.75rem; color: var(--neon-cyan); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
-        .input-group input {
-            width: 100%; padding: 10px; background: #0a0b10; border: 1px solid #333;
-            color: #fff; border-radius: 6px; font-size: 1.2rem; outline: none;
-        }
-        
-        .paros-container {
-            background: var(--panel-bg); border: 1px solid var(--neon-yellow);
-            border-radius: 12px; padding: 15px; margin-bottom: 20px;
-            display: flex; gap: 15px; align-items: center; flex-wrap: wrap;
-        }
-        .paros-container h4 { color: var(--neon-yellow); width: 100%; font-size: 0.9rem; text-transform: uppercase; }
 
-        .btn-add { background: var(--neon-magenta); border: none; color: white; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 20px; box-shadow: 0 0 10px rgba(217, 70, 239, 0.5); }
-
+        /* --- BANNER GOKU & EFICIENCIA --- */
         .banner-eficiencia {
-            background: linear-gradient(90deg, #00f3ff22, var(--panel-bg), #00f3ff22);
-            border: 2px solid var(--neon-cyan); border-radius: 15px;
-            text-align: center; padding: 25px; margin: 20px 0;
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
-            display: flex; flex-direction: column; align-items: center; position: relative;
+            background: linear-gradient(135deg, rgba(10, 12, 24, 0.95), rgba(20, 5, 30, 0.9));
+            border: 2px solid var(--neon-cyan); border-radius: 16px;
+            padding: 25px; margin: 25px 0; text-align: center;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.25);
         }
-
-        .goku-container {
-            display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 10px;
-        }
+        .goku-container { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 15px; }
         .goku-avatar {
-            width: 90px; height: 90px; border-radius: 50%; object-fit: cover;
-            border: 3px solid var(--neon-cyan); box-shadow: 0 0 20px var(--neon-cyan);
-            background: #111;
+            width: 110px; height: 110px; border-radius: 50%; object-fit: cover;
+            border: 4px solid var(--neon-cyan); box-shadow: 0 0 25px var(--neon-cyan);
+            transition: all 0.5s ease;
         }
-        .eficiencia-valor { font-size: 3.5rem; font-weight: 900; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.8); line-height: 1; }
-        .eficiencia-label { font-size: 0.9rem; color: var(--neon-cyan); font-weight: bold; text-transform: uppercase; margin-top: 5px; letter-spacing: 2px; }
-        .goku-form-title { font-size: 1rem; color: var(--neon-yellow); text-transform: uppercase; font-weight: bold; text-shadow: 0 0 8px var(--neon-yellow); }
-
+        .eficiencia-valor { font-size: 3.8rem; font-weight: 900; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.9); }
+        
         .stats-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 15px; width: 100%; color: #000; font-weight: bold; font-size: 0.9rem; text-align: center;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 15px;
         }
-        .stat-box { background: rgba(255,255,255,0.85); padding: 8px; border-radius: 6px; }
+        .stat-box { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 10px; border-radius: 8px; color: #fff; font-size: 0.85rem; }
+        .stat-box span { display: block; font-size: 1.2rem; font-weight: bold; color: var(--neon-cyan); margin-top: 3px; }
 
-        .timeline-box {
-            background: var(--panel-bg); border-radius: 12px; border: 1px solid #333;
-            overflow: hidden; margin-bottom: 30px;
-        }
-        .time-row {
-            display: flex; justify-content: space-between; padding: 15px 20px;
-            border-bottom: 1px solid #222; font-size: 0.9rem;
-        }
-        .time-row.carga { color: #fff; border-left: 4px solid var(--neon-cyan); }
-        .time-row.receso { color: var(--neon-yellow); background: rgba(255, 234, 0, 0.05); border-left: 4px solid var(--neon-yellow); }
-        .time-row .hora { font-weight: bold; color: var(--neon-cyan); font-size: 1.1rem; }
-        .time-row.receso .hora { color: var(--neon-green); }
+        /* --- TIMELINE DE BITACORA --- */
+        .timeline-box { background: var(--panel-bg); border-radius: 12px; border: 1px solid #2a2d3d; overflow: hidden; margin-top: 15px; }
+        .time-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
+        .time-row.carga { border-left: 4px solid var(--neon-cyan); color: #fff; }
+        .time-row.receso { border-left: 4px solid var(--neon-yellow); background: rgba(255, 234, 0, 0.04); color: var(--neon-yellow); }
+        .time-row .hora { font-weight: bold; color: var(--neon-cyan); }
+        .time-row.receso .hora { color: var(--neon-yellow); }
     </style>
 </head>
 <body>
 
+    <!-- PWA Installation Prompt Banner -->
+    <div id="pwa-install-banner" style="display:none; background: var(--neon-magenta); color:#fff; text-align:center; padding:10px; font-weight:bold; cursor:pointer;" onclick="instalarPWA()">
+        📲 ¡Toca aquí para instalar META FLOW como App en tu teléfono!
+    </div>
+
+    <!-- LOGIN / SPLASH SCREEN -->
     <div id="splash-screen">
-        <div class="shenron-bg"></div>
-        <img class="shenron-flyer" src="https://i.pinimg.com/originals/a0/0b/cc/a00bcce9d7240c1eebfbe4d693beaa1c.gif" alt="Shenron">
-        <div class="dragon-balls-container">
-            <div class="dragon-ball"></div><div class="dragon-ball"></div><div class="dragon-ball"></div>
-            <div class="dragon-ball"></div><div class="dragon-ball"></div><div class="dragon-ball"></div><div class="dragon-ball"></div>
+        <img class="shenron-flyer" src="https://i.pinimg.com/originals/a0/0b/cc/a00bcce9d7240c1eebfbe4d693beaa1c.gif" alt="Super Shenlong">
+        
+        <div style="position: relative; width: 100%; display: flex; justify-content: center;">
+            <img class="goku-cloud" src="https://png.pngtree.com/png-clipart/20220823/ourmid/pngtree-goku-riding-flying-nimbus-cloud-vector-png-image_6121481.png" alt="Goku Nube Voladora">
         </div>
+
+        <div class="dragon-balls-container">
+            <div class="dragon-ball"><span>★</span></div>
+            <div class="dragon-ball"><span>★<br>★</span></div>
+            <div class="dragon-ball"><span>★<br>★ ★</span></div>
+            <div class="dragon-ball"><span>★★<br>★★</span></div>
+            <div class="dragon-ball"><span>★★<br>★<br>★★</span></div>
+            <div class="dragon-ball"><span>★★★<br>★★★</span></div>
+            <div class="dragon-ball"><span>★★★<br>★<br>★★★</span></div>
+        </div>
+
         <div class="login-box">
             <h1>META FLOW</h1>
-            <p style="color: #aaa; margin-bottom: 20px; font-size: 0.8rem;">SISTEMA DE EFICIENCIA DRAGON BALL</p>
-            <input type="password" id="pin" class="login-input" placeholder="INGRESA TU PIN" autocomplete="off">
-            <button class="btn-neon" onclick="verificarAcceso()">Verificar Ki</button>
-            <p id="error-msg" style="color: #ff4500; margin-top: 15px; font-size: 0.9rem; display: none;"></p>
+            <p style="color: #aaa; font-size: 0.8rem; letter-spacing: 1px;">PWA EDICIÓN NANATSU & DRAGON BALL</p>
+            <input type="password" id="pin" class="login-input" placeholder="PIN DE ACCESO" maxlength="6" inputmode="numeric">
+            <button class="btn-neon" onclick="verificarAcceso()">INGRESAR KI</button>
+            <p id="error-msg" style="color: #ff4500; margin-top: 12px; font-size: 0.85rem; display: none;"></p>
+        </div>
+    </div>
+
+    <!-- MEMBRETE SEVEN DEADLY SINS -->
+    <div class="sins-header-banner">
+        <div class="sins-logo-container">
+            <img class="sins-symbol" src="https://i.pinimg.com/originals/78/14/ef/7814efd2ce450414436573c734954d24.jpg" alt="7 Sins Symbol">
+            <div>
+                <div class="sins-title">NANATSU - META FLOW</div>
+                <div style="font-size: 0.75rem; color: var(--neon-cyan); letter-spacing: 1px;" id="nombre-usuario">SISTEMA ACTIVO</div>
+            </div>
+        </div>
+        <div style="text-align: right; font-size: 0.8rem; color: #aaa;">
+            <div>TURNO DE 11 hrs</div>
+            <div style="color: var(--neon-green); font-weight: bold;">07:00 AM - 07:00 PM</div>
         </div>
     </div>
 
     <div id="app-main">
-        <div class="header-bar">
-            <div>
-                <div class="header-title">META FLOW</div>
-                <div class="header-sub">Cuadre Dinámico (07:00 AM - 07:00 PM)</div>
-            </div>
-            <div style="text-align: right;">
-                <div style="color: var(--neon-magenta); font-weight: bold; font-size: 1.2rem;" id="nombre-usuario">Usuario</div>
-                <div class="header-sub">🟢 Conectado</div>
-            </div>
-        </div>
 
-        <!-- SECCIÓN DE TIEMPOS DE PAROS (OFF) -->
+        <!-- CONTENEDOR DE PAROS -->
         <div class="paros-container">
-            <h4>⏱️ Tiempos de Paros / Muertos (OFF)</h4>
+            <h4>⏱️ Paros Externos / Tiempo Muerto (OFF)</h4>
             <div class="input-group" style="flex: 1; min-width: 120px;">
                 <label>Horas Paro</label>
                 <input type="number" id="paro-horas" value="0" min="0" oninput="calcularTodo()">
@@ -215,39 +271,40 @@
         
         <button class="btn-add" onclick="agregarCarga()">+ AÑADIR NUEVA CARGA</button>
 
+        <!-- BANNER DE EFICIENCIA & GOKU TRANSFORMACIONES NEÓN -->
         <div class="banner-eficiencia">
             <div class="goku-container">
                 <img id="goku-img" class="goku-avatar" src="https://i.pinimg.com/originals/82/80/7e/82807e60b299a365f57a0753a3e66bbd.gif" alt="Goku Form">
                 <div>
                     <div class="eficiencia-valor" id="efi-final">0.00%</div>
-                    <div class="goku-form-title" id="goku-form-nombre">Goku Niño (Pelo Negro)</div>
+                    <div id="goku-form-nombre" style="font-size: 1.1rem; color: var(--neon-yellow); font-weight: bold; text-shadow: 0 0 10px var(--neon-yellow);">Goku Base</div>
                 </div>
             </div>
-            <div class="eficiencia-label">Eficiencia Final del Turno</div>
             <div class="stats-grid">
-                <div class="stat-box">META ON: <span id="meta-on">0</span></div>
-                <div class="stat-box">DOCENAS OFF: <span id="docenas-off">0</span></div>
-                <div class="stat-box">META FINAL: <span id="meta-final">0</span></div>
-                <div class="stat-box">HECHAS: <span id="hechas-total">0</span></div>
+                <div class="stat-box">META ON<span><b id="meta-on">0</b></span></div>
+                <div class="stat-box">DOCENAS OFF<span><b id="docenas-off">0</b></span></div>
+                <div class="stat-box">META FINAL<span><b id="meta-final">0</b></span></div>
+                <div class="stat-box">DOCENAS HECHAS<span><b id="hechas-total">0</b></span></div>
             </div>
         </div>
 
-        <h3 style="color: var(--neon-cyan); margin-bottom: 15px; text-transform: uppercase;">Reporte Cuadre de Turno (07:00 AM - 07:00 PM)</h3>
+        <h3 style="color: var(--neon-cyan); letter-spacing: 1.5px; text-transform: uppercase;"> Bitácora de Cuadre Exacto (07:00 AM - 07:00 PM)</h3>
         <div class="timeline-box" id="timeline-container"></div>
     </div>
 
     <script>
+        // Cargas iniciales
         let cargas = [
-            { id: 1, meta: 370, hechas: 54 },
-            { id: 2, meta: 700, hechas: 120 }
+            { id: 1, meta: 370, hechas: 57 },
+            { id: 2, meta: 560, hechas: 200 },
+            { id: 3, meta: 700, hechas: 126 }
         ];
-        const HORAS_TRABAJABLES = 11;
-        const TOTAL_MINUTOS_TRABAJO = 660; // 11 horas netas (7:00 AM - 7:00 PM menos recesos fijos)
-        
+
+        const TOTAL_MINUTOS_TRABAJO = 660; // 11 horas efectivas
         const RECESOS = [
-            { id: 'r1', nombre: 'Receso 8:10 AM - 8:25 AM', min_inicio: 70, min_fin: 85, duracion: 15 },
-            { id: 'r2', nombre: 'Almuerzo 11:20 AM - 11:50 AM', min_inicio: 260, min_fin: 290, duracion: 30 },
-            { id: 'r3', nombre: 'Receso 3:10 PM - 3:25 PM', min_inicio: 490, min_fin: 505, duracion: 15 }
+            { id: 'r1', nombre: 'Receso Mañana', inicioMin: 70, finMin: 85, duracion: 15, label: '08:10 AM - 08:25 AM' },
+            { id: 'r2', nombre: 'Almuerzo', inicioMin: 260, finMin: 290, duracion: 30, label: '11:20 AM - 11:50 AM' },
+            { id: 'r3', nombre: 'Receso Tarde', inicioMin: 490, finMin: 505, duracion: 15, label: '03:10 PM - 03:25 PM' }
         ];
 
         const usuariosAutorizados = [
@@ -256,40 +313,38 @@
             { pin: "8198", nombre: "Carlos David Garcia 🦅" },
             { pin: "1734", nombre: "Libny Castillo ⚡" },
             { pin: "4321", nombre: "Derick Alexander Carvajal 🔥" },
-            { pin: "3455", nombre: "Josué Rivera 🌀" },
-            { pin: "1301", nombre: "Olvin Ramírez 🧠" },
-            { pin: "2064", nombre: "Arnoldo Alvarenga 🤠" },
-            { pin: "2711", nombre: "Yervi Mejia 🐯" },
-            { pin: "3855", nombre: "Yeison Murillo 💀" },
-            { pin: "5037", nombre: "Kevin Díaz 🍃" },
-            { pin: "4005", nombre: "Erik Rosales ❄️" },
-            { pin: "1507", nombre: "Fernando Sanchez 🦾" },
-            { pin: "3307", nombre: "Edwin Alvarado 👑" },
-            { pin: "3310", nombre: "Angel Flores 🏹" },
             { pin: "1800", nombre: "Usuario Invitado 🗺️" }
         ];
 
-        async function verificarAcceso() {
+        function verificarAcceso() {
             const pinIngresado = document.getElementById('pin').value;
             const usuario = usuariosAutorizados.find(u => u.pin === pinIngresado);
             if (usuario) {
-                document.getElementById('nombre-usuario').innerText = "Tripulante: " + usuario.nombre;
-                document.getElementById('splash-screen').style.opacity = '0';
+                document.getElementById('nombre-usuario').innerText = "CABALLERO: " + usuario.nombre.toUpperCase();
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
                 setTimeout(() => {
-                    document.getElementById('splash-screen').style.display = 'none';
+                    splash.style.display = 'none';
                     document.getElementById('app-main').style.display = 'block';
                     renderizarCargas();
                 }, 800);
             } else {
                 const errorMsg = document.getElementById('error-msg');
-                errorMsg.innerText = "PIN incorrecto. Nivel de Ki insuficiente.";
+                errorMsg.innerText = "PIN Incorrecto. Poder Neón Insuficiente.";
                 errorMsg.style.display = 'block';
             }
         }
 
         function agregarCarga() {
-            cargas.push({ id: cargas.length + 1, meta: 0, hechas: 0 });
+            cargas.push({ id: cargas.length + 1, meta: 500, hechas: 100 });
             renderizarCargas();
+        }
+
+        function eliminarCarga(index) {
+            if (cargas.length > 1) {
+                cargas.splice(index, 1);
+                renderizarCargas();
+            }
         }
 
         function actualizarValor(index, campo, valor) {
@@ -305,8 +360,8 @@
                 container.innerHTML += `
                     <div class="carga-card">
                         <div class="input-group">
-                            <label>Carga ${c.id}</label>
-                            <input type="text" value="CARGA #${c.id}" disabled style="color: var(--neon-magenta); font-weight: bold;">
+                            <label>Carga #${index + 1}</label>
+                            <input type="text" value="CARGA #${index + 1}" disabled style="color: var(--neon-magenta); font-weight: bold;">
                         </div>
                         <div class="input-group">
                             <label>Meta Docenas</label>
@@ -314,162 +369,181 @@
                         </div>
                         <div class="input-group">
                             <label>Docenas Hechas</label>
-                            <input type="number" value="${c.hechas}" oninput="actualizarValor(${index}, 'hechas', this.value)" style="color: var(--neon-cyan); border-color: var(--neon-cyan);">
+                            <input type="number" value="${c.hechas}" oninput="actualizarValor(${index}, 'hechas', this.value)" style="color: var(--neon-cyan);">
                         </div>
+                        <button onclick="eliminarCarga(${index})" style="position: absolute; right: 10px; top: 10px; background: transparent; border: none; color: #ff4500; cursor: pointer; font-weight: bold;">✕</button>
                     </div>
                 `;
             });
             calcularTodo();
         }
 
-        function formatoHora(minutosTotales) {
-            let h = Math.floor(minutosTotales / 60) + 7; 
+        function formatoHora(minutosDesde7AM) {
+            let totalMins = 7 * 60 + minutosDesde7AM;
+            let h = Math.floor(totalMins / 60);
+            let m = Math.floor(totalMins % 60);
             let ampm = h >= 12 ? 'PM' : 'AM';
-            if (h > 12) h -= 12;
-            let m = Math.floor(minutosTotales % 60);
-            return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
+            let displayH = h > 12 ? h - 12 : h;
+            if (displayH === 0) displayH = 12;
+            return `${displayH.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
         }
 
         function actualizarGokuAvatar(eficiencia) {
             let img = document.getElementById('goku-img');
             let nombre = document.getElementById('goku-form-nombre');
-            let borderColor = "#00f3ff";
-            
-            if (eficiencia <= 15) {
-                nombre.innerText = "Goku Niño (Pelo Negro)";
+            let color = "#00f3ff";
+
+            if (eficiencia < 30) {
+                nombre.innerText = "Goku Base Neón";
                 img.src = "https://i.pinimg.com/originals/82/80/7e/82807e60b299a365f57a0753a3e66bbd.gif";
-                borderColor = "#00f3ff";
-            } else if (eficiencia <= 30) {
-                nombre.innerText = "Super Saiyan";
+                color = "#00f3ff";
+            } else if (eficiencia < 50) {
+                nombre.innerText = "Super Saiyan Amarillo Neón";
                 img.src = "https://i.pinimg.com/originals/3d/1a/53/3d1a5357876a91176b2c6a0110bf6c35.gif";
-                borderColor = "#ffea00";
-            } else if (eficiencia <= 45) {
-                nombre.innerText = "Super Saiyan 2";
-                img.src = "https://i.pinimg.com/originals/11/47/40/114740e797c23bc949ef9b0e3d23f317.gif";
-                borderColor = "#ffaa00";
-            } else if (eficiencia <= 65) {
-                nombre.innerText = "Super Saiyan 3";
+                color = "#ffea00";
+            } else if (eficiencia < 70) {
+                nombre.innerText = "Super Saiyan 2 / 3 Neón";
                 img.src = "https://i.pinimg.com/originals/8b/6d/4d/8b6d4d16d16f8ef1d898cf4a0b22a9f5.gif";
-                borderColor = "#ff6600";
-            } else if (eficiencia <= 80) {
-                nombre.innerText = "Super Saiyan 4";
-                img.src = "https://i.pinimg.com/originals/c3/84/c6/c384c6c216b251efd630bb88da8158d3.gif";
-                borderColor = "#ff0055";
-            } else if (eficiencia <= 90) {
-                nombre.innerText = "Super Saiyan Dios";
+                color = "#ff5e00";
+            } else if (eficiencia < 85) {
+                nombre.innerText = "Super Saiyan Dios Rojo Neón";
                 img.src = "https://i.pinimg.com/originals/7a/7d/51/7a7d517c5b6b29d494f47dc6ef7e6e58.gif";
-                borderColor = "#ff2222";
-            } else if (eficiencia <= 99) {
-                nombre.innerText = "Super Saiyan Blue";
+                color = "#ff0055";
+            } else if (eficiencia < 98) {
+                nombre.innerText = "Super Saiyan Blue Neón";
                 img.src = "https://i.pinimg.com/originals/24/6e/c3/246ec3e69622d1df3b44b82c42d3c907.gif";
-                borderColor = "#00bfff";
+                color = "#00bfff";
             } else {
-                nombre.innerText = "Modo Ultra Instinto ⚡";
+                nombre.innerText = "Ultra Instinto Plateado Neón ⚡";
                 img.src = "https://i.pinimg.com/originals/36/6f/33/366f33d45c11bc356c9d09dc6ef943b0.gif";
-                borderColor = "#39ff14";
+                color = "#39ff14";
             }
-            img.style.borderColor = borderColor;
-            img.style.boxShadow = `0 0 20px ${borderColor}`;
+            img.style.borderColor = color;
+            img.style.boxShadow = `0 0 25px ${color}`;
+            nombre.style.color = color;
         }
 
         function calcularTodo() {
-            let sumaMetas = cargas.reduce((sum, c) => sum + c.meta, 0);
-            let cantidadCargas = cargas.length > 0 ? cargas.length : 1;
+            let sumaMetas = cargas.reduce((acc, c) => acc + c.meta, 0);
+            let sumaHechas = cargas.reduce((acc, c) => acc + c.hechas, 0);
             
-            // 1. Meta ON = Suma de las metas de cada carga / cantidad de cargas
-            let metaOn = sumaMetas / cantidadCargas;
+            let metaOn = cargas.length > 0 ? (sumaMetas / cargas.length) : 0;
 
-            // 2. Cálculo de Paros (OFF)
             let pHoras = parseFloat(document.getElementById('paro-horas').value) || 0;
             let pMinutos = parseFloat(document.getElementById('paro-minutos').value) || 0;
-            let tiempoMuertoHoras = pHoras + (pMinutos / 60);
+            let horasParoTotales = pHoras + (pMinutos / 60);
 
-            let tasaPorHora = metaOn / HORAS_TRABAJABLES;
-            let docenasOff = tasaPorHora * tiempoMuertoHoras;
+            let tasaPorHora = metaOn / 11;
+            let docenasOff = tasaPorHora * horasParoTotales;
+            let metaFinal = Math.max(0, metaOn - docenasOff);
 
-            // 3. Meta Final = Meta ON - Docenas Off
-            let metaFinal = metaOn - docenasOff;
-            if (metaFinal < 0) metaFinal = 0;
+            let eficienciaFinal = metaFinal > 0 ? (sumaHechas / metaFinal) * 100 : 0;
 
-            // 4. Eficiencia Final = Cantidad de docenas hechas / Meta Final
-            let hechasTotal = cargas.reduce((sum, c) => sum + c.hechas, 0);
-            let eficienciaFinal = metaFinal > 0 ? (hechasTotal / metaFinal) * 100 : 0;
-
-            // Actualizar interfaz visual
             document.getElementById('efi-final').innerText = eficienciaFinal.toFixed(2) + '%';
             document.getElementById('meta-on').innerText = metaOn.toFixed(1);
             document.getElementById('docenas-off').innerText = docenasOff.toFixed(1);
             document.getElementById('meta-final').innerText = metaFinal.toFixed(1);
-            document.getElementById('hechas-total').innerText = hechasTotal;
+            document.getElementById('hechas-total').innerText = sumaHechas;
 
             actualizarGokuAvatar(eficienciaFinal);
-            generarCuadre(eficienciaFinal);
+            generarBitacoraTiempos(eficienciaFinal);
         }
 
-        function generarCuadre(eficienciaFinal) {
+        /* Lógica de tiempos de bitácora basada en el ritmo individual de cada carga */
+        function generarBitacoraTiempos(eficienciaFinal) {
             const container = document.getElementById('timeline-container');
             container.innerHTML = '';
-            
-            let efCalc = eficienciaFinal > 0 ? (eficienciaFinal / 100) : 1;
-            
-            // El tiempo de cada carga depende de su propia meta, sus docenas y la eficiencia final obtenida
-            let rawTimes = cargas.map(c => {
-                let metaCarga = c.meta > 0 ? c.meta : 1;
-                // Ponderación individual de la carga ajustada por la eficiencia final
-                return (metaCarga / efCalc);
-            });
-            
-            let sumaRawTimes = rawTimes.reduce((a, b) => a + b, 0);
 
-            let tiempoAcumulado = 0;
+            let totalHechas = cargas.reduce((a, b) => a + b.hechas, 0);
+
+            // Determinar el peso de tiempo en minutos según el ritmo (docenas hechas) de cada carga
+            let tiemposCargas = cargas.map(c => {
+                let proporcionRitmo = totalHechas > 0 ? (c.hechas / totalHechas) : (1 / cargas.length);
+                return proporcionRitmo * TOTAL_MINUTOS_TRABAJO;
+            });
+
+            let minutosAcumuladosPuros = 0;
             let html = '';
-            let recesoIndex = 0;
 
             cargas.forEach((c, idx) => {
-                let minRequeridos = sumaRawTimes > 0 ? (rawTimes[idx] / sumaRawTimes) * TOTAL_MINUTOS_TRABAJO : TOTAL_MINUTOS_TRABAJO / cargas.length;
-                
-                let minInicioCarga = tiempoAcumulado;
-                let minFinCarga = tiempoAcumulado + minRequeridos;
+                let duracionCarga = tiemposCargas[idx];
+                let inicioCargaPuro = minutosAcumuladosPuros;
+                let finCargaPuro = minutosAcumuladosPuros + duracionCarga;
 
-                // Insertar recesos fijos dentro del horario de la carga que corresponda
-                while (recesoIndex < RECESOS.length && minFinCarga > RECESOS[recesoIndex].min_inicio) {
-                    let r = RECESOS[recesoIndex];
-                    
-                    if (minInicioCarga < r.min_inicio) {
+                // Calcular solapamiento con los 3 recesos fijos
+                let offsetInicio = 0;
+                let offsetFin = 0;
+
+                RECESOS.forEach(r => {
+                    if (inicioCargaPuro >= r.inicioMin) offsetInicio += r.duracion;
+                    if (finCargaPuro > r.inicioMin) offsetFin += r.duracion;
+                });
+
+                let horaInicioReal = inicioCargaPuro + offsetInicio;
+                let horaFinReal = finCargaPuro + offsetFin;
+
+                html += `
+                    <div class="time-row carga">
+                        <div>
+                            <b>CARGA #${idx + 1}</b> (Meta: ${c.meta} | Hechas: ${c.hechas})
+                        </div>
+                        <div class="hora">${formatoHora(horaInicioReal)} - ${formatoHora(horaFinReal)}</div>
+                    </div>
+                `;
+
+                // Insertar etiquetas visuales de recesos intermediarios si coinciden
+                RECESOS.forEach(r => {
+                    if (finCargaPuro >= r.inicioMin && inicioCargaPuro < r.inicioMin) {
                         html += `
-                            <div class="time-row carga">
-                                <div>CARGA ${c.id} (Meta: ${c.meta} | Hechas: ${c.hechas})</div>
-                                <div class="hora">${formatoHora(minInicioCarga)} - ${formatoHora(r.min_inicio)}</div>
+                            <div class="time-row receso">
+                                <div><b>PARO FIJO:</b> ${r.nombre} (${r.label})</div>
+                                <div class="hora">${r.duracion} MIN</div>
                             </div>
                         `;
                     }
-                    
-                    html += `
-                        <div class="time-row receso">
-                            <div>↳ PARO FIJO: ${r.nombre}</div>
-                            <div class="hora">${r.duracion} min</div>
-                        </div>
-                    `;
-                    
-                    minFinCarga += r.duracion;
-                    minInicioCarga = r.min_fin;
-                    tiempoAcumulado = r.min_fin;
-                    recesoIndex++;
-                }
+                });
 
-                if (minInicioCarga < minFinCarga) {
-                    html += `
-                        <div class="time-row carga">
-                            <div>CARGA ${c.id} (Meta: ${c.meta} | Hechas: ${c.hechas})</div>
-                            <div class="hora">${formatoHora(minInicioCarga)} - ${formatoHora(minFinCarga)}</div>
-                        </div>
-                    `;
-                }
-                
-                tiempoAcumulado = minFinCarga;
+                minutosAcumuladosPuros = finCargaPuro;
             });
 
             container.innerHTML = html;
+        }
+
+        /* --- PWA MANIFEST INJECTION & SERVICE WORKER --- */
+        const manifestObj = {
+            "name": "Meta Flow PWA",
+            "short_name": "MetaFlow",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#050508",
+            "theme_color": "#00f3ff",
+            "icons": [{
+                "src": "https://i.pinimg.com/originals/78/14/ef/7814efd2ce450414436573c734954d24.jpg",
+                "sizes": "512x512",
+                "type": "image/jpeg"
+            }]
+        };
+
+        const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/json'});
+        document.getElementById('manifest-placeholder').setAttribute('href', URL.createObjectURL(manifestBlob));
+
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('pwa-install-banner').style.display = 'block';
+        });
+
+        function instalarPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        document.getElementById('pwa-install-banner').style.display = 'none';
+                    }
+                    deferredPrompt = null;
+                });
+            }
         }
     </script>
 </body>
