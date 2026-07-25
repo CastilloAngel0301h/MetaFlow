@@ -27,7 +27,6 @@
             overflow-x: hidden;
         }
 
-        /* --- SPLASH SCREEN & LOGIN --- */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #000; z-index: 1000;
@@ -86,7 +85,6 @@
         }
         .btn-neon:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 20px var(--neon-cyan); }
 
-        /* --- INTERFAZ PRINCIPAL (META FLOW) --- */
         #app-main { display: none; padding: 20px; max-width: 1200px; margin: 0 auto; }
         
         .header-bar {
@@ -101,9 +99,7 @@
             border-radius: 12px; padding: 15px; margin-bottom: 15px;
             display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-            transition: 0.3s;
         }
-        .carga-card:focus-within { border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0, 243, 255, 0.2); }
         
         .input-group label { display: block; font-size: 0.75rem; color: var(--neon-cyan); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
         .input-group input {
@@ -111,16 +107,28 @@
             color: #fff; border-radius: 6px; font-size: 1.2rem; outline: none;
         }
         
+        .paros-container {
+            background: var(--panel-bg); border: 1px solid var(--neon-yellow);
+            border-radius: 12px; padding: 15px; margin-bottom: 20px;
+            display: flex; gap: 15px; align-items: center; flex-wrap: wrap;
+        }
+        .paros-container h4 { color: var(--neon-yellow); width: 100%; font-size: 0.9rem; text-transform: uppercase; }
+
         .btn-add { background: var(--neon-magenta); border: none; color: white; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 20px; box-shadow: 0 0 10px rgba(217, 70, 239, 0.5); }
 
         .banner-eficiencia {
             background: linear-gradient(90deg, #00f3ff22, var(--neon-cyan), #00f3ff22);
             border: 2px solid var(--neon-cyan); border-radius: 15px;
-            text-align: center; padding: 30px; margin: 30px 0;
+            text-align: center; padding: 25px; margin: 20px 0;
             box-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
         }
-        .eficiencia-valor { font-size: 5rem; font-weight: 900; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.8); line-height: 1; }
-        .eficiencia-label { font-size: 1rem; color: #000; font-weight: bold; text-transform: uppercase; margin-top: 10px; letter-spacing: 3px; }
+        .eficiencia-valor { font-size: 4rem; font-weight: 900; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.8); line-height: 1; }
+        .eficiencia-label { font-size: 0.9rem; color: #000; font-weight: bold; text-transform: uppercase; margin-top: 5px; letter-spacing: 2px; }
+
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 15px; color: #000; font-weight: bold; font-size: 0.9rem; text-align: center;
+        }
+        .stat-box { background: rgba(255,255,255,0.7); padding: 8px; border-radius: 6px; }
 
         .timeline-box {
             background: var(--panel-bg); border-radius: 12px; border: 1px solid #333;
@@ -138,7 +146,6 @@
 </head>
 <body>
 
-    <!-- PANTALLA DE INICIO (Shen Long) -->
     <div id="splash-screen">
         <div class="shenron-bg"></div>
         <div class="dragon-balls-container">
@@ -154,16 +161,28 @@
         </div>
     </div>
 
-    <!-- APP PRINCIPAL -->
     <div id="app-main">
         <div class="header-bar">
             <div>
                 <div class="header-title">META FLOW</div>
-                <div class="header-sub">Gestión de 11 Horas de Turno</div>
+                <div class="header-sub">Gestión de Turno (07:00 AM - 07:00 PM)</div>
             </div>
             <div style="text-align: right;">
                 <div style="color: var(--neon-magenta); font-weight: bold; font-size: 1.2rem;" id="nombre-usuario">Usuario</div>
                 <div class="header-sub">🟢 Conectado</div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN DE TIEMPOS DE PAROS (OFF) -->
+        <div class="paros-container">
+            <h4>⏱️ Tiempos de Paros / Muertos (OFF)</h4>
+            <div class="input-group" style="flex: 1; min-width: 120px;">
+                <label>Horas Paro</label>
+                <input type="number" id="paro-horas" value="0" min="0" oninput="calcularTodo()">
+            </div>
+            <div class="input-group" style="flex: 1; min-width: 120px;">
+                <label>Minutos Paro</label>
+                <input type="number" id="paro-minutos" value="0" min="0" max="59" oninput="calcularTodo()">
             </div>
         </div>
 
@@ -174,30 +193,29 @@
         <div class="banner-eficiencia">
             <div class="eficiencia-valor" id="efi-final">0.00%</div>
             <div class="eficiencia-label">Eficiencia Final</div>
-            <div style="display: flex; justify-content: space-around; margin-top: 20px; color: #000; font-weight: bold;">
-                <div>META TOTAL: <span id="meta-total">0</span></div>
-                <div>DOCENAS HECHAS: <span id="hechas-total">0</span></div>
+            <div class="stats-grid">
+                <div class="stat-box">META ON: <span id="meta-on">0</span></div>
+                <div class="stat-box">DOCENAS OFF: <span id="docenas-off">0</span></div>
+                <div class="stat-box">META FINAL: <span id="meta-final">0</span></div>
+                <div class="stat-box">HECHAS: <span id="hechas-total">0</span></div>
             </div>
         </div>
 
-        <h3 style="color: var(--neon-cyan); margin-bottom: 15px; text-transform: uppercase;">Cuadre Exacto (07:00 AM - 07:00 PM)</h3>
-        <div class="timeline-box" id="timeline-container">
-            <!-- Rellenado por JS -->
-        </div>
+        <h3 style="color: var(--neon-cyan); margin-bottom: 15px; text-transform: uppercase;">Reporte Cuadre de Turno (07:00 AM - 07:00 PM)</h3>
+        <div class="timeline-box" id="timeline-container"></div>
     </div>
 
     <script>
         let cargas = [{ id: 1, meta: 550, hechas: 0 }];
-        const HORAS_TURNO = 11;
+        const HORAS_TRABAJABLES = 11;
+        const TOTAL_MINUTOS_TURNO = 660; // 11 horas de trabajo neto
         
-        // Aquí están definidos los recesos (los minutos se calculan desde las 7:00 AM)
         const RECESOS = [
             { id: 'r1', nombre: 'Receso 8:10 AM - 8:25 AM', min_inicio: 70, min_fin: 85, duracion: 15 },
             { id: 'r2', nombre: 'Almuerzo 11:20 AM - 11:50 AM', min_inicio: 260, min_fin: 290, duracion: 30 },
             { id: 'r3', nombre: 'Receso 3:10 PM - 3:25 PM', min_inicio: 490, min_fin: 505, duracion: 15 }
         ];
 
-        // Fallback local en caso de que no se use el backend de Flask
         const usuariosAutorizados = [
             { pin: "2004", nombre: "Angel Castillo 🚢" },
             { pin: "5863", nombre: "Kevin Ramón Pineda ⚔️" },
@@ -219,46 +237,20 @@
 
         async function verificarAcceso() {
             const pinIngresado = document.getElementById('pin').value;
-            
-            try {
-                // Intenta validar con el servidor Flask
-                const res = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ pin: pinIngresado })
-                });
-                
-                const data = await res.json();
-                if(data.success) {
-                    iniciarApp(data.nombre);
-                } else {
-                    mostrarError(data.message);
-                }
-            } catch(e) {
-                // Si el servidor falla o se abre el HTML directamente, valida con el arreglo local
-                const usuario = usuariosAutorizados.find(u => u.pin === pinIngresado);
-                if (usuario) {
-                    iniciarApp(usuario.nombre);
-                } else {
-                    mostrarError("PIN incorrecto. Nivel de Ki insuficiente.");
-                }
+            const usuario = usuariosAutorizados.find(u => u.pin === pinIngresado);
+            if (usuario) {
+                document.getElementById('nombre-usuario').innerText = "Tripulante: " + usuario.nombre;
+                document.getElementById('splash-screen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('splash-screen').style.display = 'none';
+                    document.getElementById('app-main').style.display = 'block';
+                    renderizarCargas();
+                }, 800);
+            } else {
+                const errorMsg = document.getElementById('error-msg');
+                errorMsg.innerText = "PIN incorrecto. Nivel de Ki insuficiente.";
+                errorMsg.style.display = 'block';
             }
-        }
-
-        function iniciarApp(nombreUsuario) {
-            document.getElementById('nombre-usuario').innerText = "Tripulante: " + nombreUsuario;
-            document.getElementById('splash-screen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('splash-screen').style.display = 'none';
-                document.getElementById('app-main').style.display = 'block';
-                renderizarCargas();
-            }, 800);
-        }
-
-        function mostrarError(mensaje) {
-            const errorMsg = document.getElementById('error-msg');
-            errorMsg.innerText = mensaje;
-            errorMsg.style.display = 'block';
         }
 
         function agregarCarga() {
@@ -268,7 +260,7 @@
 
         function actualizarValor(index, campo, valor) {
             cargas[index][campo] = parseFloat(valor) || 0;
-            calcularEficiencia();
+            calcularTodo();
         }
 
         function renderizarCargas() {
@@ -293,27 +285,49 @@
                     </div>
                 `;
             });
-            calcularEficiencia();
+            calcularTodo();
         }
 
         function formatoHora(minutosTotales) {
-            let h = Math.floor(minutosTotales / 60) + 7; // Inicia a las 7 AM
+            let h = Math.floor(minutosTotales / 60) + 7; 
             let ampm = h >= 12 ? 'PM' : 'AM';
             if (h > 12) h -= 12;
             let m = Math.floor(minutosTotales % 60);
             return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
         }
 
-        function calcularEficiencia() {
-            let metaTotal = cargas.reduce((sum, c) => sum + c.meta, 0);
-            let hechasTotal = cargas.reduce((sum, c) => sum + c.hechas, 0);
+        function calcularTodo() {
+            let sumaMetas = cargas.reduce((sum, c) => sum + c.meta, 0);
+            let cantidadCargas = cargas.length > 0 ? cargas.length : 1;
             
-            let eficiencia = metaTotal > 0 ? (hechasTotal / metaTotal) * 100 : 0;
-            document.getElementById('efi-final').innerText = eficiencia.toFixed(2) + '%';
-            document.getElementById('meta-total').innerText = metaTotal;
+            // 1. Meta ON = Suma de las metas de cada carga / cantidad de cargas
+            let metaOn = sumaMetas / cantidadCargas;
+
+            // 2. Cálculo de Paros (OFF) en horas decimales
+            let pHoras = parseFloat(document.getElementById('paro-horas').value) || 0;
+            let pMinutos = parseFloat(document.getElementById('paro-minutos').value) || 0;
+            let tiempoMuertoHoras = pHoras + (pMinutos / 60);
+
+            // Docenas Off = (Meta ON / 11 horas) * Tiempo Muerto
+            let tasaPorHora = metaOn / HORAS_TRABAJABLES;
+            let docenasOff = tasaPorHora * tiempoMuertoHoras;
+
+            // 3. Meta Final = Meta ON - Docenas Off
+            let metaFinal = metaOn - docenasOff;
+            if (metaFinal < 0) metaFinal = 0;
+
+            // 4. Eficiencia Final = Cantidad de docenas hechas / Meta Final
+            let hechasTotal = cargas.reduce((sum, c) => sum + c.hechas, 0);
+            let eficienciaFinal = metaFinal > 0 ? (hechasTotal / metaFinal) * 100 : 0;
+
+            // Actualizar interfaz visual
+            document.getElementById('efi-final').innerText = eficienciaFinal.toFixed(2) + '%';
+            document.getElementById('meta-on').innerText = metaOn.toFixed(1);
+            document.getElementById('docenas-off').innerText = docenasOff.toFixed(1);
+            document.getElementById('meta-final').innerText = metaFinal.toFixed(1);
             document.getElementById('hechas-total').innerText = hechasTotal;
 
-            generarCuadre(eficiencia);
+            generarCuadre(eficienciaFinal);
         }
 
         function generarCuadre(eficiencia) {
@@ -321,29 +335,25 @@
             container.innerHTML = '';
             
             let efCalc = eficiencia > 0 ? eficiencia : 100; 
-            let totalMinutosProduccion = HORAS_TURNO * 60; // 660 minutos reales de trabajo
-            
-            let tiempoAcumulado = 0; // en minutos desde las 07:00
-            let metaTotal = cargas.reduce((sum, c) => sum + c.meta, 0);
+            let tiempoAcumulado = 0; 
+            let metaTotalCargas = cargas.reduce((sum, c) => sum + c.meta, 0);
 
             let html = '';
             let recesoIndex = 0;
 
-            cargas.forEach((c, index) => {
-                if(metaTotal === 0) return;
+            cargas.forEach((c) => {
+                if(metaTotalCargas === 0) return;
                 
-                // Minutos teóricos según eficiencia
-                let proporcion = c.meta / metaTotal;
-                let minRequeridos = (totalMinutosProduccion * proporcion) / (efCalc / 100);
+                // Distribución proporcional del tiempo adaptada a la eficiencia para cuadrar a 12 horas (660 min)
+                let proporcion = c.meta / metaTotalCargas;
+                let minRequeridos = (TOTAL_MINUTOS_TURNO * proporcion) / (efCalc / 100);
                 
                 let minInicioCarga = tiempoAcumulado;
                 let minFinCarga = tiempoAcumulado + minRequeridos;
 
-                // Revisar si la carga proyectada choca o atraviesa un receso fijo
                 while (recesoIndex < RECESOS.length && minFinCarga > RECESOS[recesoIndex].min_inicio) {
                     let r = RECESOS[recesoIndex];
                     
-                    // Imprimir fragmento de carga antes del receso
                     html += `
                         <div class="time-row carga">
                             <div>CARGA ${c.id}</div>
@@ -351,7 +361,6 @@
                         </div>
                     `;
                     
-                    // Imprimir el receso
                     html += `
                         <div class="time-row receso">
                             <div>↳ PARO FIJO: ${r.nombre}</div>
@@ -359,14 +368,12 @@
                         </div>
                     `;
                     
-                    // Desplazar el tiempo restante de la carga sumando la duración del receso
                     minFinCarga += r.duracion;
                     minInicioCarga = r.min_fin;
                     tiempoAcumulado = r.min_fin;
                     recesoIndex++;
                 }
 
-                // Imprimir la parte restante de la carga
                 if (minInicioCarga < minFinCarga) {
                     html += `
                         <div class="time-row carga">
@@ -384,4 +391,3 @@
     </script>
 </body>
 </html>
-
