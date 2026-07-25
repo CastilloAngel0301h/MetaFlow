@@ -2,272 +2,385 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Control de Producción - Saiyan Edition</title>
-    
-    <!-- Configuración PWA / iOS / Android -->
-    <meta name="theme-color" content="#030712">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="MetaSaiyan">
-    
-    <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22Control%20de%20Produccion%20DBZ%22,%22short_name%22:%22MetaSaiyan%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%23030712%22,%22theme_color%22:%22%232563eb%22}">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Flow - PWA</title>
     <style>
         :root {
-            --neon-orange: #ff6600;
-            --neon-blue: #00f0ff;
-            --neon-yellow: #ffee00;
-            --bg-dark: #030712;
-            --card-bg: rgba(15, 23, 42, 0.85);
-            --border-glow: rgba(0, 240, 255, 0.4);
+            --bg-dark: #050508;
+            --panel-bg: rgba(10, 12, 20, 0.85);
+            --neon-cyan: #00f3ff;
+            --neon-magenta: #d946ef;
+            --neon-green: #39ff14;
+            --neon-yellow: #ffea00;
+            --text-main: #f8fafc;
         }
 
-        * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-        
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
         body {
-            margin: 0; padding: 0;
-            background: var(--bg-dark);
-            color: #f8fafc;
-            min-height: 100vh;
-            /* Fondo con aura de energía DBZ */
-            background-image: 
-                radial-gradient(circle at 50% 20%, rgba(255, 102, 0, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 240, 255, 0.1) 0%, transparent 40%),
-                linear-gradient(to bottom, #030712, #0b0f19);
+            background-color: var(--bg-dark);
+            background-image: linear-gradient(rgba(5, 5, 8, 0.9), rgba(5, 5, 8, 0.9)), url('https://images.unsplash.com/photo-1614729939124-032d0b56c9ce?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
             background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* Pantalla de Inicio / Splash Screen */
+        /* --- SPLASH SCREEN & LOGIN --- */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(3, 7, 18, 0.95);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 9999;
-            backdrop-filter: blur(10px);
-            transition: opacity 0.5s ease;
+            background: #000; z-index: 1000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 1s ease-out;
         }
 
-        .dbz-title {
-            font-size: 2.2rem; font-weight: 900; text-align: center;
-            text-transform: uppercase; letter-spacing: 2px;
-            color: #fff;
-            text-shadow: 0 0 10px var(--neon-orange), 0 0 20px var(--neon-orange), 0 0 40px var(--neon-orange);
-            animation: auraPulse 2s infinite alternate;
-            margin-bottom: 2rem;
-            padding: 0 1rem;
+        .shenron-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://i.pinimg.com/originals/a0/0b/cc/a00bcce9d7240c1eebfbe4d693beaa1c.gif') center/cover;
+            opacity: 0.4; pointer-events: none;
         }
 
-        .btn-start {
-            background: linear-gradient(135deg, var(--neon-orange), #d97706);
-            color: #fff; font-weight: bold; font-size: 1.2rem;
-            padding: 1rem 2.5rem; border: none; border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 0 15px var(--neon-orange), inset 0 0 10px rgba(255,255,255,0.5);
-            text-transform: uppercase; letter-spacing: 1px;
-            transition: transform 0.2s, box-shadow 0.2s;
+        .dragon-balls-container {
+            display: flex; gap: 15px; margin-bottom: 40px; z-index: 2;
         }
 
-        .btn-start:active { transform: scale(0.95); }
+        .dragon-ball {
+            width: 40px; height: 40px;
+            background: radial-gradient(circle at 30% 30%, #ffaa00, #ff4500);
+            border-radius: 50%;
+            box-shadow: 0 0 15px #ff4500, inset 0 0 10px rgba(255,255,255,0.5);
+            animation: bounce 1.5s infinite alternate;
+        }
+        .dragon-ball:nth-child(2) { animation-delay: 0.2s; }
+        .dragon-ball:nth-child(3) { animation-delay: 0.4s; }
+        .dragon-ball:nth-child(4) { animation-delay: 0.6s; }
+        .dragon-ball:nth-child(5) { animation-delay: 0.8s; }
+        .dragon-ball:nth-child(6) { animation-delay: 1.0s; }
+        .dragon-ball:nth-child(7) { animation-delay: 1.2s; }
 
-        /* App Principal */
-        .app-container {
-            max-width: 1100px; margin: 0 auto; padding: 1rem;
-            display: none; animation: fadeIn 0.6s ease-out forwards;
+        @keyframes bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-20px); box-shadow: 0 20px 25px #ff4500; } }
+
+        .login-box {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+            padding: 30px; border-radius: 15px; z-index: 2;
+            text-align: center; width: 90%; max-width: 400px;
         }
 
-        /* Tarjetas con Efecto Neón y Borde DBZ */
-        .card-neon {
-            background: var(--card-bg);
-            border-radius: 16px;
-            border: 1px solid var(--border-glow);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
-            padding: 1.25rem; margin-bottom: 1.25rem;
-            backdrop-filter: blur(8px);
-            position: relative;
-            overflow: hidden;
+        .login-box h1 { color: var(--neon-cyan); margin-bottom: 20px; text-transform: uppercase; font-size: 2rem; text-shadow: 0 0 10px var(--neon-cyan); }
+        .login-input {
+            width: 100%; padding: 12px; margin-bottom: 15px;
+            background: #111; border: 1px solid var(--neon-magenta);
+            color: #fff; border-radius: 8px; font-size: 1.1rem; text-align: center;
+            outline: none; transition: 0.3s;
         }
-
-        .card-neon::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
-            background: linear-gradient(90deg, var(--neon-blue), var(--neon-orange), var(--neon-yellow));
-        }
-
-        /* Métricas */
-        .metrics-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .metric-card {
-            background: rgba(3, 7, 18, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px; padding: 1rem; text-align: center;
-        }
-
-        .metric-card label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; display: block; }
-        .metric-value {
-            font-size: 1.5rem; font-weight: bold; margin-top: 0.3rem;
-            color: var(--neon-blue);
-            text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
-        }
-
-        /* Form / Inputs */
-        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
-        label { font-size: 0.85rem; color: #cbd5e1; display: block; margin-top: 0.5rem; }
+        .login-input:focus { box-shadow: 0 0 15px var(--neon-magenta); }
         
-        input, select {
-            width: 100%; padding: 0.75rem; margin-top: 0.25rem; margin-bottom: 0.75rem;
-            border-radius: 8px; border: 1px solid #334155;
-            background: rgba(3, 7, 18, 0.8); color: #fff; font-size: 0.95rem;
-            outline: none; transition: border-color 0.3s;
+        .btn-neon {
+            background: transparent; color: #fff; font-weight: bold;
+            padding: 12px 30px; border: 2px solid var(--neon-cyan); border-radius: 8px;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
+            transition: 0.3s; width: 100%; font-size: 1.1rem;
         }
+        .btn-neon:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 20px var(--neon-cyan); }
 
-        input:focus, select:focus {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
-        }
-
-        .btn-action {
-            width: 100%; padding: 0.75rem; margin-top: 0.5rem;
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            border: none; border-radius: 8px; color: #fff; font-weight: bold;
-            cursor: pointer; box-shadow: 0 0 10px rgba(37, 99, 235, 0.4);
-            transition: all 0.2s;
-        }
-
-        .btn-action:hover { box-shadow: 0 0 15px rgba(0, 240, 255, 0.6); }
-
-        /* Tablas */
-        table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
-        th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #1e293b; font-size: 0.85rem; }
-        th { color: #94a3b8; background: rgba(3, 7, 18, 0.5); text-transform: uppercase; font-size: 0.75rem; }
+        /* --- INTERFAZ PRINCIPAL (META FLOW) --- */
+        #app-main { display: none; padding: 20px; max-width: 1200px; margin: 0 auto; }
         
-        .badge {
-            background: rgba(0, 240, 255, 0.15); color: var(--neon-blue);
-            border: 1px solid var(--neon-blue); padding: 0.2rem 0.5rem; border-radius: 6px;
+        .header-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--neon-magenta); padding-bottom: 15px; margin-bottom: 20px;
         }
+        .header-title { font-size: 1.8rem; font-weight: 900; color: var(--neon-cyan); text-shadow: 0 0 8px var(--neon-cyan); }
+        .header-sub { font-size: 0.8rem; color: #aaa; text-transform: uppercase; }
+        
+        .carga-card {
+            background: var(--panel-bg); border: 1px solid rgba(217, 70, 239, 0.3);
+            border-radius: 12px; padding: 15px; margin-bottom: 15px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            transition: 0.3s;
+        }
+        .carga-card:focus-within { border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0, 243, 255, 0.2); }
+        
+        .input-group label { display: block; font-size: 0.75rem; color: var(--neon-cyan); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        .input-group input {
+            width: 100%; padding: 10px; background: #0a0b10; border: 1px solid #333;
+            color: #fff; border-radius: 6px; font-size: 1.2rem; outline: none;
+        }
+        
+        .btn-add { background: var(--neon-magenta); border: none; color: white; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 20px; box-shadow: 0 0 10px rgba(217, 70, 239, 0.5); }
 
-        /* Animaciones */
-        @keyframes auraPulse {
-            0% { text-shadow: 0 0 10px var(--neon-orange), 0 0 20px var(--neon-orange); }
-            100% { text-shadow: 0 0 20px var(--neon-yellow), 0 0 35px var(--neon-orange), 0 0 50px var(--neon-orange); }
+        .banner-eficiencia {
+            background: linear-gradient(90deg, #00f3ff22, var(--neon-cyan), #00f3ff22);
+            border: 2px solid var(--neon-cyan); border-radius: 15px;
+            text-align: center; padding: 30px; margin: 30px 0;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .eficiencia-valor { font-size: 5rem; font-weight: 900; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.8); line-height: 1; }
+        .eficiencia-label { font-size: 1rem; color: #000; font-weight: bold; text-transform: uppercase; margin-top: 10px; letter-spacing: 3px; }
+
+        .timeline-box {
+            background: var(--panel-bg); border-radius: 12px; border: 1px solid #333;
+            overflow: hidden; margin-bottom: 30px;
+        }
+        .time-row {
+            display: flex; justify-content: space-between; padding: 15px 20px;
+            border-bottom: 1px solid #222; font-size: 0.9rem;
+        }
+        .time-row.carga { color: #fff; border-left: 4px solid var(--neon-cyan); }
+        .time-row.receso { color: var(--neon-yellow); background: rgba(255, 234, 0, 0.05); border-left: 4px solid var(--neon-yellow); }
+        .time-row .hora { font-weight: bold; color: var(--neon-cyan); font-size: 1.1rem; }
+        .time-row.receso .hora { color: var(--neon-green); }
     </style>
 </head>
 <body>
 
-    <!-- PANTALLA DE INICIO (SPLASH) -->
+    <!-- PANTALLA DE INICIO (Shen Long) -->
     <div id="splash-screen">
-        <div class="dbz-title">⚡ CONTROL DE PRODUCCIÓN ⚡<br><span style="font-size: 1.2rem; color: var(--neon-blue);">MODO SAIYAJIN</span></div>
-        <button class="btn-start" onclick="iniciarApp()">¡INICIAR SISTEMA!</button>
+        <div class="shenron-bg"></div>
+        <div class="dragon-balls-container">
+            <div class="dragon-ball"></div><div class="dragon-ball"></div><div class="dragon-ball"></div>
+            <div class="dragon-ball"></div><div class="dragon-ball"></div><div class="dragon-ball"></div><div class="dragon-ball"></div>
+        </div>
+        <div class="login-box">
+            <h1>META FLOW</h1>
+            <p style="color: #aaa; margin-bottom: 20px; font-size: 0.8rem;">SISTEMA DE EFICIENCIA</p>
+            <input type="password" id="pin" class="login-input" placeholder="INGRESA TU PIN" autocomplete="off">
+            <button class="btn-neon" onclick="verificarAcceso()">Verificar Ki</button>
+            <p id="error-msg" style="color: #ff4500; margin-top: 15px; font-size: 0.9rem; display: none;"></p>
+        </div>
     </div>
 
-    <!-- APLICACIÓN PRINCIPAL -->
-    <div class="app-container" id="main-app">
+    <!-- APP PRINCIPAL -->
+    <div id="app-main">
+        <div class="header-bar">
+            <div>
+                <div class="header-title">META FLOW</div>
+                <div class="header-sub">Gestión de 11 Horas de Turno</div>
+            </div>
+            <div style="text-align: right;">
+                <div style="color: var(--neon-magenta); font-weight: bold; font-size: 1.2rem;" id="nombre-usuario">Usuario</div>
+                <div class="header-sub">🟢 Conectado</div>
+            </div>
+        </div>
+
+        <div id="contenedor-cargas"></div>
         
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-            <h2 style="margin:0; font-size: 1.4rem; text-shadow: 0 0 10px var(--neon-blue);">🔥 PANEL DE EFICIENCIA</h2>
-            <span class="badge" style="letter-spacing: 1px;">TURNO 11 HRS</span>
-        </div>
+        <button class="btn-add" onclick="agregarCarga()">+ AÑADIR NUEVA CARGA</button>
 
-        <!-- MÉRTRICAS DE CONTROL -->
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <label>Meta Promedio Base</label>
-                <div class="metric-value" id="mBase">0 dz</div>
-            </div>
-            <div class="metric-card">
-                <label>Docenas Hechas</label>
-                <div class="metric-value" id="mHechas" style="color: var(--neon-yellow); text-shadow: 0 0 8px rgba(255,238,0,0.5);">0 dz</div>
-            </div>
-            <div class="metric-card">
-                <label>Eficiencia ON</label>
-                <div class="metric-value" id="eOn">0%</div>
-            </div>
-            <div class="metric-card">
-                <label>Eficiencia OFF (Ajustada)</label>
-                <div class="metric-value" id="eOff" style="color: var(--neon-orange); text-shadow: 0 0 8px rgba(255,102,0,0.5);">0%</div>
+        <div class="banner-eficiencia">
+            <div class="eficiencia-valor" id="efi-final">0.00%</div>
+            <div class="eficiencia-label">Eficiencia Final</div>
+            <div style="display: flex; justify-content: space-around; margin-top: 20px; color: #000; font-weight: bold;">
+                <div>META TOTAL: <span id="meta-total">0</span></div>
+                <div>DOCENAS HECHAS: <span id="hechas-total">0</span></div>
             </div>
         </div>
 
-        <!-- FORMULARIO DE CARGAS Y PAROS -->
-        <div class="grid-2">
-            <div class="card-neon">
-                <h3 style="margin-top:0; color: var(--neon-blue);">➕ Registrar Carga</h3>
-                <form id="formCarga">
-                    <label>Meta Docenas:</label>
-                    <input type="number" id="metaDz" value="550" required step="10">
-                    <label>Docenas Hechas:</label>
-                    <input type="number" id="hechasDz" value="0" required step="10">
-                    <button type="submit" class="btn-action">Guardar Carga</button>
-                </form>
-            </div>
-
-            <div class="card-neon">
-                <h3 style="margin-top:0; color: var(--neon-orange);">⚠️ Registrar Paro / Tiempo Muerto</h3>
-                <form id="formParo">
-                    <label>Hora Inicio:</label>
-                    <input type="time" id="hInicio" value="09:20" required>
-                    <label>Hora Fin:</label>
-                    <input type="time" id="hFin" value="09:40" required>
-                    <label>Tipo de Paro:</label>
-                    <select id="tipoParo">
-                        <option value="fuera">Fuera de Tiempo (Afecta Apertura/Cierre)</option>
-                        <option value="dentro">Dentro de Tiempo (Suma Minutos)</option>
-                    </select>
-                    <button type="submit" class="btn-action" style="background: linear-gradient(135deg, var(--neon-orange), #c2410c);">Guardar Paro</button>
-                </form>
-            </div>
+        <h3 style="color: var(--neon-cyan); margin-bottom: 15px; text-transform: uppercase;">Cuadre Exacto (07:00 AM - 07:00 PM)</h3>
+        <div class="timeline-box" id="timeline-container">
+            <!-- Rellenado por JS -->
         </div>
-
-        <!-- RESUMEN CARGAS -->
-        <div class="card-neon">
-            <h3 style="margin-top:0;">📋 Resumen por Cargas</h3>
-            <div style="overflow-x: auto;">
-                <table id="tablaCargas">
-                    <thead>
-                        <tr>
-                            <th>Carga</th>
-                            <th>Meta (dz)</th>
-                            <th>Hechas (dz)</th>
-                            <th>Eficiencia ON</th>
-                            <th>Tiempo Requerido</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- PAROS Y RECESOS -->
-        <div class="grid-2">
-            <div class="card-neon">
-                <h3 style="margin-top:0;">⏱️ Paros Descontados</h3>
-                <div style="overflow-x: auto;">
-                    <table id="tablaParos">
-                        <thead>
-                            <tr><th>Rango</th><th>Duración</th><th>Tipo</th></tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="card-neon">
-                <h3 style="margin-top:0; color: var(--neon-yellow);">☕ Recesos Programados</h3>
-                <ul style="padding-left: 1.2rem; line-height: 1.8; color: #cbd5e1; font-size: 0.9rem;">
-                    <li><b>Receso 1:</b> 08:10 – 08:25 (15 min)</li>
-                    <li><b>Receso 2:</b> 11:20 – 11:50 (30 min)</li>
-                    <li><b>Receso 3:</b> 15:10 – 15:25 (15 min)</li>
-                </ul>
-            </div>
-        </div>
-
     </div>
 
-    <script src="app.js"></script>
+    <script>
+        let cargas = [{ id: 1, meta: 550, hechas: 0 }];
+        const HORAS_TURNO = 11;
+        
+        // Aquí están definidos los recesos (los minutos se calculan desde las 7:00 AM)
+        const RECESOS = [
+            { id: 'r1', nombre: 'Receso 8:10 AM - 8:25 AM', min_inicio: 70, min_fin: 85, duracion: 15 },
+            { id: 'r2', nombre: 'Almuerzo 11:20 AM - 11:50 AM', min_inicio: 260, min_fin: 290, duracion: 30 },
+            { id: 'r3', nombre: 'Receso 3:10 PM - 3:25 PM', min_inicio: 490, min_fin: 505, duracion: 15 }
+        ];
+
+        // Fallback local en caso de que no se use el backend de Flask
+        const usuariosAutorizados = [
+            { pin: "2004", nombre: "Angel Castillo 🚢" },
+            { pin: "5863", nombre: "Kevin Ramón Pineda ⚔️" },
+            { pin: "8198", nombre: "Carlos David Garcia 🦅" },
+            { pin: "1734", nombre: "Libny Castillo ⚡" },
+            { pin: "4321", nombre: "Derick Alexander Carvajal 🔥" },
+            { pin: "3455", nombre: "Josué Rivera 🌀" },
+            { pin: "1301", nombre: "Olvin Ramírez 🧠" },
+            { pin: "2064", nombre: "Arnoldo Alvarenga 🤠" },
+            { pin: "2711", nombre: "Yervi Mejia 🐯" },
+            { pin: "3855", nombre: "Yeison Murillo 💀" },
+            { pin: "5037", nombre: "Kevin Díaz 🍃" },
+            { pin: "4005", nombre: "Erik Rosales ❄️" },
+            { pin: "1507", nombre: "Fernando Sanchez 🦾" },
+            { pin: "3307", nombre: "Edwin Alvarado 👑" },
+            { pin: "3310", nombre: "Angel Flores 🏹" },
+            { pin: "1800", nombre: "Usuario Invitado 🗺️" }
+        ];
+
+        async function verificarAcceso() {
+            const pinIngresado = document.getElementById('pin').value;
+            
+            try {
+                // Intenta validar con el servidor Flask
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pin: pinIngresado })
+                });
+                
+                const data = await res.json();
+                if(data.success) {
+                    iniciarApp(data.nombre);
+                } else {
+                    mostrarError(data.message);
+                }
+            } catch(e) {
+                // Si el servidor falla o se abre el HTML directamente, valida con el arreglo local
+                const usuario = usuariosAutorizados.find(u => u.pin === pinIngresado);
+                if (usuario) {
+                    iniciarApp(usuario.nombre);
+                } else {
+                    mostrarError("PIN incorrecto. Nivel de Ki insuficiente.");
+                }
+            }
+        }
+
+        function iniciarApp(nombreUsuario) {
+            document.getElementById('nombre-usuario').innerText = "Tripulante: " + nombreUsuario;
+            document.getElementById('splash-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('splash-screen').style.display = 'none';
+                document.getElementById('app-main').style.display = 'block';
+                renderizarCargas();
+            }, 800);
+        }
+
+        function mostrarError(mensaje) {
+            const errorMsg = document.getElementById('error-msg');
+            errorMsg.innerText = mensaje;
+            errorMsg.style.display = 'block';
+        }
+
+        function agregarCarga() {
+            cargas.push({ id: cargas.length + 1, meta: 0, hechas: 0 });
+            renderizarCargas();
+        }
+
+        function actualizarValor(index, campo, valor) {
+            cargas[index][campo] = parseFloat(valor) || 0;
+            calcularEficiencia();
+        }
+
+        function renderizarCargas() {
+            const container = document.getElementById('contenedor-cargas');
+            container.innerHTML = '';
+            
+            cargas.forEach((c, index) => {
+                container.innerHTML += `
+                    <div class="carga-card">
+                        <div class="input-group">
+                            <label>Carga ${c.id}</label>
+                            <input type="text" value="CARGA #${c.id}" disabled style="color: var(--neon-magenta); font-weight: bold;">
+                        </div>
+                        <div class="input-group">
+                            <label>Meta Docenas</label>
+                            <input type="number" value="${c.meta}" oninput="actualizarValor(${index}, 'meta', this.value)">
+                        </div>
+                        <div class="input-group">
+                            <label>Docenas Hechas</label>
+                            <input type="number" value="${c.hechas}" oninput="actualizarValor(${index}, 'hechas', this.value)" style="color: var(--neon-cyan); border-color: var(--neon-cyan);">
+                        </div>
+                    </div>
+                `;
+            });
+            calcularEficiencia();
+        }
+
+        function formatoHora(minutosTotales) {
+            let h = Math.floor(minutosTotales / 60) + 7; // Inicia a las 7 AM
+            let ampm = h >= 12 ? 'PM' : 'AM';
+            if (h > 12) h -= 12;
+            let m = Math.floor(minutosTotales % 60);
+            return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
+        }
+
+        function calcularEficiencia() {
+            let metaTotal = cargas.reduce((sum, c) => sum + c.meta, 0);
+            let hechasTotal = cargas.reduce((sum, c) => sum + c.hechas, 0);
+            
+            let eficiencia = metaTotal > 0 ? (hechasTotal / metaTotal) * 100 : 0;
+            document.getElementById('efi-final').innerText = eficiencia.toFixed(2) + '%';
+            document.getElementById('meta-total').innerText = metaTotal;
+            document.getElementById('hechas-total').innerText = hechasTotal;
+
+            generarCuadre(eficiencia);
+        }
+
+        function generarCuadre(eficiencia) {
+            const container = document.getElementById('timeline-container');
+            container.innerHTML = '';
+            
+            let efCalc = eficiencia > 0 ? eficiencia : 100; 
+            let totalMinutosProduccion = HORAS_TURNO * 60; // 660 minutos reales de trabajo
+            
+            let tiempoAcumulado = 0; // en minutos desde las 07:00
+            let metaTotal = cargas.reduce((sum, c) => sum + c.meta, 0);
+
+            let html = '';
+            let recesoIndex = 0;
+
+            cargas.forEach((c, index) => {
+                if(metaTotal === 0) return;
+                
+                // Minutos teóricos según eficiencia
+                let proporcion = c.meta / metaTotal;
+                let minRequeridos = (totalMinutosProduccion * proporcion) / (efCalc / 100);
+                
+                let minInicioCarga = tiempoAcumulado;
+                let minFinCarga = tiempoAcumulado + minRequeridos;
+
+                // Revisar si la carga proyectada choca o atraviesa un receso fijo
+                while (recesoIndex < RECESOS.length && minFinCarga > RECESOS[recesoIndex].min_inicio) {
+                    let r = RECESOS[recesoIndex];
+                    
+                    // Imprimir fragmento de carga antes del receso
+                    html += `
+                        <div class="time-row carga">
+                            <div>CARGA ${c.id}</div>
+                            <div class="hora">${formatoHora(minInicioCarga)} - ${formatoHora(r.min_inicio)}</div>
+                        </div>
+                    `;
+                    
+                    // Imprimir el receso
+                    html += `
+                        <div class="time-row receso">
+                            <div>↳ PARO FIJO: ${r.nombre}</div>
+                            <div class="hora">${r.duracion} min</div>
+                        </div>
+                    `;
+                    
+                    // Desplazar el tiempo restante de la carga sumando la duración del receso
+                    minFinCarga += r.duracion;
+                    minInicioCarga = r.min_fin;
+                    tiempoAcumulado = r.min_fin;
+                    recesoIndex++;
+                }
+
+                // Imprimir la parte restante de la carga
+                if (minInicioCarga < minFinCarga) {
+                    html += `
+                        <div class="time-row carga">
+                            <div>CARGA ${c.id}</div>
+                            <div class="hora">${formatoHora(minInicioCarga)} - ${formatoHora(minFinCarga)}</div>
+                        </div>
+                    `;
+                }
+                
+                tiempoAcumulado = minFinCarga;
+            });
+
+            container.innerHTML = html;
+        }
+    </script>
 </body>
 </html>
