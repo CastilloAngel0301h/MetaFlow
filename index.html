@@ -496,14 +496,14 @@
 
             let metaPromedioPzaH = cargas.length > 0 ? (sumaMetasPzaH / cargas.length) : 0;
             
-            // 11 Horas exactas puras fijas para metas y ritmo de evaluación
-            let metaDiaDocenas = (metaPromedioPzaH * 11) / 12; 
+            // LA CORRECCIÓN EXACTA: Multiplicar directo por 11 (las 11 horas puras de trabajo sin meter división por 12 en la meta total del día)
+            let metaDiaDocenas = metaPromedioPzaH * 11; 
 
             let parosExternosMins = parseFloat(document.getElementById('paro-minutos').value) || 0;
             
-            // Los paros externos sí merman las 11 horas de trabajo evaluables
+            // Los paros externos merman las 11 horas de trabajo
             let minutosTrabajoEfectivos = 660 - parosExternosMins;
-            let metaAjustadaParos = (metaPromedioPzaH * (minutosTrabajoEfectivos / 60)) / 12;
+            let metaAjustadaParos = metaPromedioPzaH * (minutosTrabajoEfectivos / 60);
             let eficienciaOff = metaAjustadaParos > 0 ? (totalDocenas / metaAjustadaParos) * 100 : 0;
             let eficienciaOn = eficienciaOff;
 
@@ -522,7 +522,6 @@
             container.innerHTML = '';
             if (cargas.length === 0) return;
 
-            // Las horas de cada carga dependen de su eficiencia / producción final relativa
             let totalHechasCargas = cargas.reduce((acc, c) => acc + c.hechas, 0);
 
             let pesosCargas = cargas.map(c => {
