@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MetaFlow - Dragon Ball Edition</title>
+    <title>MetaFlow - DBZ Edition</title>
     
     <link rel="manifest" id="manifest-placeholder">
     <meta name="theme-color" content="#050508">
@@ -31,23 +31,23 @@
             color: var(--text-main); min-height: 100vh; overflow-x: hidden;
         }
 
-        /* 1. VENTANA DE LOGIN / BLOQUEO CON FONDO 1 */
+        /* 1. VENTANA DE BLOQUEO / LOGIN CON FONDO DBZ 1 */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(5, 5, 12, 0.85)), 
-                        url('https://share.google/oMzYfjTJuM2hFcsbi') no-repeat center center / cover;
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(5, 5, 12, 0.88)), 
+                        url('https://images.alphacoders.com/605/605939.png') no-repeat center center / cover;
             z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 0.6s ease-out, visibility 0.6s; overflow: hidden;
         }
 
-        /* IMAGEN ANIMADA SOBRE LAS ESFERAS */
+        /* HERO ANIMADO */
         .hero-dragon-img {
-            width: 240px; max-width: 75%; cursor: pointer; margin-bottom: 5px; z-index: 4;
-            filter: drop-shadow(0 0 18px rgba(0, 243, 255, 0.9));
+            width: 200px; max-width: 70%; cursor: pointer; margin-bottom: 10px; z-index: 4;
+            filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.9));
             animation: floatHero 3s ease-in-out infinite alternate;
             transition: transform 0.2s;
         }
-        .hero-dragon-img:active { transform: scale(0.95); }
+        .hero-dragon-img:active { transform: scale(0.92); }
 
         @keyframes floatHero {
             0% { transform: translateY(0) scale(0.98); filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.8)); }
@@ -80,11 +80,11 @@
             color: #fff; border-radius: 8px; font-size: 1.2rem; text-align: center; outline: none; box-shadow: inset 0 0 8px rgba(217, 70, 239, 0.3);
         }
 
-        /* 2. VENTANA DE PRESENTACIÓN CON FONDO 2 */
+        /* 2. VENTANA DE PRESENTACIÓN CON FONDO DBZ 2 */
         #intro-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(rgba(5, 5, 12, 0.8), rgba(0, 0, 0, 0.9)), 
-                        url('https://share.google/COC8tj39PUYeMkEwg') no-repeat center center / cover;
+            background: linear-gradient(rgba(5, 5, 12, 0.8), rgba(0, 0, 0, 0.92)), 
+                        url('https://images.alphacoders.com/132/1327104.jpeg') no-repeat center center / cover;
             z-index: 1900; display: none; flex-direction: column; align-items: center; justify-content: center;
             text-align: center; padding: 25px; opacity: 0; transition: opacity 0.8s ease;
         }
@@ -93,11 +93,11 @@
         .intro-quote { font-size: 1.1rem; color: var(--neon-yellow); font-style: italic; max-width: 500px; margin-bottom: 30px; text-shadow: 0 0 10px rgba(255, 234, 0, 0.5); }
         .intro-welcome { font-size: 1.4rem; color: #fff; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
 
-        /* 3. VENTANA PRINCIPAL CON FONDO 3 */
+        /* 3. VENTANA PRINCIPAL CON FONDO DBZ 3 */
         #app-wrapper {
             min-height: 100vh;
-            background: linear-gradient(rgba(5, 5, 8, 0.85), rgba(5, 5, 8, 0.92)), 
-                        url('https://share.google/kUUryQD5M0WgTsjsR') no-repeat center center fixed / cover;
+            background: linear-gradient(rgba(5, 5, 8, 0.88), rgba(5, 5, 8, 0.95)), 
+                        url('https://images5.alphacoders.com/134/1342921.png') no-repeat center center fixed / cover;
         }
 
         .header-banner {
@@ -166,24 +166,21 @@
         .timeline-box { background: var(--panel-bg); border-radius: 12px; border: 1px solid #2a2d3d; overflow: hidden; margin-top: 15px; backdrop-filter: blur(8px); }
         .time-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
         .time-row.carga { border-left: 4px solid var(--neon-cyan); color: #fff; }
-        .time-row.receso { border-left: 4px solid var(--neon-yellow); background: rgba(255, 234, 0, 0.04); color: var(--neon-yellow); }
+        .time-row.receso-absorbido { border-left: 4px solid var(--neon-green); background: rgba(57, 255, 20, 0.05); }
         .time-row .hora { font-weight: bold; color: var(--neon-cyan); }
-        .time-row.receso .hora { color: var(--neon-yellow); }
     </style>
 </head>
 <body>
 
-    <!-- REPRODUCTOR AUDIO DE MI CORAZÓN ENCANTADO -->
     <audio id="audio-cancion" src="https://ia800908.us.archive.org/21/items/tv-size-dan-dan-kokoro-hikareteku-instrumental/TV-Size%20DAN%20DAN%20Kokoro%20Hikareteku%20%28Instrumental%29.mp3" preload="auto" loop></audio>
 
     <div id="pwa-install-banner" style="display:none; background: var(--neon-magenta); color:#fff; text-align:center; padding:10px; font-weight:bold; cursor:pointer;" onclick="triggerInstalacionPWA()">
         📲 Toca aquí para instalar MetaFlow como App en tu teléfono
     </div>
 
-    <!-- 1. PANTALLA DE ACCESO (FONDO 1) -->
+    <!-- 1. BLOQUEO (FONDO DBZ 1) -->
     <div id="splash-screen">
-        <!-- Imagen Animada Principal sobre las Esferas -->
-        <img class="hero-dragon-img" src="https://share.google/dBTWSyforhyFEaogw" alt="Hero Animado DB" onclick="toggleMusica()">
+        <img class="hero-dragon-img" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHIxd2ptbmNzNjVsYmZ6OHlueHFxM3dtcG0xZmRhbmphcjN2cXJ5ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/vbfA1C0m1xZ7vC6uE4/giphy.gif" alt="Shenlong Goku DBZ" onclick="toggleMusica()">
 
         <div class="dragon-balls-container">
             <div class="dragon-ball" onclick="playEsferaSound()"><span>★</span></div>
@@ -197,14 +194,14 @@
 
         <div class="login-box">
             <h1>MetaFlow</h1>
-            <p style="color: #aaa; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 10px;">SISTEMA INTELIGENTE DE CONTROL</p>
+            <p style="color: #aaa; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 10px;">CONTROL DE EFICIENCIA Y TIEMPOS</p>
             <input type="password" id="pin" class="login-input" placeholder="PIN DE ACCESO" maxlength="6" inputmode="numeric" onfocus="playEsferaSound()">
             <button class="btn-neon" onclick="verificarAcceso()">INGRESAR</button>
             <p id="error-msg" style="color: #ff4500; margin-top: 12px; font-size: 0.85rem; display: none;"></p>
         </div>
     </div>
 
-    <!-- 2. PANTALLA INTRO DE BIENVENIDA (FONDO 2) -->
+    <!-- 2. PRESENTACIÓN (FONDO DBZ 2) -->
     <div id="intro-screen">
         <div class="intro-title">MetaFlow</div>
         <div class="intro-author">Creado por Ángel Castillo</div>
@@ -212,7 +209,7 @@
         <div class="intro-welcome">Bienvenido usuario: <span id="intro-user-name" style="color: var(--neon-cyan);"></span></div>
     </div>
 
-    <!-- 3. CONTENEDOR PRINCIPAL CON FONDO 3 -->
+    <!-- 3. CONTENEDOR PRINCIPAL (FONDO DBZ 3) -->
     <div id="app-wrapper">
         <div class="header-banner">
             <div>
@@ -255,13 +252,12 @@
                 </div>
             </div>
 
-            <h3 style="color: var(--neon-cyan); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 25px;">Bitácora de Ritmo e Tiempos Reales (07:00 AM - 07:00 PM)</h3>
+            <h3 style="color: var(--neon-cyan); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 25px;">Bitácora Dinámica de Tiempos Ponderados por Eficiencia (07:00 AM - 07:00 PM)</h3>
             <div class="timeline-box" id="timeline-container"></div>
         </div>
     </div>
 
     <script>
-        // SINTETIZADOR WEB AUDIO API PARA EFECTOS
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
         function playEsferaSound() {
@@ -269,14 +265,14 @@
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.type = 'sine';
-            osc.frequency.setValueAtTime(880, audioCtx.currentTime); // Nota A5
-            osc.frequency.exponentialRampToValueAtTime(1760, audioCtx.currentTime + 0.15); // Ramp up al estilo item DB
-            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+            osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1760, audioCtx.currentTime + 0.12);
+            gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
             osc.connect(gain);
             gain.connect(audioCtx.destination);
             osc.start();
-            osc.stop(audioCtx.currentTime + 0.15);
+            osc.stop(audioCtx.currentTime + 0.12);
         }
 
         function playTransformSound() {
@@ -284,14 +280,14 @@
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.5); // Carga de Ki
-            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+            osc.frequency.setValueAtTime(120, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(900, audioCtx.currentTime + 0.45);
+            gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.45);
             osc.connect(gain);
             gain.connect(audioCtx.destination);
             osc.start();
-            osc.stop(audioCtx.currentTime + 0.5);
+            osc.stop(audioCtx.currentTime + 0.45);
         }
 
         function toggleMusica() {
@@ -305,15 +301,15 @@
         }
 
         let cargas = [
-            { id: 1, meta: 700, hechas: 126 },
-            { id: 2, meta: 550, hechas: 100 }
+            { id: 1, meta: 370, hechas: 50 },
+            { id: 2, meta: 560, hechas: 100 }
         ];
 
-        const TOTAL_MINUTOS_PRODUCTIVOS = 660; 
+        const TOTAL_MINUTOS_TURNO = 720; // 12 Horas de rango (7:00 AM - 7:00 PM)
         const RECESOS = [
-            { id: 'r1', nombre: 'Receso Mañana', inicioMin: 70, finMin: 85, duracion: 15, label: '08:10 AM - 08:25 AM' },
-            { id: 'r2', nombre: 'Almuerzo', inicioMin: 260, finMin: 290, duracion: 30, label: '11:20 AM - 11:50 AM' },
-            { id: 'r3', nombre: 'Receso Tarde', inicioMin: 490, finMin: 505, duracion: 15, label: '03:10 PM - 03:25 PM' }
+            { id: 'r1', nombre: 'Receso Mañana', inicioMin: 70, finMin: 85, duracion: 15 },
+            { id: 'r2', nombre: 'Almuerzo', inicioMin: 260, finMin: 290, duracion: 30 },
+            { id: 'r3', nombre: 'Receso Tarde', inicioMin: 490, finMin: 505, duracion: 15 }
         ];
 
         const usuariosAutorizados = [
@@ -329,8 +325,7 @@
             '"¡El poder viene en respuesta a una necesidad, no a un deseo!"',
             '"Trabajar duro y superar tus límites es la clave de todo guerrero."',
             '"Los límites solo existen si tú los permites en tu mente."',
-            '"Incluso el guerrero más ordinario puede superar a un élite con esfuerzo."',
-            '"No importa cuántas veces te caigas, lo importante es levantarse más fuerte."'
+            '"Incluso el guerrero más ordinario puede superar a un élite con esfuerzo."'
         ];
 
         let deferredPrompt;
@@ -383,14 +378,14 @@
                             document.getElementById('app-main').style.display = 'block';
                             renderizarCargas();
                         }, 800);
-                    }, 3500);
+                    }, 3200);
 
                 }, 600);
 
             } else {
                 playEsferaSound();
                 const errorMsg = document.getElementById('error-msg');
-                errorMsg.innerText = "PIN Incorrecto. Ingrese una clave autorizada.";
+                errorMsg.innerText = "PIN Incorrecto.";
                 errorMsg.style.display = 'block';
             }
         }
@@ -422,11 +417,11 @@
                 container.innerHTML += `
                     <div class="carga-card">
                         <div class="input-group">
-                            <label>Carga #${index + 1} (${ritmoTeorico} Doc/Hr)</label>
+                            <label>Carga #${index + 1} (${ritmoTeorico} Doc/Hr Base)</label>
                             <input type="text" value="CARGA #${index + 1}" disabled style="color: var(--neon-magenta); font-weight: bold;">
                         </div>
                         <div class="input-group">
-                            <label>Meta Docenas</label>
+                            <label>Meta Carga</label>
                             <input type="number" value="${c.meta}" oninput="actualizarValor(${index}, 'meta', this.value)">
                         </div>
                         <div class="input-group">
@@ -509,96 +504,73 @@
             document.getElementById('hechas-total').innerText = sumaHechas;
 
             actualizarAuraNeón(eficienciaFinal);
-            generarBitacoraLógica(sumaMetas);
+            generarBitacoraExactaSegunEficiencia(eficienciaFinal, sumaMetas);
         }
 
-        function generarBitacoraLógica(sumaMetas) {
+        /* LÓGICA DE TIEMPOS DINÁMICOS SEGÚN EFICIENCIA GLOBAL Y ABSORCIÓN DE RECESOS */
+        function generarBitacoraExactaSegunEficiencia(eficienciaFinal, sumaMetas) {
             const container = document.getElementById('timeline-container');
             container.innerHTML = '';
 
             if (cargas.length === 0) return;
 
-            let minutosMinimosReales = [];
-            let minutosTotalesCalculados = 0;
+            let efiFactor = eficienciaFinal > 0 ? (eficienciaFinal / 100) : 1;
+            let metaPromedio = cargas.length > 0 ? (sumaMetas / cargas.length) : 1;
 
-            cargas.forEach(c => {
-                let ritmoTeoricoHoras = c.meta / 11;
-                let efiIndividual = c.meta > 0 ? (c.hechas / c.meta) : 0;
-
-                let minsCarga = 0;
-                if (c.hechas > 0 && efiIndividual > 0) {
-                    let ritmoRealHora = ritmoTeoricoHoras * efiIndividual;
-                    let horasTomadas = c.hechas / ritmoRealHora;
-                    minsCarga = horasTomadas * 60;
-                } else {
-                    let proporcionMeta = sumaMetas > 0 ? (c.meta / sumaMetas) : (1 / cargas.length);
-                    minsCarga = proporcionMeta * TOTAL_MINUTOS_PRODUCTIVOS;
-                }
-
-                minutosMinimosReales.push(minsCarga);
-                minutosTotalesCalculados += minsCarga;
+            // 1. Asignación de pesos dinámicos por carga según docenas y meta individual
+            let pesosCargas = cargas.map(c => {
+                let factorDificultad = (c.meta / metaPromedio);
+                return (c.hechas * factorDificultad) / efiFactor;
             });
 
-            let duracionesFinales = minutosMinimosReales.map(m => {
-                return (m / minutosTotalesCalculados) * TOTAL_MINUTOS_PRODUCTIVOS;
-            });
+            let sumaPesos = pesosCargas.reduce((a, b) => a + b, 0);
+            if (sumaPesos === 0) sumaPesos = 1;
 
-            let relojMinutos = 0;
+            // 2. Reparto de los 660 minutos de trabajo neto proporcionalmente al ritmo real
+            let minutosTrabajoAsignados = pesosCargas.map(p => (p / sumaPesos) * 660);
+
+            let reloj = 0;
             let html = '';
 
             cargas.forEach((c, idx) => {
-                let tiempoRestanteCarga = duracionesFinales[idx];
-                let inicioBloqueCarga = relojMinutos;
+                let tiempoTrabajoCarga = minutosTrabajoAsignados[idx];
+                let inicioCarga = reloj;
+                let tiempoAbsorbidoRecesos = 0;
+                let recesosIncluidos = [];
 
-                while (tiempoRestanteCarga > 0.1) {
-                    let recesoProximo = RECESOS.find(r => relojMinutos >= r.inicioMin && relojMinutos < r.finMin);
-
-                    if (recesoProximo) {
-                        html += `
-                            <div class="time-row receso">
-                                <div><b>PARO FIJO:</b> ${recesoProximo.nombre} (${recesoProximo.label})</div>
-                                <div class="hora">${recesoProximo.duracion} MIN</div>
-                            </div>
-                        `;
-                        relojMinutos = recesoProximo.finMin;
-                        inicioBloqueCarga = relojMinutos;
+                // Evaluar si durante el bloque de producción se atraviesa un receso para ABSORBERLO
+                RECESOS.forEach(r => {
+                    let finEstimado = inicioCarga + tiempoTrabajoCarga + tiempoAbsorbidoRecesos;
+                    if (inicioCarga < r.finMin && finEstimado > r.inicioMin) {
+                        tiempoAbsorbidoRecesos += r.duracion;
+                        recesosIncluidos.push(r.nombre);
                     }
+                });
 
-                    let siguienteReceso = RECESOS.find(r => r.inicioMin > relojMinutos);
-                    let limiteHastaReceso = siguienteReceso ? (siguienteReceso.inicioMin - relojMinutos) : tiempoRestanteCarga;
+                let duracionTotalBloque = tiempoTrabajoCarga + tiempoAbsorbidoRecesos;
+                let finCarga = inicioCarga + duracionTotalBloque;
+                reloj = finCarga;
 
-                    let avance = Math.min(tiempoRestanteCarga, limiteHastaReceso);
-                    let finBloqueCarga = inicioBloqueCarga + avance;
-                    
-                    tiempoRestanteCarga -= avance;
-                    relojMinutos = finBloqueCarga;
+                let efiCarga = c.meta > 0 ? ((c.hechas / c.meta) * 100).toFixed(1) : "0.0";
+                let minsTrabajoPuro = Math.round(tiempoTrabajoCarga);
 
-                    let efiCarga = c.meta > 0 ? ((c.hechas / c.meta) * 100).toFixed(1) : "0.0";
-                    let duracionMinsTexto = Math.round(avance);
+                let textoAbsorcion = recesosIncluidos.length > 0 
+                    ? `<span style="color: var(--neon-green); margin-left: 8px;">[Absorbe: ${recesosIncluidos.join(', ')} +${tiempoAbsorbidoRecesos}m]</span>` 
+                    : '';
 
-                    html += `
-                        <div class="time-row carga">
-                            <div>
-                                <b>CARGA #${idx + 1}</b> | Meta: ${c.meta} | Hechas: ${c.hechas} 
-                                <span style="color: var(--aura-color); margin-left: 8px;">(${efiCarga}% Efi - ${duracionMinsTexto} min)</span>
-                            </div>
-                            <div class="hora">${formatoHora(inicioBloqueCarga)} - ${formatoHora(finBloqueCarga)}</div>
-                        </div>
-                    `;
+                let claseRow = recesosIncluidos.length > 0 ? "time-row carga receso-absorbido" : "time-row carga";
 
-                    inicioBloqueCarga = relojMinutos;
-                }
-            });
-
-            let recesoFinal = RECESOS.find(r => relojMinutos >= r.inicioMin && relojMinutos < r.finMin);
-            if (recesoFinal) {
                 html += `
-                    <div class="time-row receso">
-                        <div><b>PARO FIJO:</b> ${recesoFinal.nombre} (${recesoFinal.label})</div>
-                        <div class="hora">${recesoFinal.duracion} MIN</div>
+                    <div class="${claseRow}">
+                        <div>
+                            <b>CARGA #${idx + 1}</b> | Meta: ${c.meta} | Hechas: ${c.hechas} 
+                            <span style="color: var(--aura-color); margin-left: 8px;">(${efiCarga}% Efi - ${minsTrabajoPuro}m prod)</span>
+                            ${textoAbsorcion}
+                        </div>
+                        <div class="hora">${formatoHora(inicioCarga)} - ${formatoHora(finCarga)}</div>
                     </div>
                 `;
-            }
+            });
 
             container.innerHTML = html;
         }
