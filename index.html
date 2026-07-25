@@ -32,6 +32,7 @@
             background: #000; z-index: 1000;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 1s ease-out;
+            overflow: hidden;
         }
 
         .shenron-bg {
@@ -40,12 +41,24 @@
             opacity: 0.4; pointer-events: none;
         }
 
+        /* Animación de Shenlong cruzando la pantalla */
+        .shenron-flyer {
+            position: absolute; width: 300px; pointer-events: none; z-index: 1;
+            animation: flyShenron 4s linear infinite;
+            opacity: 0.7;
+        }
+        @keyframes flyShenron {
+            0% { transform: translate(-350px, 150px) rotate(-15deg); }
+            50% { transform: translate(calc(100vw + 150px), -100px) rotate(10deg); }
+            100% { transform: translate(-350px, 150px) rotate(-15deg); }
+        }
+
         .dragon-balls-container {
-            display: flex; gap: 15px; margin-bottom: 40px; z-index: 2;
+            display: flex; gap: 15px; margin-bottom: 30px; z-index: 2;
         }
 
         .dragon-ball {
-            width: 40px; height: 40px;
+            width: 35px; height: 35px;
             background: radial-gradient(circle at 30% 30%, #ffaa00, #ff4500);
             border-radius: 50%;
             box-shadow: 0 0 15px #ff4500, inset 0 0 10px rgba(255,255,255,0.5);
@@ -58,17 +71,17 @@
         .dragon-ball:nth-child(6) { animation-delay: 1.0s; }
         .dragon-ball:nth-child(7) { animation-delay: 1.2s; }
 
-        @keyframes bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-20px); box-shadow: 0 20px 25px #ff4500; } }
+        @keyframes bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-15px); box-shadow: 0 20px 25px #ff4500; } }
 
         .login-box {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             border: 2px solid var(--neon-cyan);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
-            padding: 30px; border-radius: 15px; z-index: 2;
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.5);
+            padding: 30px; border-radius: 15px; z-index: 5;
             text-align: center; width: 90%; max-width: 400px;
         }
 
-        .login-box h1 { color: var(--neon-cyan); margin-bottom: 20px; text-transform: uppercase; font-size: 2rem; text-shadow: 0 0 10px var(--neon-cyan); }
+        .login-box h1 { color: var(--neon-cyan); margin-bottom: 10px; text-transform: uppercase; font-size: 2rem; text-shadow: 0 0 10px var(--neon-cyan); }
         .login-input {
             width: 100%; padding: 12px; margin-bottom: 15px;
             background: #111; border: 1px solid var(--neon-magenta);
@@ -117,18 +130,29 @@
         .btn-add { background: var(--neon-magenta); border: none; color: white; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 20px; box-shadow: 0 0 10px rgba(217, 70, 239, 0.5); }
 
         .banner-eficiencia {
-            background: linear-gradient(90deg, #00f3ff22, var(--neon-cyan), #00f3ff22);
+            background: linear-gradient(90deg, #00f3ff22, var(--panel-bg), #00f3ff22);
             border: 2px solid var(--neon-cyan); border-radius: 15px;
             text-align: center; padding: 25px; margin: 20px 0;
             box-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
+            display: flex; flex-direction: column; align-items: center; position: relative;
         }
-        .eficiencia-valor { font-size: 4rem; font-weight: 900; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.8); line-height: 1; }
-        .eficiencia-label { font-size: 0.9rem; color: #000; font-weight: bold; text-transform: uppercase; margin-top: 5px; letter-spacing: 2px; }
+
+        .goku-container {
+            display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 10px;
+        }
+        .goku-avatar {
+            width: 90px; height: 90px; border-radius: 50%; object-fit: cover;
+            border: 3px solid var(--neon-cyan); box-shadow: 0 0 20px var(--neon-cyan);
+            background: #111;
+        }
+        .eficiencia-valor { font-size: 3.5rem; font-weight: 900; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.8); line-height: 1; }
+        .eficiencia-label { font-size: 0.9rem; color: var(--neon-cyan); font-weight: bold; text-transform: uppercase; margin-top: 5px; letter-spacing: 2px; }
+        .goku-form-title { font-size: 1rem; color: var(--neon-yellow); text-transform: uppercase; font-weight: bold; text-shadow: 0 0 8px var(--neon-yellow); }
 
         .stats-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 15px; color: #000; font-weight: bold; font-size: 0.9rem; text-align: center;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 15px; width: 100%; color: #000; font-weight: bold; font-size: 0.9rem; text-align: center;
         }
-        .stat-box { background: rgba(255,255,255,0.7); padding: 8px; border-radius: 6px; }
+        .stat-box { background: rgba(255,255,255,0.85); padding: 8px; border-radius: 6px; }
 
         .timeline-box {
             background: var(--panel-bg); border-radius: 12px; border: 1px solid #333;
@@ -148,13 +172,14 @@
 
     <div id="splash-screen">
         <div class="shenron-bg"></div>
+        <img class="shenron-flyer" src="https://i.pinimg.com/originals/a0/0b/cc/a00bcce9d7240c1eebfbe4d693beaa1c.gif" alt="Shenron">
         <div class="dragon-balls-container">
             <div class="dragon-ball"></div><div class="dragon-ball"></div><div class="dragon-ball"></div>
             <div class="dragon-ball"></div><div class="dragon-ball"></div><div class="dragon-ball"></div><div class="dragon-ball"></div>
         </div>
         <div class="login-box">
             <h1>META FLOW</h1>
-            <p style="color: #aaa; margin-bottom: 20px; font-size: 0.8rem;">SISTEMA DE EFICIENCIA</p>
+            <p style="color: #aaa; margin-bottom: 20px; font-size: 0.8rem;">SISTEMA DE EFICIENCIA DRAGON BALL</p>
             <input type="password" id="pin" class="login-input" placeholder="INGRESA TU PIN" autocomplete="off">
             <button class="btn-neon" onclick="verificarAcceso()">Verificar Ki</button>
             <p id="error-msg" style="color: #ff4500; margin-top: 15px; font-size: 0.9rem; display: none;"></p>
@@ -165,7 +190,7 @@
         <div class="header-bar">
             <div>
                 <div class="header-title">META FLOW</div>
-                <div class="header-sub">Cuadre Estricto Turno (07:00 AM - 07:00 PM)</div>
+                <div class="header-sub">Cuadre Dinámico (07:00 AM - 07:00 PM)</div>
             </div>
             <div style="text-align: right;">
                 <div style="color: var(--neon-magenta); font-weight: bold; font-size: 1.2rem;" id="nombre-usuario">Usuario</div>
@@ -191,8 +216,14 @@
         <button class="btn-add" onclick="agregarCarga()">+ AÑADIR NUEVA CARGA</button>
 
         <div class="banner-eficiencia">
-            <div class="eficiencia-valor" id="efi-final">0.00%</div>
-            <div class="eficiencia-label">Eficiencia Final</div>
+            <div class="goku-container">
+                <img id="goku-img" class="goku-avatar" src="https://i.pinimg.com/originals/82/80/7e/82807e60b299a365f57a0753a3e66bbd.gif" alt="Goku Form">
+                <div>
+                    <div class="eficiencia-valor" id="efi-final">0.00%</div>
+                    <div class="goku-form-title" id="goku-form-nombre">Goku Niño (Pelo Negro)</div>
+                </div>
+            </div>
+            <div class="eficiencia-label">Eficiencia Final del Turno</div>
             <div class="stats-grid">
                 <div class="stat-box">META ON: <span id="meta-on">0</span></div>
                 <div class="stat-box">DOCENAS OFF: <span id="docenas-off">0</span></div>
@@ -206,9 +237,12 @@
     </div>
 
     <script>
-        let cargas = [{ id: 1, meta: 550, hechas: 0 }];
+        let cargas = [
+            { id: 1, meta: 370, hechas: 54 },
+            { id: 2, meta: 700, hechas: 120 }
+        ];
         const HORAS_TRABAJABLES = 11;
-        const TOTAL_MINUTOS_TRABAJO = 660; // 11 horas netas de trabajo (7:00 AM - 7:00 PM menos recesos fijos)
+        const TOTAL_MINUTOS_TRABAJO = 660; // 11 horas netas (7:00 AM - 7:00 PM menos recesos fijos)
         
         const RECESOS = [
             { id: 'r1', nombre: 'Receso 8:10 AM - 8:25 AM', min_inicio: 70, min_fin: 85, duracion: 15 },
@@ -296,6 +330,48 @@
             return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
         }
 
+        function actualizarGokuAvatar(eficiencia) {
+            let img = document.getElementById('goku-img');
+            let nombre = document.getElementById('goku-form-nombre');
+            let borderColor = "#00f3ff";
+            
+            if (eficiencia <= 15) {
+                nombre.innerText = "Goku Niño (Pelo Negro)";
+                img.src = "https://i.pinimg.com/originals/82/80/7e/82807e60b299a365f57a0753a3e66bbd.gif";
+                borderColor = "#00f3ff";
+            } else if (eficiencia <= 30) {
+                nombre.innerText = "Super Saiyan";
+                img.src = "https://i.pinimg.com/originals/3d/1a/53/3d1a5357876a91176b2c6a0110bf6c35.gif";
+                borderColor = "#ffea00";
+            } else if (eficiencia <= 45) {
+                nombre.innerText = "Super Saiyan 2";
+                img.src = "https://i.pinimg.com/originals/11/47/40/114740e797c23bc949ef9b0e3d23f317.gif";
+                borderColor = "#ffaa00";
+            } else if (eficiencia <= 65) {
+                nombre.innerText = "Super Saiyan 3";
+                img.src = "https://i.pinimg.com/originals/8b/6d/4d/8b6d4d16d16f8ef1d898cf4a0b22a9f5.gif";
+                borderColor = "#ff6600";
+            } else if (eficiencia <= 80) {
+                nombre.innerText = "Super Saiyan 4";
+                img.src = "https://i.pinimg.com/originals/c3/84/c6/c384c6c216b251efd630bb88da8158d3.gif";
+                borderColor = "#ff0055";
+            } else if (eficiencia <= 90) {
+                nombre.innerText = "Super Saiyan Dios";
+                img.src = "https://i.pinimg.com/originals/7a/7d/51/7a7d517c5b6b29d494f47dc6ef7e6e58.gif";
+                borderColor = "#ff2222";
+            } else if (eficiencia <= 99) {
+                nombre.innerText = "Super Saiyan Blue";
+                img.src = "https://i.pinimg.com/originals/24/6e/c3/246ec3e69622d1df3b44b82c42d3c907.gif";
+                borderColor = "#00bfff";
+            } else {
+                nombre.innerText = "Modo Ultra Instinto ⚡";
+                img.src = "https://i.pinimg.com/originals/36/6f/33/366f33d45c11bc356c9d09dc6ef943b0.gif";
+                borderColor = "#39ff14";
+            }
+            img.style.borderColor = borderColor;
+            img.style.boxShadow = `0 0 20px ${borderColor}`;
+        }
+
         function calcularTodo() {
             let sumaMetas = cargas.reduce((sum, c) => sum + c.meta, 0);
             let cantidadCargas = cargas.length > 0 ? cargas.length : 1;
@@ -303,12 +379,11 @@
             // 1. Meta ON = Suma de las metas de cada carga / cantidad de cargas
             let metaOn = sumaMetas / cantidadCargas;
 
-            // 2. Cálculo de Paros (OFF) en horas decimales
+            // 2. Cálculo de Paros (OFF)
             let pHoras = parseFloat(document.getElementById('paro-horas').value) || 0;
             let pMinutos = parseFloat(document.getElementById('paro-minutos').value) || 0;
             let tiempoMuertoHoras = pHoras + (pMinutos / 60);
 
-            // Docenas Off = (Meta ON / 11 horas) * Tiempo Muerto
             let tasaPorHora = metaOn / HORAS_TRABAJABLES;
             let docenasOff = tasaPorHora * tiempoMuertoHoras;
 
@@ -327,39 +402,47 @@
             document.getElementById('meta-final').innerText = metaFinal.toFixed(1);
             document.getElementById('hechas-total').innerText = hechasTotal;
 
-            generarCuadre();
+            actualizarGokuAvatar(eficienciaFinal);
+            generarCuadre(eficienciaFinal);
         }
 
-        function generarCuadre() {
+        function generarCuadre(eficienciaFinal) {
             const container = document.getElementById('timeline-container');
             container.innerHTML = '';
             
-            let tiempoAcumulado = 0; 
-            let metaTotalCargas = cargas.reduce((sum, c) => sum + c.meta, 0);
+            let efCalc = eficienciaFinal > 0 ? (eficienciaFinal / 100) : 1;
+            
+            // El tiempo de cada carga depende de su propia meta, sus docenas y la eficiencia final obtenida
+            let rawTimes = cargas.map(c => {
+                let metaCarga = c.meta > 0 ? c.meta : 1;
+                // Ponderación individual de la carga ajustada por la eficiencia final
+                return (metaCarga / efCalc);
+            });
+            
+            let sumaRawTimes = rawTimes.reduce((a, b) => a + b, 0);
 
+            let tiempoAcumulado = 0;
             let html = '';
             let recesoIndex = 0;
 
-            cargas.forEach((c) => {
-                if(metaTotalCargas === 0) return;
-                
-                // Distribución proporcional exacta de las 11 horas netas (660 min) segun la meta de cada carga
-                let proporcion = c.meta / metaTotalCargas;
-                let minRequeridos = TOTAL_MINUTOS_TRABAJO * proporcion;
+            cargas.forEach((c, idx) => {
+                let minRequeridos = sumaRawTimes > 0 ? (rawTimes[idx] / sumaRawTimes) * TOTAL_MINUTOS_TRABAJO : TOTAL_MINUTOS_TRABAJO / cargas.length;
                 
                 let minInicioCarga = tiempoAcumulado;
                 let minFinCarga = tiempoAcumulado + minRequeridos;
 
-                // Validar e intercalar recesos fijos dentro del horario de 7 am a 7 pm
+                // Insertar recesos fijos dentro del horario de la carga que corresponda
                 while (recesoIndex < RECESOS.length && minFinCarga > RECESOS[recesoIndex].min_inicio) {
                     let r = RECESOS[recesoIndex];
                     
-                    html += `
-                        <div class="time-row carga">
-                            <div>CARGA ${c.id}</div>
-                            <div class="hora">${formatoHora(minInicioCarga)} - ${formatoHora(r.min_inicio)}</div>
-                        </div>
-                    `;
+                    if (minInicioCarga < r.min_inicio) {
+                        html += `
+                            <div class="time-row carga">
+                                <div>CARGA ${c.id} (Meta: ${c.meta} | Hechas: ${c.hechas})</div>
+                                <div class="hora">${formatoHora(minInicioCarga)} - ${formatoHora(r.min_inicio)}</div>
+                            </div>
+                        `;
+                    }
                     
                     html += `
                         <div class="time-row receso">
@@ -377,7 +460,7 @@
                 if (minInicioCarga < minFinCarga) {
                     html += `
                         <div class="time-row carga">
-                            <div>CARGA ${c.id}</div>
+                            <div>CARGA ${c.id} (Meta: ${c.meta} | Hechas: ${c.hechas})</div>
                             <div class="hora">${formatoHora(minInicioCarga)} - ${formatoHora(minFinCarga)}</div>
                         </div>
                     `;
