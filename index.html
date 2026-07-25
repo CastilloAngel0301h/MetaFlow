@@ -165,7 +165,7 @@
         <div class="header-bar">
             <div>
                 <div class="header-title">META FLOW</div>
-                <div class="header-sub">Gestión de Turno (07:00 AM - 07:00 PM)</div>
+                <div class="header-sub">Cuadre Estricto Turno (07:00 AM - 07:00 PM)</div>
             </div>
             <div style="text-align: right;">
                 <div style="color: var(--neon-magenta); font-weight: bold; font-size: 1.2rem;" id="nombre-usuario">Usuario</div>
@@ -208,7 +208,7 @@
     <script>
         let cargas = [{ id: 1, meta: 550, hechas: 0 }];
         const HORAS_TRABAJABLES = 11;
-        const TOTAL_MINUTOS_TURNO = 660; // 11 horas de trabajo neto
+        const TOTAL_MINUTOS_TRABAJO = 660; // 11 horas netas de trabajo (7:00 AM - 7:00 PM menos recesos fijos)
         
         const RECESOS = [
             { id: 'r1', nombre: 'Receso 8:10 AM - 8:25 AM', min_inicio: 70, min_fin: 85, duracion: 15 },
@@ -327,14 +327,13 @@
             document.getElementById('meta-final').innerText = metaFinal.toFixed(1);
             document.getElementById('hechas-total').innerText = hechasTotal;
 
-            generarCuadre(eficienciaFinal);
+            generarCuadre();
         }
 
-        function generarCuadre(eficiencia) {
+        function generarCuadre() {
             const container = document.getElementById('timeline-container');
             container.innerHTML = '';
             
-            let efCalc = eficiencia > 0 ? eficiencia : 100; 
             let tiempoAcumulado = 0; 
             let metaTotalCargas = cargas.reduce((sum, c) => sum + c.meta, 0);
 
@@ -344,13 +343,14 @@
             cargas.forEach((c) => {
                 if(metaTotalCargas === 0) return;
                 
-                // Distribución proporcional del tiempo adaptada a la eficiencia para cuadrar a 12 horas (660 min)
+                // Distribución proporcional exacta de las 11 horas netas (660 min) segun la meta de cada carga
                 let proporcion = c.meta / metaTotalCargas;
-                let minRequeridos = (TOTAL_MINUTOS_TURNO * proporcion) / (efCalc / 100);
+                let minRequeridos = TOTAL_MINUTOS_TRABAJO * proporcion;
                 
                 let minInicioCarga = tiempoAcumulado;
                 let minFinCarga = tiempoAcumulado + minRequeridos;
 
+                // Validar e intercalar recesos fijos dentro del horario de 7 am a 7 pm
                 while (recesoIndex < RECESOS.length && minFinCarga > RECESOS[recesoIndex].min_inicio) {
                     let r = RECESOS[recesoIndex];
                     
