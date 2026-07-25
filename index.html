@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MetaFlow - DBZ Edition</title>
+    <title>MetaFlow - Calculadora Premium DBZ</title>
     
     <link rel="manifest" id="manifest-placeholder">
     <meta name="theme-color" content="#050508">
@@ -15,12 +15,12 @@
     <style>
         :root {
             --bg-dark: #050508;
-            --panel-bg: rgba(10, 12, 22, 0.88);
+            --panel-bg: rgba(10, 12, 22, 0.92);
             --neon-cyan: #00f3ff;
             --neon-magenta: #d946ef;
             --neon-green: #39ff14;
             --neon-yellow: #ffea00;
-            --aura-color: #00f3ff;
+            --aura-color: #d946ef;
             --text-main: #f8fafc;
         }
 
@@ -40,14 +40,11 @@
             transition: opacity 0.6s ease-out, visibility 0.6s; overflow: hidden;
         }
 
-        /* HERO ANIMADO */
         .hero-dragon-img {
             width: 200px; max-width: 70%; cursor: pointer; margin-bottom: 10px; z-index: 4;
             filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.9));
             animation: floatHero 3s ease-in-out infinite alternate;
-            transition: transform 0.2s;
         }
-        .hero-dragon-img:active { transform: scale(0.92); }
 
         @keyframes floatHero {
             0% { transform: translateY(0) scale(0.98); filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.8)); }
@@ -74,7 +71,7 @@
             box-shadow: 0 0 35px rgba(0, 243, 255, 0.4); padding: 22px; border-radius: 16px;
             z-index: 5; text-align: center; width: 90%; max-width: 360px; backdrop-filter: blur(10px);
         }
-        .login-box h1 { color: var(--neon-cyan); font-size: 2rem; letter-spacing: 2px; text-shadow: 0 0 12px var(--neon-cyan); }
+        .login-box h1 { color: var(--neon-cyan); font-size: 1.8rem; letter-spacing: 2px; text-shadow: 0 0 12px var(--neon-cyan); }
         .login-input {
             width: 100%; padding: 12px; margin: 15px 0; background: #050508; border: 1.5px solid var(--neon-magenta);
             color: #fff; border-radius: 8px; font-size: 1.2rem; text-align: center; outline: none; box-shadow: inset 0 0 8px rgba(217, 70, 239, 0.3);
@@ -88,10 +85,10 @@
             z-index: 1900; display: none; flex-direction: column; align-items: center; justify-content: center;
             text-align: center; padding: 25px; opacity: 0; transition: opacity 0.8s ease;
         }
-        .intro-title { font-size: 3.5rem; font-weight: 900; color: var(--neon-cyan); text-shadow: 0 0 30px var(--neon-cyan); margin-bottom: 5px; }
+        .intro-title { font-size: 3rem; font-weight: 900; color: var(--neon-cyan); text-shadow: 0 0 30px var(--neon-cyan); margin-bottom: 5px; }
         .intro-author { font-size: 1rem; color: var(--neon-magenta); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px; font-weight: bold; }
-        .intro-quote { font-size: 1.1rem; color: var(--neon-yellow); font-style: italic; max-width: 500px; margin-bottom: 30px; text-shadow: 0 0 10px rgba(255, 234, 0, 0.5); }
-        .intro-welcome { font-size: 1.4rem; color: #fff; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
+        .intro-quote { font-size: 1.1rem; color: var(--neon-yellow); font-style: italic; max-width: 500px; margin-bottom: 30px; }
+        .intro-welcome { font-size: 1.3rem; color: #fff; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
 
         /* 3. VENTANA PRINCIPAL CON FONDO DBZ 3 */
         #app-wrapper {
@@ -103,84 +100,92 @@
         .header-banner {
             width: 100%; background: rgba(10, 12, 22, 0.95);
             border-bottom: 2px solid var(--neon-cyan); box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
-            padding: 15px 20px; display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 20px; display: flex; align-items: center; justify-content: space-between;
             position: sticky; top: 0; z-index: 100; backdrop-filter: blur(8px);
         }
-        .title-main { font-size: 1.4rem; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 10px var(--neon-cyan); }
+        .title-main { font-size: 1.2rem; font-weight: 900; color: var(--neon-magenta); text-transform: uppercase; letter-spacing: 2px; }
 
-        #app-main { display: none; padding: 20px; max-width: 1100px; margin: 0 auto; }
+        #app-main { display: none; padding: 15px; max-width: 1000px; margin: 0 auto; }
 
-        .paros-container {
-            background: var(--panel-bg); border: 1px solid var(--neon-yellow); border-radius: 12px; padding: 15px; margin: 20px 0;
-            display: flex; gap: 15px; align-items: center; flex-wrap: wrap; box-shadow: 0 0 15px rgba(255, 234, 0, 0.15); backdrop-filter: blur(8px);
+        .top-actions { display: flex; gap: 15px; margin-bottom: 15px; align-items: center; }
+        .paros-input-box { flex: 1; background: var(--panel-bg); border: 1px solid #2a2d3d; border-radius: 8px; padding: 10px; }
+        .paros-input-box label { font-size: 0.7rem; color: #aaa; text-transform: uppercase; display: block; margin-bottom: 4px; }
+        .paros-input-box input { width: 100%; background: transparent; border: none; color: #ff0055; font-size: 1.1rem; font-weight: bold; outline: none; }
+
+        .btn-add-carga {
+            background: linear-gradient(90deg, #a855f7, #ec4899); border: none; color: white;
+            padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;
+            text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 15px rgba(236, 72, 153, 0.4);
         }
-        .paros-container h4 { color: var(--neon-yellow); width: 100%; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
 
         .carga-card {
-            background: var(--panel-bg); border: 1px solid rgba(0, 243, 255, 0.3); border-radius: 12px; padding: 15px; margin-bottom: 15px;
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); position: relative; backdrop-filter: blur(8px);
+            background: var(--panel-bg); border: 1px solid #1f2438; border-radius: 10px; padding: 12px; margin-bottom: 12px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; position: relative;
         }
+        .carga-title { color: var(--neon-magenta); font-weight: bold; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 5px; }
 
-        .input-group label { display: block; font-size: 0.75rem; color: var(--neon-cyan); margin-bottom: 5px; text-transform: uppercase; }
-        .input-group input { width: 100%; padding: 10px; background: #080910; border: 1px solid #333; color: #fff; border-radius: 6px; font-size: 1.1rem; outline: none; }
-        .input-group input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 8px var(--neon-cyan); }
-
-        .btn-neon {
-            background: transparent; color: #fff; font-weight: bold; padding: 12px 25px; border: 2px solid var(--neon-cyan); border-radius: 8px;
-            cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; width: 100%; font-size: 1rem;
+        .input-group label { display: block; font-size: 0.68rem; color: #888; margin-bottom: 3px; text-transform: uppercase; }
+        .input-group input, .input-group select {
+            width: 100%; padding: 8px; background: #080910; border: 1px solid #2d3248; color: #fff; border-radius: 6px; font-size: 0.95rem; outline: none;
         }
-        .btn-neon:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 20px var(--neon-cyan); }
+        .input-group input.docenas-input { color: var(--neon-green); font-weight: bold; }
 
-        .btn-add {
-            background: linear-gradient(90deg, var(--neon-magenta), #8b5cf6); border: none; color: white; padding: 14px; width: 100%; border-radius: 8px;
-            font-weight: bold; cursor: pointer; margin-bottom: 25px; box-shadow: 0 0 15px rgba(217, 70, 239, 0.4); text-transform: uppercase; letter-spacing: 1.5px;
-        }
+        .btn-remove { position: absolute; right: 10px; top: 8px; background: transparent; border: none; color: #ff4500; cursor: pointer; font-weight: bold; }
 
+        /* BANNER PURPURA EXACTO A LA IMAGEN */
         .banner-eficiencia {
-            position: relative; background: rgba(5, 5, 12, 0.92);
-            border: 2px solid var(--aura-color); border-radius: 16px; padding: 30px 20px; margin: 25px 0;
-            text-align: center; box-shadow: 0 0 30px var(--aura-color), inset 0 0 20px var(--aura-color);
-            transition: all 0.5s ease; overflow: hidden; backdrop-filter: blur(8px);
+            background: linear-gradient(135deg, #a813e3, #8000ff);
+            border-radius: 16px; padding: 25px; margin: 20px 0; text-align: center;
+            box-shadow: 0 0 30px rgba(168, 19, 227, 0.5); color: #fff; position: relative;
         }
+        .efi-title { font-size: 0.75rem; letter-spacing: 2px; font-weight: bold; text-transform: uppercase; opacity: 0.9; }
+        .efi-percent { font-size: 3.8rem; font-weight: 900; margin: 5px 0; text-shadow: 0 0 20px rgba(255,255,255,0.6); }
 
-        .banner-eficiencia::before, .banner-eficiencia::after {
-            content: ''; position: absolute; left: 50%; bottom: -20px; width: 180%; height: 180%;
-            background: radial-gradient(circle at bottom, var(--aura-color) 0%, transparent 60%);
-            opacity: 0.25; transform: translateX(-50%); pointer-events: none; z-index: 1;
-            animation: flameAura 2s ease-in-out infinite alternate;
+        .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 12px; }
+        .stat-item { text-align: center; }
+        .stat-item .lbl { font-size: 0.65rem; opacity: 0.8; text-transform: uppercase; }
+        .stat-item .val { font-size: 1.1rem; font-weight: bold; margin-top: 2px; }
+
+        /* BITÁCORA FIEL A LA CAPTURA */
+        .bitacora-container { background: #080a12; border-radius: 10px; border: 1px solid #1a1e2e; padding: 10px; margin-top: 15px; }
+        .carga-row {
+            display: flex; justify-content: space-between; align-items: center; padding: 12px;
+            background: rgba(15, 18, 30, 0.8); border-radius: 6px; margin-bottom: 4px; font-size: 0.85rem; font-weight: bold;
         }
+        .carga-row .name { color: #fff; text-transform: uppercase; }
+        .carga-row .time { color: var(--neon-cyan); letter-spacing: 0.5px; }
+        .carga-row .dur { color: #888; font-size: 0.75rem; margin-left: 5px; font-weight: normal; }
 
-        @keyframes flameAura {
-            0% { transform: translateX(-50%) scale(0.95) translateY(0); filter: drop-shadow(0 0 10px var(--aura-color)); }
-            100% { transform: translateX(-50%) scale(1.05) translateY(-10px); filter: drop-shadow(0 0 25px var(--aura-color)); }
+        .paro-row {
+            display: flex; justify-content: space-between; align-items: center; padding: 8px 12px 8px 25px;
+            background: rgba(45, 38, 10, 0.6); border-left: 3px solid var(--neon-yellow);
+            border-radius: 4px; margin-bottom: 6px; font-size: 0.78rem; color: var(--neon-yellow);
         }
+        .paro-row .time-tag { font-weight: bold; }
 
-        .eficiencia-contenido { position: relative; z-index: 2; }
-        .eficiencia-valor { font-size: 4.2rem; font-weight: 900; color: #fff; text-shadow: 0 0 25px var(--aura-color); }
-        .aura-nivel-tag { font-size: 1.2rem; font-weight: bold; color: var(--aura-color); letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 10px var(--aura-color); }
+        .summary-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .summary-card { background: #080a12; border: 1px solid #1a1e2e; padding: 12px; border-radius: 8px; text-align: center; }
+        .summary-card .lbl { font-size: 0.65rem; color: var(--neon-green); font-weight: bold; text-transform: uppercase; }
+        .summary-card .val { font-size: 1.1rem; font-weight: bold; color: #fff; margin-top: 3px; }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 20px; position: relative; z-index: 2; }
-        .stat-box { background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; color: #fff; font-size: 0.85rem; }
-        .stat-box span { display: block; font-size: 1.2rem; font-weight: bold; color: var(--neon-cyan); margin-top: 3px; }
-
-        .timeline-box { background: var(--panel-bg); border-radius: 12px; border: 1px solid #2a2d3d; overflow: hidden; margin-top: 15px; backdrop-filter: blur(8px); }
-        .time-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
-        .time-row.carga { border-left: 4px solid var(--neon-cyan); color: #fff; }
-        .time-row.receso-absorbido { border-left: 4px solid var(--neon-green); background: rgba(57, 255, 20, 0.05); }
-        .time-row .hora { font-weight: bold; color: var(--neon-cyan); }
+        .btn-guardar {
+            width: 100%; background: linear-gradient(90deg, #ec4899, #8b5cf6); border: none; color: white;
+            padding: 15px; border-radius: 10px; font-weight: bold; font-size: 1rem; margin-top: 15px;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 1.5px; box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
+        }
     </style>
 </head>
 <body>
 
     <audio id="audio-cancion" src="https://ia800908.us.archive.org/21/items/tv-size-dan-dan-kokoro-hikareteku-instrumental/TV-Size%20DAN%20DAN%20Kokoro%20Hikareteku%20%28Instrumental%29.mp3" preload="auto" loop></audio>
 
-    <div id="pwa-install-banner" style="display:none; background: var(--neon-magenta); color:#fff; text-align:center; padding:10px; font-weight:bold; cursor:pointer;" onclick="triggerInstalacionPWA()">
+    <div id="pwa-install-banner" style="display:none; background: var(--neon-magenta); color:#fff; text-align:center; padding:8px; font-weight:bold; cursor:pointer;" onclick="triggerInstalacionPWA()">
         📲 Toca aquí para instalar MetaFlow como App en tu teléfono
     </div>
 
-    <!-- 1. BLOQUEO (FONDO DBZ 1) -->
+    <!-- 1. LOGIN / BLOQUEO -->
     <div id="splash-screen">
-        <img class="hero-dragon-img" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHIxd2ptbmNzNjVsYmZ6OHlueHFxM3dtcG0xZmRhbmphcjN2cXJ5ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/vbfA1C0m1xZ7vC6uE4/giphy.gif" alt="Shenlong Goku DBZ" onclick="toggleMusica()">
+        <img class="hero-dragon-img" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHIxd2ptbmNzNjVsYmZ6OHlueHFxM3dtcG0xZmRhbmphcjN2cXJ5ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/vbfA1C0m1xZ7vC6uE4/giphy.gif" alt="Goku DBZ" onclick="toggleMusica()">
 
         <div class="dragon-balls-container">
             <div class="dragon-ball" onclick="playEsferaSound()"><span>★</span></div>
@@ -193,15 +198,15 @@
         </div>
 
         <div class="login-box">
-            <h1>MetaFlow</h1>
-            <p style="color: #aaa; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 10px;">CONTROL DE EFICIENCIA Y TIEMPOS</p>
+            <h1>CALCULADORA PREMIUM</h1>
+            <p style="color: #aaa; font-size: 0.75rem; letter-spacing: 1px; margin-bottom: 10px;">CONEXIÓN DB DRIVE • CUADRE 12 HORAS</p>
             <input type="password" id="pin" class="login-input" placeholder="PIN DE ACCESO" maxlength="6" inputmode="numeric" onfocus="playEsferaSound()">
-            <button class="btn-neon" onclick="verificarAcceso()">INGRESAR</button>
+            <button class="btn-add-carga" style="width: 100%;" onclick="verificarAcceso()">INGRESAR</button>
             <p id="error-msg" style="color: #ff4500; margin-top: 12px; font-size: 0.85rem; display: none;"></p>
         </div>
     </div>
 
-    <!-- 2. PRESENTACIÓN (FONDO DBZ 2) -->
+    <!-- 2. PRESENTACIÓN -->
     <div id="intro-screen">
         <div class="intro-title">MetaFlow</div>
         <div class="intro-author">Creado por Ángel Castillo</div>
@@ -209,51 +214,54 @@
         <div class="intro-welcome">Bienvenido usuario: <span id="intro-user-name" style="color: var(--neon-cyan);"></span></div>
     </div>
 
-    <!-- 3. CONTENEDOR PRINCIPAL (FONDO DBZ 3) -->
+    <!-- 3. PANEL PRINCIPAL -->
     <div id="app-wrapper">
         <div class="header-banner">
             <div>
-                <div class="title-main">MetaFlow</div>
-                <div style="font-size: 0.75rem; color: var(--neon-cyan); letter-spacing: 1px;" id="nombre-usuario">SISTEMA INTELIGENTE DE TIEMPOS</div>
+                <div class="title-main">CALCULADORA PREMIUM</div>
+                <div style="font-size: 0.65rem; color: #aaa;" id="nombre-usuario">CONEXIÓN DB DRIVE • CUADRE 12 HORAS</div>
             </div>
-            <div style="text-align: right; font-size: 0.8rem; color: #aaa;">
-                <div>TURNO DE 11 HRS</div>
-                <div style="color: var(--neon-green); font-weight: bold;">07:00 AM - 07:00 PM</div>
-            </div>
+            <button style="background: #1e293b; color: #38bdf8; border: none; padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: bold;">SYNC</button>
         </div>
 
         <div id="app-main">
-            <div class="paros-container">
-                <h4>⏱️ Paros Externos / Tiempo Muerto (OFF)</h4>
-                <div class="input-group" style="flex: 1; min-width: 120px;">
-                    <label>Horas Paro</label>
-                    <input type="number" id="paro-horas" value="0" min="0" oninput="playEsferaSound(); calcularTodo();">
+            <div class="top-actions">
+                <div class="paros-input-box">
+                    <label>PAROS EXTERNOS (MINS)</label>
+                    <input type="number" id="paros-mins" value="0" min="0" oninput="playEsferaSound(); calcularTodo();">
                 </div>
-                <div class="input-group" style="flex: 1; min-width: 120px;">
-                    <label>Minutos Paro</label>
-                    <input type="number" id="paro-minutos" value="0" min="0" max="59" oninput="playEsferaSound(); calcularTodo();">
-                </div>
+                <button class="btn-add-carga" onclick="playTransformSound(); agregarCarga();">+ AÑADIR CARGA</button>
             </div>
 
             <div id="contenedor-cargas"></div>
-            
-            <button class="btn-add" onclick="playTransformSound(); agregarCarga();">+ AÑADIR NUEVA CARGA</button>
 
-            <div class="banner-eficiencia" id="aura-banner">
-                <div class="eficiencia-contenido">
-                    <div class="eficiencia-valor" id="efi-final">0.00%</div>
-                    <div class="aura-nivel-tag" id="aura-tag">AURA BASE NEÓN</div>
-                </div>
-                <div class="stats-grid">
-                    <div class="stat-box">META ON<span><b id="meta-on">0</b></span></div>
-                    <div class="stat-box">DOCENAS OFF<span><b id="docenas-off">0</b></span></div>
-                    <div class="stat-box">META FINAL<span><b id="meta-final">0</b></span></div>
-                    <div class="stat-box">DOCENAS HECHAS<span><b id="hechas-total">0</b></span></div>
+            <!-- BANNER PURPURA DE EFICIENCIA PREMUM -->
+            <div class="banner-eficiencia">
+                <div class="efi-title">EFICIENCIA PREMIUM STD</div>
+                <div class="efi-percent" id="efi-final">0.00%</div>
+                <div class="stats-row">
+                    <div class="stat-item"><div class="lbl">ON</div><div class="val" id="val-on">0.00%</div></div>
+                    <div class="stat-item"><div class="lbl">OFF</div><div class="val" id="val-off">0.00%</div></div>
+                    <div class="stat-item"><div class="lbl">META DÍA</div><div class="val" id="val-meta-dia">0.0</div></div>
+                    <div class="stat-item"><div class="lbl">DOCENAS</div><div class="val" id="val-docenas">0.00</div></div>
                 </div>
             </div>
 
-            <h3 style="color: var(--neon-cyan); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 25px;">Bitácora Dinámica de Tiempos Ponderados por Eficiencia (07:00 AM - 07:00 PM)</h3>
-            <div class="timeline-box" id="timeline-container"></div>
+            <!-- BITÁCORA FIEL A TU IMAGEN -->
+            <div class="bitacora-container" id="bitacora-list"></div>
+
+            <div class="summary-footer">
+                <div class="summary-card">
+                    <div class="lbl">TIEMPO PRODUCCIÓN PURO</div>
+                    <div class="val">11H 00M</div>
+                </div>
+                <div class="summary-card">
+                    <div class="lbl" style="color: var(--neon-yellow);">RECESOS OBLIGATORIOS</div>
+                    <div class="val" style="color: var(--neon-yellow);">1H 00M</div>
+                </div>
+            </div>
+
+            <button class="btn-guardar" onclick="playTransformSound()">GUARDAR CÁLCULO PREMIUM</button>
         </div>
     </div>
 
@@ -281,35 +289,34 @@
             const gain = audioCtx.createGain();
             osc.type = 'sawtooth';
             osc.frequency.setValueAtTime(120, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(900, audioCtx.currentTime + 0.45);
+            osc.frequency.exponentialRampToValueAtTime(900, audioCtx.currentTime + 0.4);
             gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.45);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
             osc.connect(gain);
             gain.connect(audioCtx.destination);
             osc.start();
-            osc.stop(audioCtx.currentTime + 0.45);
+            osc.stop(audioCtx.currentTime + 0.4);
         }
 
         function toggleMusica() {
             const cancion = document.getElementById('audio-cancion');
             playEsferaSound();
-            if (cancion.paused) {
-                cancion.play().catch(() => {});
-            } else {
-                cancion.pause();
-            }
+            if (cancion.paused) { cancion.play().catch(() => {}); } 
+            else { cancion.pause(); }
         }
 
+        // DATOS INICIALES COMO LA FOTO DE TU APP REAL
         let cargas = [
-            { id: 1, meta: 370, hechas: 50 },
-            { id: 2, meta: 560, hechas: 100 }
+            { estilo: '1717.0', talla: 'M', proceso: 'VOLTEO', metaPzaHr: 700.0, hechas: 126 },
+            { estilo: '1717.0', talla: 'M', proceso: 'VOLTEO', metaPzaHr: 700.0, hechas: 126 },
+            { estilo: '9018.0', talla: 'S', proceso: 'VOLTEO-SORTING', metaPzaHr: 550.0, hechas: 220 },
+            { estilo: '1566.0', talla: 'S', proceso: 'VOLTEO-SORTING', metaPzaHr: 271.0, hechas: 40 }
         ];
 
-        const TOTAL_MINUTOS_TURNO = 720; // 12 Horas de rango (7:00 AM - 7:00 PM)
-        const RECESOS = [
-            { id: 'r1', nombre: 'Receso Mañana', inicioMin: 70, finMin: 85, duracion: 15 },
-            { id: 'r2', nombre: 'Almuerzo', inicioMin: 260, finMin: 290, duracion: 30 },
-            { id: 'r3', nombre: 'Receso Tarde', inicioMin: 490, finMin: 505, duracion: 15 }
+        const RECESOS_FIJOS = [
+            { id: 1, nombre: 'PARO FIJO: RECESO 8:10 AM - 8:25 AM', inicioMin: 70, finMin: 85, duracion: 15, tag: '08:10 AM - 08:25 AM (15 min)' },
+            { id: 2, nombre: 'PARO FIJO: ALMUERZO 11:20 AM - 11:50 AM', inicioMin: 260, finMin: 290, duracion: 30, tag: '11:20 AM - 11:50 AM (30 min)' },
+            { id: 3, nombre: 'PARO FIJO: RECESO 3:10 PM - 3:25 PM', inicioMin: 490, finMin: 505, duracion: 15, tag: '03:10 PM - 03:25 PM (15 min)' }
         ];
 
         const usuariosAutorizados = [
@@ -317,32 +324,20 @@
             { pin: "5863", nombre: "Kevin Ramón Pineda ⚔️" },
             { pin: "8198", nombre: "Carlos David Garcia 🦅" },
             { pin: "1734", nombre: "Libny Castillo ⚡" },
-            { pin: "4321", nombre: "Derick Alexander Carvajal 🔥" },
-            { pin: "1800", nombre: "Usuario Invitado 🗺️" }
-        ];
-
-        const frasesDragonBall = [
-            '"¡El poder viene en respuesta a una necesidad, no a un deseo!"',
-            '"Trabajar duro y superar tus límites es la clave de todo guerrero."',
-            '"Los límites solo existen si tú los permites en tu mente."',
-            '"Incluso el guerrero más ordinario puede superar a un élite con esfuerzo."'
+            { pin: "4321", nombre: "Derick Alexander Carvajal 🔥" }
         ];
 
         let deferredPrompt;
-
         window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
+            e.preventDefault(); deferredPrompt = e;
             document.getElementById('pwa-install-banner').style.display = 'block';
         });
 
         function triggerInstalacionPWA() {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        document.getElementById('pwa-install-banner').style.display = 'none';
-                    }
+                deferredPrompt.userChoice.then(() => {
+                    document.getElementById('pwa-install-banner').style.display = 'none';
                     deferredPrompt = null;
                 });
             }
@@ -355,12 +350,8 @@
             if (usuario) {
                 playTransformSound();
                 triggerInstalacionPWA();
-
                 document.getElementById('nombre-usuario').innerText = "OPERADOR: " + usuario.nombre.toUpperCase();
                 document.getElementById('intro-user-name').innerText = usuario.nombre;
-                
-                const fraseAzar = frasesDragonBall[Math.floor(Math.random() * frasesDragonBall.length)];
-                document.getElementById('intro-quote-text').innerText = fraseAzar;
 
                 const splash = document.getElementById('splash-screen');
                 const intro = document.getElementById('intro-screen');
@@ -378,20 +369,17 @@
                             document.getElementById('app-main').style.display = 'block';
                             renderizarCargas();
                         }, 800);
-                    }, 3200);
-
+                    }, 2800);
                 }, 600);
-
             } else {
                 playEsferaSound();
-                const errorMsg = document.getElementById('error-msg');
-                errorMsg.innerText = "PIN Incorrecto.";
-                errorMsg.style.display = 'block';
+                document.getElementById('error-msg').innerText = "PIN Incorrecto.";
+                document.getElementById('error-msg').style.display = 'block';
             }
         }
 
         function agregarCarga() {
-            cargas.push({ id: cargas.length + 1, meta: 500, hechas: 100 });
+            cargas.push({ estilo: '1717.0', talla: 'M', proceso: 'VOLTEO', metaPzaHr: 500.0, hechas: 100 });
             renderizarCargas();
         }
 
@@ -403,32 +391,40 @@
             }
         }
 
-        function actualizarValor(index, campo, valor) {
-            cargas[index][campo] = parseFloat(valor) || 0;
+        function actualizarCarga(index, campo, valor) {
+            cargas[index][campo] = (campo === 'hechas' || campo === 'metaPzaHr') ? (parseFloat(valor) || 0) : valor;
             calcularTodo();
         }
 
         function renderizarCargas() {
             const container = document.getElementById('contenedor-cargas');
             container.innerHTML = '';
-            
-            cargas.forEach((c, index) => {
-                let ritmoTeorico = (c.meta / 11).toFixed(1);
+
+            cargas.forEach((c, i) => {
                 container.innerHTML += `
                     <div class="carga-card">
+                        <div class="carga-title">CARGA #${i + 1}</div>
+                        <button class="btn-remove" onclick="eliminarCarga(${i})">Quitar</button>
+                        
                         <div class="input-group">
-                            <label>Carga #${index + 1} (${ritmoTeorico} Doc/Hr Base)</label>
-                            <input type="text" value="CARGA #${index + 1}" disabled style="color: var(--neon-magenta); font-weight: bold;">
+                            <label>ESTILO</label>
+                            <input type="text" value="${c.estilo}" onchange="actualizarCarga(${i}, 'estilo', this.value)">
                         </div>
                         <div class="input-group">
-                            <label>Meta Carga</label>
-                            <input type="number" value="${c.meta}" oninput="actualizarValor(${index}, 'meta', this.value)">
+                            <label>TALLA</label>
+                            <input type="text" value="${c.talla}" onchange="actualizarCarga(${i}, 'talla', this.value)">
                         </div>
                         <div class="input-group">
-                            <label>Docenas Hechas</label>
-                            <input type="number" value="${c.hechas}" oninput="actualizarValor(${index}, 'hechas', this.value)" style="color: var(--neon-cyan);">
+                            <label>PROCESO</label>
+                            <input type="text" value="${c.proceso}" onchange="actualizarCarga(${i}, 'proceso', this.value)">
                         </div>
-                        <button onclick="eliminarCarga(${index})" style="position: absolute; right: 10px; top: 10px; background: transparent; border: none; color: #ff4500; cursor: pointer; font-weight: bold;">✕</button>
+                        <div class="input-group">
+                            <label>DOCENAS HECHAS</label>
+                            <input type="number" class="docenas-input" value="${c.hechas}" oninput="actualizarCarga(${i}, 'hechas', this.value)">
+                        </div>
+                        <div style="grid-column: 1 / -1; font-size: 0.7rem; color: #eab308; margin-top: 2px;">
+                            Meta Vinculada Drive: <b>${c.metaPzaHr.toFixed(1)} pza/h</b>
+                        </div>
                     </div>
                 `;
             });
@@ -446,137 +442,93 @@
             return `${displayH.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
         }
 
-        function actualizarAuraNeón(eficiencia) {
-            let root = document.documentElement;
-            let tag = document.getElementById('aura-tag');
-            let color = "#1a1d24";
-            let nombreNivel = "Aura Base Oscura";
-
-            if (eficiencia < 30) {
-                color = "#2a2e3d";
-                nombreNivel = "Aura Neutra Neón";
-            } else if (eficiencia < 50) {
-                color = "#ffea00";
-                nombreNivel = "Aura Amarilla Neón";
-            } else if (eficiencia < 65) {
-                color = "#fffb00";
-                nombreNivel = "Aura Amarillo Claro Neón";
-            } else if (eficiencia < 75) {
-                color = "#ffd700";
-                nombreNivel = "Aura Dorado Intenso Neón";
-            } else if (eficiencia < 85) {
-                color = "#990033";
-                nombreNivel = "Aura Rojo Vino Neón";
-            } else if (eficiencia < 95) {
-                color = "#ff003c";
-                nombreNivel = "Aura Rojo Fuego Neón";
-            } else if (eficiencia < 99) {
-                color = "#00f3ff";
-                nombreNivel = "Aura Azul Celeste Neón";
-            } else {
-                color = "#22c55e";
-                nombreNivel = "Aura Plata Verde Neón ⚡";
-            }
-
-            root.style.setProperty('--aura-color', color);
-            tag.innerText = nombreNivel;
+        function formatoDuracion(minutos) {
+            let h = Math.floor(minutos / 60);
+            let m = Math.round(minutos % 60);
+            if (h > 0) return `(${h}H ${m.toString().padStart(2, '0')}M)`;
+            return `(${m}M)`;
         }
 
         function calcularTodo() {
-            let sumaMetas = cargas.reduce((acc, c) => acc + c.meta, 0);
-            let sumaHechas = cargas.reduce((acc, c) => acc + c.hechas, 0);
-            let metaOn = cargas.length > 0 ? (sumaMetas / cargas.length) : 0;
+            let totalDocenasHechas = cargas.reduce((acc, c) => acc + c.hechas, 0);
+            
+            // Meta Día basada en 11 horas de trabajo neto sobre el promedio de metas
+            let metaPromedioPzaHr = cargas.reduce((acc, c) => acc + c.metaPzaHr, 0) / (cargas.length || 1);
+            let metaDiaDocenas = (metaPromedioPzaHr * 11) / 12; // De piezas a docenas
 
-            let pHoras = parseFloat(document.getElementById('paro-horas').value) || 0;
-            let pMinutos = parseFloat(document.getElementById('paro-minutos').value) || 0;
-            let horasParoTotales = pHoras + (pMinutos / 60);
+            let parosMins = parseFloat(document.getElementById('paros-mins').value) || 0;
+            let factorParos = 1 - (parosMins / 660);
 
-            let tasaPorHora = metaOn / 11;
-            let docenasOff = tasaPorHora * horasParoTotales;
-            let metaFinal = Math.max(0, metaOn - docenasOff);
+            let efiGlobal = metaDiaDocenas > 0 ? (totalDocenasHechas / (metaDiaDocenas * factorParos)) * 100 : 0;
 
-            let eficienciaFinal = metaFinal > 0 ? (sumaHechas / metaFinal) * 100 : 0;
+            document.getElementById('efi-final').innerText = efiGlobal.toFixed(2) + '%';
+            document.getElementById('val-on').innerText = efiGlobal.toFixed(2) + '%';
+            document.getElementById('val-off').innerText = efiGlobal.toFixed(2) + '%';
+            document.getElementById('val-meta-dia').innerText = metaDiaDocenas.toFixed(1);
+            document.getElementById('val-docenas').innerText = totalDocenasHechas.toFixed(2);
 
-            document.getElementById('efi-final').innerText = eficienciaFinal.toFixed(2) + '%';
-            document.getElementById('meta-on').innerText = metaOn.toFixed(1);
-            document.getElementById('docenas-off').innerText = docenasOff.toFixed(1);
-            document.getElementById('meta-final').innerText = metaFinal.toFixed(1);
-            document.getElementById('hechas-total').innerText = sumaHechas;
-
-            actualizarAuraNeón(eficienciaFinal);
-            generarBitacoraExactaSegunEficiencia(eficienciaFinal, sumaMetas);
+            generarBitacoraExactaImagen(totalDocenasHechas);
         }
 
-        /* LÓGICA DE TIEMPOS DINÁMICOS SEGÚN EFICIENCIA GLOBAL Y ABSORCIÓN DE RECESOS */
-        function generarBitacoraExactaSegunEficiencia(eficienciaFinal, sumaMetas) {
-            const container = document.getElementById('timeline-container');
+        /* LÓGICA DE BITÁCORA FIEL A LA IMAGEN */
+        function generarBitacoraExactaImagen(totalDocenasHechas) {
+            const container = document.getElementById('bitacora-list');
             container.innerHTML = '';
 
             if (cargas.length === 0) return;
 
-            let efiFactor = eficienciaFinal > 0 ? (eficienciaFinal / 100) : 1;
-            let metaPromedio = cargas.length > 0 ? (sumaMetas / cargas.length) : 1;
-
-            // 1. Asignación de pesos dinámicos por carga según docenas y meta individual
-            let pesosCargas = cargas.map(c => {
-                let factorDificultad = (c.meta / metaPromedio);
-                return (c.hechas * factorDificultad) / efiFactor;
+            // Ponderación de minutos puros de trabajo por carga (Total: 660 min = 11H)
+            let minutosTrabajoPuro = cargas.map(c => {
+                if (totalDocenasHechas === 0) return 660 / cargas.length;
+                return (c.hechas / totalDocenasHechas) * 660;
             });
 
-            let sumaPesos = pesosCargas.reduce((a, b) => a + b, 0);
-            if (sumaPesos === 0) sumaPesos = 1;
-
-            // 2. Reparto de los 660 minutos de trabajo neto proporcionalmente al ritmo real
-            let minutosTrabajoAsignados = pesosCargas.map(p => (p / sumaPesos) * 660);
-
-            let reloj = 0;
-            let html = '';
+            let relojActualMins = 0; // 0 Mins = 07:00 AM
 
             cargas.forEach((c, idx) => {
-                let tiempoTrabajoCarga = minutosTrabajoAsignados[idx];
-                let inicioCarga = reloj;
-                let tiempoAbsorbidoRecesos = 0;
-                let recesosIncluidos = [];
+                let minsPuros = minutosTrabajoPuro[idx];
+                let inicioCargaMins = relojActualMins;
+                let parosEncontrados = [];
+                let acumuladoParosCarga = 0;
 
-                // Evaluar si durante el bloque de producción se atraviesa un receso para ABSORBERLO
-                RECESOS.forEach(r => {
-                    let finEstimado = inicioCarga + tiempoTrabajoCarga + tiempoAbsorbidoRecesos;
-                    if (inicioCarga < r.finMin && finEstimado > r.inicioMin) {
-                        tiempoAbsorbidoRecesos += r.duracion;
-                        recesosIncluidos.push(r.nombre);
+                // Verificar qué recesos fijos caen durante el tiempo de esta carga
+                RECESOS_FIJOS.forEach(r => {
+                    let finEstimado = inicioCargaMins + minsPuros + acumuladoParosCarga;
+                    if (inicioCargaMins < r.finMin && finEstimado > r.inicioMin) {
+                        parosEncontrados.push(r);
+                        acumuladoParosCarga += r.duracion;
                     }
                 });
 
-                let duracionTotalBloque = tiempoTrabajoCarga + tiempoAbsorbidoRecesos;
-                let finCarga = inicioCarga + duracionTotalBloque;
-                reloj = finCarga;
+                let duracionTotalBloque = minsPuros + acumuladoParosCarga;
+                let finCargaMins = inicioCargaMins + duracionTotalBloque;
+                relojActualMins = finCargaMins;
 
-                let efiCarga = c.meta > 0 ? ((c.hechas / c.meta) * 100).toFixed(1) : "0.0";
-                let minsTrabajoPuro = Math.round(tiempoTrabajoCarga);
-
-                let textoAbsorcion = recesosIncluidos.length > 0 
-                    ? `<span style="color: var(--neon-green); margin-left: 8px;">[Absorbe: ${recesosIncluidos.join(', ')} +${tiempoAbsorbidoRecesos}m]</span>` 
-                    : '';
-
-                let claseRow = recesosIncluidos.length > 0 ? "time-row carga receso-absorbido" : "time-row carga";
-
-                html += `
-                    <div class="${claseRow}">
-                        <div>
-                            <b>CARGA #${idx + 1}</b> | Meta: ${c.meta} | Hechas: ${c.hechas} 
-                            <span style="color: var(--aura-color); margin-left: 8px;">(${efiCarga}% Efi - ${minsTrabajoPuro}m prod)</span>
-                            ${textoAbsorcion}
+                // Renderizar renglón principal de la carga
+                container.innerHTML += `
+                    <div class="carga-row">
+                        <div class="name">CARGA ${idx + 1}</div>
+                        <div class="time">
+                            ${formatoHora(inicioCargaMins)} - ${formatoHora(finCargaMins)}
+                            <span class="dur">${formatoDuracion(duracionTotalBloque)}</span>
                         </div>
-                        <div class="hora">${formatoHora(inicioCarga)} - ${formatoHora(finCarga)}</div>
                     </div>
                 `;
-            });
 
-            container.innerHTML = html;
+                // Renderizar renglones secundarios de PAROS FIJOS si le corresponden a esta carga
+                parosEncontrados.forEach(rf => {
+                    container.innerHTML += `
+                        <div class="paro-row">
+                            <div>↳ ${rf.nombre}</div>
+                            <div class="time-tag">${rf.tag}</div>
+                        </div>
+                    `;
+                });
+            });
         }
 
         const manifestObj = {
-            "name": "MetaFlow App",
+            "name": "Calculadora Premium",
             "short_name": "MetaFlow",
             "start_url": ".",
             "display": "standalone",
