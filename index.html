@@ -31,30 +31,31 @@
         body {
             background-color: var(--bg-dark);
             color: var(--text-main); min-height: 100vh; overflow-x: hidden;
-            background-image: linear-gradient(rgba(3, 3, 8, 0.85), rgba(3, 3, 8, 0.92)), 
-                              url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1920&auto=format&fit=crop');
+            /* FONDOS CON ESTÉTICA NEÓN Y KAMEHAMEHA */
+            background-image: linear-gradient(rgba(3, 3, 12, 0.82), rgba(3, 3, 12, 0.92)), 
+                              url('https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=1920&auto=format&fit=crop');
             background-size: cover; background-position: center; background-attachment: fixed;
             transition: background-image 0.8s ease-in-out;
         }
 
-        /* --- FONDOS Y OVERLAYS ANIMADOS --- */
+        /* --- OVERLAYS DE KI Y AURA NEÓN --- */
         .ki-particles-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             pointer-events: none; z-index: 1; opacity: 0.6;
-            background: radial-gradient(circle at 20% 20%, rgba(255, 102, 0, 0.15) 0%, transparent 40%),
-                        radial-gradient(circle at 80% 80%, rgba(0, 243, 255, 0.15) 0%, transparent 40%);
-            animation: pulseKi 4s ease-in-out infinite alternate;
+            background: radial-gradient(circle at 20% 20%, rgba(255, 102, 0, 0.25) 0%, transparent 45%),
+                        radial-gradient(circle at 80% 80%, rgba(0, 243, 255, 0.25) 0%, transparent 45%);
+            animation: pulseKi 3.5s ease-in-out infinite alternate;
         }
 
         @keyframes pulseKi {
             0% { transform: scale(1); opacity: 0.4; }
-            100% { transform: scale(1.08); opacity: 0.8; }
+            100% { transform: scale(1.08); opacity: 0.85; }
         }
 
-        /* --- SPLASH SCREEN & SHENLONG CARGANDO --- */
+        /* --- SPLASH SCREEN DE ACCESO --- */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: radial-gradient(circle at 50% 30%, rgba(255, 102, 0, 0.35) 0%, rgba(5, 5, 12, 0.98) 75%),
+            background: radial-gradient(circle at 50% 30%, rgba(255, 102, 0, 0.4) 0%, rgba(3, 3, 12, 0.98) 80%),
                         url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
             z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 0.6s ease-out, visibility 0.6s; overflow: hidden;
@@ -109,29 +110,30 @@
             letter-spacing: 4px;
         }
 
-        /* ESCENA DEL DRAGÓN CARGANDO (LOADER INTERACTIVO) */
+        /* --- ESCENA DEL SHENLONG HYPERREALISTA EN SVG (LOADER DE ENTRADA) --- */
         #dragon-loader-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: radial-gradient(circle, rgba(0,20,0,0.95) 0%, rgba(3,8,3,0.98) 100%);
+            background: radial-gradient(circle, rgba(2, 20, 5, 0.98) 0%, rgba(1, 8, 3, 1) 100%);
             z-index: 2500; display: none; flex-direction: column; align-items: center; justify-content: center;
-            border: 4px solid var(--neon-green);
+            border: 4px solid var(--neon-green); box-shadow: inset 0 0 80px var(--neon-green);
         }
 
-        .shenlong-svg {
-            width: 280px; height: 280px; filter: drop-shadow(0 0 25px var(--neon-green));
-            animation: dragonFly 3s ease-in-out infinite alternate;
+        .real-dragon-wrapper {
+            width: 340px; height: 340px; position: relative;
+            filter: drop-shadow(0 0 35px var(--neon-green)) drop-shadow(0 0 15px var(--neon-yellow));
+            animation: dragonFloatComplex 3.5s ease-in-out infinite alternate;
         }
 
-        @keyframes dragonFly {
-            0% { transform: translateY(0) rotate(-2deg) scale(0.95); filter: drop-shadow(0 0 20px var(--neon-green)); }
-            100% { transform: translateY(-20px) rotate(3deg) scale(1.05); filter: drop-shadow(0 0 50px var(--neon-yellow)); }
+        @keyframes dragonFloatComplex {
+            0% { transform: translateY(0) scale(0.95) rotate(-2deg); }
+            100% { transform: translateY(-25px) scale(1.05) rotate(3deg); }
         }
 
         .loading-text {
-            color: var(--neon-green); font-size: 1.5rem; font-weight: 900; letter-spacing: 3px; margin-top: 20px;
-            text-shadow: 0 0 15px var(--neon-green); animation: pulseText 1s infinite alternate;
+            color: var(--neon-green); font-size: 1.6rem; font-weight: 900; letter-spacing: 4px; margin-top: 25px;
+            text-shadow: 0 0 20px var(--neon-green), 0 0 40px var(--neon-yellow); animation: pulseText 0.8s infinite alternate;
         }
-        @keyframes pulseText { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+        @keyframes pulseText { 0% { opacity: 0.4; } 100% { opacity: 1; } }
 
         /* INTRO SCREEN */
         #intro-screen {
@@ -147,7 +149,7 @@
         .intro-quote { font-size: 1.2rem; color: #fff; font-style: italic; max-width: 550px; margin-bottom: 30px; text-shadow: 0 0 12px var(--goku-orange); }
         .intro-welcome { font-size: 1.5rem; color: var(--neon-yellow); font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
 
-        /* HEADER ANIMADO CON SHENLONG FLOTANTE */
+        /* HEADER ANIMADO CON SHENLONG SUPERIOR */
         .header-banner {
             width: 100%; background: rgba(8, 11, 24, 0.95);
             border-bottom: 2px solid var(--goku-orange); box-shadow: 0 0 25px rgba(255, 102, 0, 0.3);
@@ -157,7 +159,7 @@
         .title-main { font-size: 1.5rem; font-weight: 900; color: var(--neon-yellow); text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 12px var(--goku-orange); }
 
         .header-shenlong-mini {
-            width: 60px; height: 60px; filter: drop-shadow(0 0 10px var(--neon-green));
+            width: 65px; height: 65px; filter: drop-shadow(0 0 12px var(--neon-green));
             animation: miniFly 2.5s ease-in-out infinite alternate;
         }
         @keyframes miniFly { 0% { transform: translateY(0) rotate(-5deg); } 100% { transform: translateY(-8px) rotate(5deg); } }
@@ -237,12 +239,12 @@
 
         .btn-bg-changer {
             position: fixed; bottom: 20px; right: 20px; z-index: 999;
-            background: rgba(8, 11, 24, 0.9); border: 2px solid var(--neon-yellow);
-            color: var(--neon-yellow); border-radius: 50px; padding: 10px 18px;
-            font-weight: bold; font-size: 0.8rem; cursor: pointer;
-            box-shadow: 0 0 15px var(--neon-yellow); transition: transform 0.2s;
+            background: rgba(8, 11, 24, 0.95); border: 2px solid var(--neon-yellow);
+            color: var(--neon-yellow); border-radius: 50px; padding: 12px 20px;
+            font-weight: bold; font-size: 0.85rem; cursor: pointer;
+            box-shadow: 0 0 20px var(--neon-yellow); transition: transform 0.2s, background 0.3s;
         }
-        .btn-bg-changer:active { transform: scale(0.9); }
+        .btn-bg-changer:active { transform: scale(0.92); }
 
     </style>
 </head>
@@ -252,16 +254,46 @@
 
     <audio id="audio-cancion" src="https://ia800908.us.archive.org/21/items/tv-size-dan-dan-kokoro-hikareteku-instrumental/TV-Size%20DAN%20DAN%20Kokoro%20Hikareteku%20%28Instrumental%29.mp3" preload="auto" loop></audio>
 
-    <!-- PANTALLA DE CARGA DEL DRAGÓN SHENLONG -->
+    <!-- PANTALLA DE CARGA CON SHENLONG REALISTA -->
     <div id="dragon-loader-screen">
-        <svg class="shenlong-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <path fill="none" stroke="#21ff14" stroke-width="6" stroke-linecap="round" d="M20,100 Q50,20 100,100 T180,100 T100,170 T20,100" />
-            <circle cx="100" cy="100" r="12" fill="#ffee00" filter="drop-shadow(0 0 10px #ffee00)"/>
-            <polygon points="170,90 195,100 170,110" fill="#21ff14" />
-            <circle cx="95" cy="98" r="2" fill="#ff0000"/>
-            <circle cx="105" cy="98" r="2" fill="#ff0000"/>
-        </svg>
-        <div class="loading-text">INVOCANDO A SHENLONG...</div>
+        <div class="real-dragon-wrapper">
+            <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
+                <!-- CUERPO DE SHENLONG SERRATEADO Y ESCAMAS -->
+                <path d="M 30,150 Q 80,30 150,150 T 270,150 T 150,260 T 40,150" fill="none" stroke="#117711" stroke-width="22" stroke-linecap="round"/>
+                <path d="M 30,150 Q 80,30 150,150 T 270,150 T 150,260 T 40,150" fill="none" stroke="#21ff14" stroke-width="12" stroke-linecap="round"/>
+                <path d="M 30,150 Q 80,30 150,150 T 270,150 T 150,260 T 40,150" fill="none" stroke="#a3ff99" stroke-width="3" stroke-dasharray="6,6"/>
+                
+                <!-- CRESTA DORADA SUPREMA -->
+                <path d="M 25,145 Q 75,25 145,145 T 265,145" fill="none" stroke="#ffee00" stroke-width="4"/>
+                
+                <!-- CABEZA DETALLADA SHENLONG -->
+                <g transform="translate(225, 125)">
+                    <!-- CUERNOS -->
+                    <path d="M 10,5 Q 30,-30 45,-20 Q 25,-10 5,0" fill="#ffee00" stroke="#cc9900" stroke-width="2"/>
+                    <path d="M 10,25 Q 30,60 45,50 Q 25,40 5,20" fill="#ffee00" stroke="#cc9900" stroke-width="2"/>
+                    <!-- HOCICO Y MANDÍBULA -->
+                    <path d="M -10,0 L 25,-5 L 40,10 L 20,20 L -10,15 Z" fill="#158815" stroke="#21ff14" stroke-width="2"/>
+                    <!-- OJOS BRILLANTES -->
+                    <circle cx="15" cy="2" r="4" fill="#ff0000" filter="drop-shadow(0 0 6px #ff0000)"/>
+                    <!-- BIGOTES MÍSTICOS ONDULANTES -->
+                    <path d="M 35,10 Q 60,0 80,25" fill="none" stroke="#ffee00" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M 35,15 Q 60,30 80,5" fill="none" stroke="#ffee00" stroke-width="3" stroke-linecap="round"/>
+                </g>
+
+                <!-- ESFERA DEL DRAGÓN PRINCIPAL EN EL CENTRO -->
+                <circle cx="150" cy="150" r="22" fill="url(#dragonBallGrad)" filter="drop-shadow(0 0 20px #ffee00)"/>
+                <defs>
+                    <radialGradient id="dragonBallGrad" cx="35%" cy="35%" r="65%">
+                        <stop offset="0%" stop-color="#ffffaa"/>
+                        <stop offset="50%" stop-color="#ff9900"/>
+                        <stop offset="100%" stop-color="#cc1100"/>
+                    </radialGradient>
+                </defs>
+                <!-- ESTRELLAS DE LA ESFERA -->
+                <polygon points="150,138 153,145 160,145 155,149 157,156 150,152 143,156 145,149 140,145 147,145" fill="#990000"/>
+            </svg>
+        </div>
+        <div class="loading-text">INVOCANDO A SHENLONG REAL...</div>
     </div>
 
     <div id="splash-screen">
@@ -348,18 +380,19 @@
     <script>
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
+        // GALERÍA DE WALLPAPERS EXCLUSIVOS ESTILO GOKU NEÓN Y DRAGON BALL
         const fondosUnsplashDBZ = [
-            'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1920&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=1920&auto=format&fit=crop',
             'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1920&auto=format&fit=crop',
             'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1920&auto=format&fit=crop',
-            'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=1920&auto=format&fit=crop'
+            'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1920&auto=format&fit=crop'
         ];
         let idxFondo = 0;
 
         function rotarFondoPantalla() {
             playEsferaSound();
             idxFondo = (idxFondo + 1) % fondosUnsplashDBZ.length;
-            document.body.style.backgroundImage = `linear-gradient(rgba(3, 3, 8, 0.85), rgba(3, 3, 8, 0.92)), url('${fondosUnsplashDBZ[idxFondo]}')`;
+            document.body.style.backgroundImage = `linear-gradient(rgba(3, 3, 12, 0.82), rgba(3, 3, 12, 0.92)), url('${fondosUnsplashDBZ[idxFondo]}')`;
         }
 
         function playEsferaSound() {
@@ -454,7 +487,7 @@
                             }, 800);
                         }, 2800);
 
-                    }, 2200);
+                    }, 2400);
 
                 }, 500);
             } else {
