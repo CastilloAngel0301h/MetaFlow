@@ -3,371 +3,442 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MetaFlow - DBS Neon</title>
+    <title>MetaFlow - DBZ Edition</title>
     
     <link rel="manifest" id="manifest-placeholder">
     <meta name="theme-color" content="#050508">
     <meta name="mobile-web-app-capable" content="yes">
-    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MetaFlow">
+
     <style>
         :root {
             --bg-dark: #050508;
-            --panel-bg: rgba(10, 12, 22, 0.85);
+            --panel-bg: rgba(10, 12, 22, 0.88);
             --neon-cyan: #00f3ff;
             --neon-magenta: #d946ef;
             --neon-green: #39ff14;
             --neon-yellow: #ffea00;
+            --aura-color: #00f3ff;
             --text-main: #f8fafc;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
 
         body {
             background-color: var(--bg-dark);
-            color: var(--text-main); 
-            min-height: 100vh; 
-            overflow-x: hidden;
+            color: var(--text-main); min-height: 100vh; overflow-x: hidden;
         }
 
-        /* 1. VENTANA DE BLOQUEO / LOGIN DB SUPER */
+        /* 1. VENTANA DE BLOQUEO / LOGIN CON FONDO DBZ 1 */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(5, 5, 12, 0.95)), 
-                        url('https://images.alphacoders.com/978/978931.jpg') no-repeat center center / cover;
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(5, 5, 12, 0.88)), 
+                        url('https://images.alphacoders.com/605/605939.png') no-repeat center center / cover;
             z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.6s ease-out; overflow: hidden;
+            transition: opacity 0.6s ease-out, visibility 0.6s; overflow: hidden;
         }
 
+        /* HERO ANIMADO */
         .hero-dragon-img {
-            width: 220px; max-width: 70%; cursor: pointer; margin-bottom: 20px; z-index: 4;
-            filter: drop-shadow(0 0 25px rgba(0, 243, 255, 0.9));
+            width: 200px; max-width: 70%; cursor: pointer; margin-bottom: 10px; z-index: 4;
+            filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.9));
             animation: floatHero 3s ease-in-out infinite alternate;
+            transition: transform 0.2s;
         }
+        .hero-dragon-img:active { transform: scale(0.92); }
 
         @keyframes floatHero {
             0% { transform: translateY(0) scale(0.98); filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.8)); }
-            100% { transform: translateY(-15px) scale(1.05); filter: drop-shadow(0 0 35px rgba(217, 70, 239, 0.9)); }
+            100% { transform: translateY(-12px) scale(1.03); filter: drop-shadow(0 0 30px rgba(255, 234, 0, 0.9)); }
+        }
+
+        .dragon-balls-container { display: flex; gap: 8px; margin-bottom: 18px; z-index: 3; flex-wrap: wrap; justify-content: center; }
+        .dragon-ball {
+            width: 34px; height: 34px; cursor: pointer;
+            background: radial-gradient(circle at 35% 35%, #fff066, #ff9900 60%, #cc3300 100%);
+            border-radius: 50%; box-shadow: 0 0 14px #ff6600;
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+            padding: 4px; animation: bounceBall 2.2s ease-in-out infinite alternate;
+        }
+        .dragon-ball span { color: #b30000; font-size: 7px; line-height: 7px; font-weight: bold; }
+
+        @keyframes bounceBall {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-8px); }
         }
 
         .login-box {
-            background: rgba(8, 10, 20, 0.85); border: 2px solid var(--neon-cyan);
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.3); padding: 25px; border-radius: 16px;
-            z-index: 5; text-align: center; width: 90%; max-width: 360px; backdrop-filter: blur(12px);
+            background: rgba(8, 10, 20, 0.92); border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 35px rgba(0, 243, 255, 0.4); padding: 22px; border-radius: 16px;
+            z-index: 5; text-align: center; width: 90%; max-width: 360px; backdrop-filter: blur(10px);
         }
-        
-        .login-box h1 { 
-            color: var(--neon-cyan); font-size: 2.2rem; letter-spacing: 3px; 
-            text-shadow: 0 0 15px var(--neon-cyan); margin-bottom: 5px;
-            font-weight: 900; font-style: italic;
-        }
-        
+        .login-box h1 { color: var(--neon-cyan); font-size: 2rem; letter-spacing: 2px; text-shadow: 0 0 12px var(--neon-cyan); }
         .login-input {
-            width: 100%; padding: 15px; margin: 20px 0; background: #050508; border: 2px solid var(--neon-magenta);
-            color: var(--neon-cyan); border-radius: 8px; font-size: 1.5rem; text-align: center; 
-            outline: none; box-shadow: inset 0 0 10px rgba(217, 70, 239, 0.4); font-weight: bold;
+            width: 100%; padding: 12px; margin: 15px 0; background: #050508; border: 1.5px solid var(--neon-magenta);
+            color: #fff; border-radius: 8px; font-size: 1.2rem; text-align: center; outline: none; box-shadow: inset 0 0 8px rgba(217, 70, 239, 0.3);
         }
 
-        /* 2. APP PRINCIPAL DB SUPER NEON */
+        /* 2. VENTANA DE PRESENTACIÓN CON FONDO DBZ 2 */
+        #intro-screen {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(5, 5, 12, 0.8), rgba(0, 0, 0, 0.92)), 
+                        url('https://images.alphacoders.com/132/1327104.jpeg') no-repeat center center / cover;
+            z-index: 1900; display: none; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 25px; opacity: 0; transition: opacity 0.8s ease;
+        }
+        .intro-title { font-size: 3.5rem; font-weight: 900; color: var(--neon-cyan); text-shadow: 0 0 30px var(--neon-cyan); margin-bottom: 5px; }
+        .intro-author { font-size: 1rem; color: var(--neon-magenta); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px; font-weight: bold; }
+        .intro-quote { font-size: 1.1rem; color: var(--neon-yellow); font-style: italic; max-width: 500px; margin-bottom: 30px; text-shadow: 0 0 10px rgba(255, 234, 0, 0.5); }
+        .intro-welcome { font-size: 1.4rem; color: #fff; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
+
+        /* 3. VENTANA PRINCIPAL CON FONDO DBZ 3 */
         #app-wrapper {
-            min-height: 100vh; display: none;
-            background: linear-gradient(rgba(5, 5, 8, 0.90), rgba(5, 5, 8, 0.95)), 
-                        url('https://images4.alphacoders.com/937/937829.jpg') no-repeat center center fixed / cover;
+            min-height: 100vh;
+            background: linear-gradient(rgba(5, 5, 8, 0.88), rgba(5, 5, 8, 0.95)), 
+                        url('https://images5.alphacoders.com/134/1342921.png') no-repeat center center fixed / cover;
         }
 
         .header-banner {
             width: 100%; background: rgba(10, 12, 22, 0.95);
-            border-bottom: 2px solid var(--neon-magenta); box-shadow: 0 0 25px rgba(217, 70, 239, 0.3);
+            border-bottom: 2px solid var(--neon-cyan); box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
             padding: 15px 20px; display: flex; align-items: center; justify-content: space-between;
-            position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 100; backdrop-filter: blur(8px);
         }
-        .title-main { font-size: 1.5rem; font-weight: 900; color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 3px; font-style: italic; text-shadow: 0 0 10px var(--neon-cyan);}
+        .title-main { font-size: 1.4rem; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 10px var(--neon-cyan); }
 
-        #app-main { padding: 15px; max-width: 1000px; margin: 0 auto; }
+        #app-main { display: none; padding: 20px; max-width: 1100px; margin: 0 auto; }
 
-        .top-actions { display: flex; gap: 15px; margin-bottom: 20px; align-items: center; }
-        .paros-input-box { flex: 1; background: var(--panel-bg); border: 1px solid var(--neon-cyan); border-radius: 8px; padding: 12px; box-shadow: 0 0 10px rgba(0, 243, 255, 0.1); }
-        .paros-input-box label { font-size: 0.75rem; color: var(--neon-cyan); text-transform: uppercase; display: block; margin-bottom: 5px; font-weight: bold;}
-        .paros-input-box input { width: 100%; background: transparent; border: none; color: var(--neon-magenta); font-size: 1.3rem; font-weight: bold; outline: none; }
-
-        .btn-neon {
-            background: transparent; border: 2px solid var(--neon-magenta); color: #fff;
-            padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;
-            text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 15px rgba(217, 70, 239, 0.4);
-            transition: 0.3s;
+        .paros-container {
+            background: var(--panel-bg); border: 1px solid var(--neon-yellow); border-radius: 12px; padding: 15px; margin: 20px 0;
+            display: flex; gap: 15px; align-items: center; flex-wrap: wrap; box-shadow: 0 0 15px rgba(255, 234, 0, 0.15); backdrop-filter: blur(8px);
         }
-        .btn-neon:active { background: var(--neon-magenta); color: #000; box-shadow: 0 0 25px var(--neon-magenta); }
+        .paros-container h4 { color: var(--neon-yellow); width: 100%; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
 
         .carga-card {
-            background: var(--panel-bg); border: 1px solid #1f2438; border-left: 4px solid var(--neon-cyan); 
-            border-radius: 10px; padding: 15px; margin-bottom: 15px;
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; position: relative;
-            backdrop-filter: blur(5px); transition: 0.3s;
+            background: var(--panel-bg); border: 1px solid rgba(0, 243, 255, 0.3); border-radius: 12px; padding: 15px; margin-bottom: 15px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); position: relative; backdrop-filter: blur(8px);
         }
-        .carga-card:hover { border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0, 243, 255, 0.2); }
-        
-        .carga-title { color: var(--neon-magenta); font-weight: 900; font-size: 1rem; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px;}
-        .btn-remove { position: absolute; right: 15px; top: 15px; background: transparent; border: none; color: #ff0055; cursor: pointer; font-weight: bold; font-size: 0.9rem;}
 
-        .input-group label { display: block; font-size: 0.7rem; color: #aaa; margin-bottom: 4px; text-transform: uppercase; font-weight: bold;}
-        .input-group input {
-            width: 100%; padding: 10px; background: #050508; border: 1px solid #2d3248; color: #fff; 
-            border-radius: 6px; font-size: 1rem; outline: none; transition: 0.3s;
+        .input-group label { display: block; font-size: 0.75rem; color: var(--neon-cyan); margin-bottom: 5px; text-transform: uppercase; }
+        .input-group input { width: 100%; padding: 10px; background: #080910; border: 1px solid #333; color: #fff; border-radius: 6px; font-size: 1.1rem; outline: none; }
+        .input-group input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 8px var(--neon-cyan); }
+
+        .btn-neon {
+            background: transparent; color: #fff; font-weight: bold; padding: 12px 25px; border: 2px solid var(--neon-cyan); border-radius: 8px;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; width: 100%; font-size: 1rem;
         }
-        .input-group input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 8px rgba(0, 243, 255, 0.3); }
-        .input-group input.docenas-input { color: var(--neon-green); font-weight: bold; font-size: 1.1rem; border-color: rgba(57, 255, 20, 0.4); }
+        .btn-neon:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 20px var(--neon-cyan); }
 
-        /* BANNER ORIGINAL: ON / OFF / DOCENAS ON / DOCENAS OFF */
+        .btn-add {
+            background: linear-gradient(90deg, var(--neon-magenta), #8b5cf6); border: none; color: white; padding: 14px; width: 100%; border-radius: 8px;
+            font-weight: bold; cursor: pointer; margin-bottom: 25px; box-shadow: 0 0 15px rgba(217, 70, 239, 0.4); text-transform: uppercase; letter-spacing: 1.5px;
+        }
+
         .banner-eficiencia {
-            background: linear-gradient(135deg, rgba(10, 12, 22, 0.95), rgba(20, 10, 30, 0.95));
-            border: 2px solid var(--neon-cyan);
-            border-radius: 16px; padding: 20px; margin: 25px 0; text-align: center;
-            box-shadow: 0 0 25px rgba(0, 243, 255, 0.3); color: #fff;
+            position: relative; background: rgba(5, 5, 12, 0.92);
+            border: 2px solid var(--aura-color); border-radius: 16px; padding: 30px 20px; margin: 25px 0;
+            text-align: center; box-shadow: 0 0 30px var(--aura-color), inset 0 0 20px var(--aura-color);
+            transition: all 0.5s ease; overflow: hidden; backdrop-filter: blur(8px);
         }
-        .efi-title { font-size: 0.85rem; letter-spacing: 3px; font-weight: bold; color: var(--neon-magenta); text-transform: uppercase; }
-        .efi-percent { font-size: 3.5rem; font-weight: 900; margin: 10px 0; color: var(--neon-cyan); text-shadow: 0 0 20px var(--neon-cyan); font-style: italic;}
 
-        .stats-grid { 
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; 
-            margin-top: 15px; border-top: 1px solid rgba(0, 243, 255, 0.2); padding-top: 15px; 
+        .banner-eficiencia::before, .banner-eficiencia::after {
+            content: ''; position: absolute; left: 50%; bottom: -20px; width: 180%; height: 180%;
+            background: radial-gradient(circle at bottom, var(--aura-color) 0%, transparent 60%);
+            opacity: 0.25; transform: translateX(-50%); pointer-events: none; z-index: 1;
+            animation: flameAura 2s ease-in-out infinite alternate;
         }
-        .stat-item { text-align: center; }
-        .stat-item .lbl { font-size: 0.7rem; color: #aaa; text-transform: uppercase; font-weight: bold; letter-spacing: 1px;}
-        .stat-item .val { font-size: 1.2rem; font-weight: 900; margin-top: 5px; }
-        .stat-item .val.on-color { color: var(--neon-green); text-shadow: 0 0 10px rgba(57, 255, 20, 0.5); }
-        .stat-item .val.off-color { color: #ff0055; text-shadow: 0 0 10px rgba(255, 0, 85, 0.5); }
 
-        /* LÓGICA DE BITÁCORA FIEL A LA IMAGEN (PERO CON ESTILO NEÓN) */
-        .bitacora-container { 
-            background: rgba(5, 5, 10, 0.8); border-radius: 12px; 
-            border: 1px solid var(--neon-magenta); padding: 15px; margin-top: 20px;
-            box-shadow: 0 0 15px rgba(217, 70, 239, 0.15);
+        @keyframes flameAura {
+            0% { transform: translateX(-50%) scale(0.95) translateY(0); filter: drop-shadow(0 0 10px var(--aura-color)); }
+            100% { transform: translateX(-50%) scale(1.05) translateY(-10px); filter: drop-shadow(0 0 25px var(--aura-color)); }
         }
-        .bitacora-title {
-            color: var(--neon-cyan); font-weight: 900; font-style: italic; letter-spacing: 2px;
-            margin-bottom: 15px; font-size: 1.1rem; text-align: center;
-        }
-        .carga-row {
-            display: flex; justify-content: space-between; align-items: center; padding: 12px 15px;
-            background: rgba(20, 25, 40, 0.9); border-radius: 6px; margin-bottom: 5px; 
-            font-size: 0.9rem; font-weight: bold; border-left: 3px solid var(--neon-cyan);
-        }
-        .carga-row .name { color: #fff; text-transform: uppercase; letter-spacing: 1px;}
-        .carga-row .time { color: var(--neon-green); letter-spacing: 1px; }
-        .carga-row .dur { color: #aaa; font-size: 0.8rem; margin-left: 8px; font-weight: normal; }
 
-        .paro-row {
-            display: flex; justify-content: space-between; align-items: center; padding: 8px 15px 8px 30px;
-            background: rgba(40, 30, 5, 0.8); border-left: 3px solid var(--neon-yellow);
-            border-radius: 4px; margin-bottom: 8px; font-size: 0.8rem; color: var(--neon-yellow);
-        }
-        .paro-row .time-tag { font-weight: bold; letter-spacing: 1px;}
+        .eficiencia-contenido { position: relative; z-index: 2; }
+        .eficiencia-valor { font-size: 4.2rem; font-weight: 900; color: #fff; text-shadow: 0 0 25px var(--aura-color); }
+        .aura-nivel-tag { font-size: 1.2rem; font-weight: bold; color: var(--aura-color); letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 0 10px var(--aura-color); }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 20px; position: relative; z-index: 2; }
+        .stat-box { background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; color: #fff; font-size: 0.85rem; }
+        .stat-box span { display: block; font-size: 1.2rem; font-weight: bold; color: var(--neon-cyan); margin-top: 3px; }
+
+        .timeline-box { background: var(--panel-bg); border-radius: 12px; border: 1px solid #2a2d3d; overflow: hidden; margin-top: 15px; backdrop-filter: blur(8px); }
+        .time-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
+        
+        /* ESTILOS FIELES A LA IMAGEN 149374_2.jpg */
+        .time-row.carga { background: rgba(10, 15, 25, 0.8); border-left: 4px solid #4a5d85; color: #b3c5e5; font-weight: bold; letter-spacing: 1px;}
+        .time-row.carga .hora { color: #00f3ff; font-weight: bold; font-family: monospace; font-size: 1rem;}
+        .time-row.receso { background: rgba(30, 25, 5, 0.8); border-left: 4px solid #a68a24; color: #d8c273; font-size: 0.85rem;}
+        .time-row.receso .hora { color: #a68a24; font-weight: bold; }
+        
+        .duracion-badge { color: #666; font-size: 0.8rem; margin-left: 8px; font-weight: normal; }
 
         .summary-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
         .summary-card { 
             background: rgba(10, 12, 22, 0.9); border: 1px solid rgba(255,255,255,0.1); 
             padding: 15px; border-radius: 8px; text-align: center; 
         }
-        .summary-card .lbl { font-size: 0.75rem; color: var(--neon-cyan); font-weight: bold; text-transform: uppercase; letter-spacing: 1px;}
+        .summary-card .lbl { font-size: 0.75rem; color: var(--neon-green); font-weight: bold; text-transform: uppercase; letter-spacing: 1px;}
         .summary-card .val { font-size: 1.3rem; font-weight: 900; color: #fff; margin-top: 5px; }
 
-        .btn-guardar {
-            width: 100%; background: var(--neon-magenta); border: none; color: #000;
-            padding: 18px; border-radius: 10px; font-weight: 900; font-size: 1.1rem; margin-top: 25px;
-            cursor: pointer; text-transform: uppercase; letter-spacing: 3px; font-style: italic;
-            box-shadow: 0 0 25px rgba(217, 70, 239, 0.5); transition: 0.3s;
-        }
-        .btn-guardar:active { transform: scale(0.98); background: var(--neon-cyan); box-shadow: 0 0 25px var(--neon-cyan); }
     </style>
 </head>
 <body>
 
-    <audio id="audio-ui" src="https://ia800908.us.archive.org/21/items/tv-size-dan-dan-kokoro-hikareteku-instrumental/TV-Size%20DAN%20DAN%20Kokoro%20Hikareteku%20%28Instrumental%29.mp3" preload="auto" loop></audio>
+    <audio id="audio-cancion" src="https://ia800908.us.archive.org/21/items/tv-size-dan-dan-kokoro-hikareteku-instrumental/TV-Size%20DAN%20DAN%20Kokoro%20Hikareteku%20%28Instrumental%29.mp3" preload="auto" loop></audio>
 
-    <!-- 1. LOGIN DBS -->
+    <div id="pwa-install-banner" style="display:none; background: var(--neon-magenta); color:#fff; text-align:center; padding:10px; font-weight:bold; cursor:pointer;" onclick="triggerInstalacionPWA()">
+        📲 Toca aquí para instalar MetaFlow como App en tu teléfono
+    </div>
+
+    <!-- 1. BLOQUEO (FONDO DBZ 1) -->
     <div id="splash-screen">
-        <img class="hero-dragon-img" src="https://media.giphy.com/media/19JSJ5ucu91R5D7a3w/giphy.gif" alt="Goku Ultra Instinct" onclick="toggleMusica()">
+        <img class="hero-dragon-img" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHIxd2ptbmNzNjVsYmZ6OHlueHFxM3dtcG0xZmRhbmphcjN2cXJ5ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/vbfA1C0m1xZ7vC6uE4/giphy.gif" alt="Shenlong Goku DBZ" onclick="toggleMusica()">
+
+        <div class="dragon-balls-container">
+            <div class="dragon-ball" onclick="playEsferaSound()"><span>★</span></div>
+            <div class="dragon-ball" onclick="playEsferaSound()"><span>★<br>★</span></div>
+            <div class="dragon-ball" onclick="playEsferaSound()"><span>★<br>★ ★</span></div>
+            <div class="dragon-ball" onclick="playEsferaSound()"><span>★★<br>★★</span></div>
+            <div class="dragon-ball" onclick="playEsferaSound()"><span>★★<br>★<br>★★</span></div>
+            <div class="dragon-ball" onclick="playEsferaSound()"><span>★★★<br>★★★</span></div>
+            <div class="dragon-ball" onclick="playEsferaSound()"><span>★★★<br>★<br>★★★</span></div>
+        </div>
 
         <div class="login-box">
-            <h1>METAFLOW</h1>
-            <p style="color: var(--neon-magenta); font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 10px; font-weight: bold;">SISTEMA DE EFICIENCIA DBS</p>
-            <input type="password" id="pin" class="login-input" placeholder="PIN DE ACCESO" maxlength="6" inputmode="numeric" onfocus="playBeep()">
-            <button class="btn-neon" style="width: 100%;" onclick="verificarAcceso()">INICIAR SISTEMA</button>
-            <p id="error-msg" style="color: #ff0055; margin-top: 15px; font-size: 0.9rem; font-weight: bold; display: none; text-shadow: 0 0 5px #ff0055;"></p>
+            <h1>MetaFlow</h1>
+            <p style="color: #aaa; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 10px;">SISTEMA INTEGRADO DE CÁLCULOS DE EFICIENCIA Y PRODUCCIÓN</p>
+            <input type="password" id="pin" class="login-input" placeholder="PIN DE ACCESO" maxlength="6" inputmode="numeric" onfocus="playEsferaSound()">
+            <button class="btn-neon" onclick="verificarAcceso()">INGRESAR</button>
+            <p id="error-msg" style="color: #ff4500; margin-top: 12px; font-size: 0.85rem; display: none;"></p>
         </div>
     </div>
 
-    <!-- 2. APP PRINCIPAL -->
+    <!-- 2. PRESENTACIÓN (FONDO DBZ 2) -->
+    <div id="intro-screen">
+        <div class="intro-title">MetaFlow</div>
+        <div class="intro-author">Creado por Ángel Castillo</div>
+        <div class="intro-quote" id="intro-quote-text">"¡El poder viene en respuesta a una necesidad, no a un deseo!"</div>
+        <div class="intro-welcome">Bienvenido usuario: <span id="intro-user-name" style="color: var(--neon-cyan);"></span></div>
+    </div>
+
+    <!-- 3. CONTENEDOR PRINCIPAL (FONDO DBZ 3) -->
     <div id="app-wrapper">
         <div class="header-banner">
             <div>
-                <div class="title-main">METAFLOW</div>
-                <div style="font-size: 0.7rem; color: #aaa; font-weight: bold; letter-spacing: 1px;" id="nombre-usuario">OPERADOR: CÁLCULO</div>
+                <div class="title-main">MetaFlow</div>
+                <div style="font-size: 0.70rem; color: var(--neon-cyan); letter-spacing: 1px; max-width: 250px;" id="nombre-usuario">SISTEMA INTEGRADO DE CÁLCULOS DE EFICIENCIA Y PRODUCCIÓN</div>
             </div>
-            <button class="btn-neon" style="padding: 6px 12px; font-size: 0.75rem;">SYNC</button>
+            <div style="text-align: right; font-size: 0.8rem; color: #aaa;">
+                <div>CUADRE DE 12 HORAS</div>
+                <div style="color: var(--neon-green); font-weight: bold;">07:00 AM - 07:00 PM</div>
+            </div>
         </div>
 
         <div id="app-main">
-            <div class="top-actions">
-                <div class="paros-input-box">
-                    <label>PAROS EXTERNOS (MINS)</label>
-                    <input type="number" id="paros-mins" value="0" min="0" oninput="playBeep(); calcularTodo();">
+            <div class="paros-container">
+                <h4>⏱️ Paros Externos (MINS)</h4>
+                <div class="input-group" style="flex: 1; min-width: 120px;">
+                    <input type="number" id="paro-minutos" value="0" min="0" oninput="playEsferaSound(); calcularTodo();" style="text-align: center; color: var(--neon-magenta); font-weight: bold;">
                 </div>
-                <button class="btn-neon" onclick="playPowerUp(); agregarCarga();">+ AÑADIR CARGA</button>
             </div>
 
             <div id="contenedor-cargas"></div>
+            
+            <button class="btn-add" onclick="playTransformSound(); agregarCarga();">+ AÑADIR CARGA</button>
 
-            <!-- BANNER ORIGINAL QUE PEDISTE MANTENER -->
-            <div class="banner-eficiencia">
-                <div class="efi-title">EFICIENCIA GLOBAL</div>
-                <div class="efi-percent" id="efi-final">0.00%</div>
+            <div class="banner-eficiencia" id="aura-banner">
+                <div class="eficiencia-contenido">
+                    <div class="aura-nivel-tag" style="font-size: 0.8rem; margin-bottom: 5px;">EFICIENCIA PREMIUM STO</div>
+                    <div class="eficiencia-valor" id="efi-final">0.00%</div>
+                    <div class="aura-nivel-tag" id="aura-tag" style="margin-top: 10px;">AURA BASE NEÓN</div>
+                </div>
                 <div class="stats-grid">
-                    <div class="stat-item"><div class="lbl">EFI ON</div><div class="val on-color" id="val-efi-on">0.00%</div></div>
-                    <div class="stat-item"><div class="lbl">EFI OFF</div><div class="val off-color" id="val-efi-off">0.00%</div></div>
-                    <div class="stat-item"><div class="lbl">DOC. ON</div><div class="val on-color" id="val-doc-on">0.0</div></div>
-                    <div class="stat-item"><div class="lbl">DOC. OFF</div><div class="val off-color" id="val-doc-off">0.0</div></div>
+                    <div class="stat-box">ON<span><b id="efi-on-val">0.00%</b></span></div>
+                    <div class="stat-box">OFF<span><b id="efi-off-val">0.00%</b></span></div>
+                    <div class="stat-box">META DÍA<span><b id="meta-dia-val">0</b></span></div>
+                    <div class="stat-box">DOCENAS<span><b id="docenas-hechas-val">0</b></span></div>
                 </div>
             </div>
 
-            <!-- BITÁCORA CON LA LÓGICA DE LA IMAGEN (TIEMPOS CONTINUOS Y RECESOS) -->
-            <div class="bitacora-container">
-                <div class="bitacora-title">CUADRE DE PRODUCCIÓN - 12 HORAS</div>
-                <div id="bitacora-list"></div>
-            </div>
-
+            <div class="timeline-box" id="timeline-container"></div>
+            
             <div class="summary-footer">
                 <div class="summary-card">
                     <div class="lbl">TIEMPO PRODUCCIÓN PURO</div>
                     <div class="val">11H 00M</div>
                 </div>
-                <div class="summary-card" style="border-color: var(--neon-yellow);">
-                    <div class="lbl" style="color: var(--neon-yellow);">RECESOS OBLIGATORIOS</div>
-                    <div class="val" style="color: var(--neon-yellow);">1H 00M</div>
+                <div class="summary-card" style="border-color: #a68a24;">
+                    <div class="lbl" style="color: #d8c273;">RECESOS OBLIGATORIOS</div>
+                    <div class="val" style="color: #d8c273;">1H 00M</div>
                 </div>
             </div>
+            
+            <button class="btn-neon" style="margin-top: 25px; border-color: var(--neon-magenta); background: rgba(217, 70, 239, 0.1);">GUARDAR CÁLCULO PREMIUM</button>
 
-            <button class="btn-guardar" onclick="playPowerUp()">GUARDAR BITÁCORA</button>
         </div>
     </div>
 
     <script>
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-        function playBeep() {
+        function playEsferaSound() {
             if (audioCtx.state === 'suspended') audioCtx.resume();
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-            osc.type = 'square';
-            osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1760, audioCtx.currentTime + 0.12);
+            gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
             osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.12);
         }
 
-        function playPowerUp() {
+        function playTransformSound() {
             if (audioCtx.state === 'suspended') audioCtx.resume();
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(200, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.3);
-            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+            osc.frequency.setValueAtTime(120, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(900, audioCtx.currentTime + 0.45);
+            gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.45);
             osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.45);
         }
 
         function toggleMusica() {
-            const cancion = document.getElementById('audio-ui');
-            playBeep();
+            const cancion = document.getElementById('audio-cancion');
+            playEsferaSound();
             if (cancion.paused) { cancion.play().catch(() => {}); } 
             else { cancion.pause(); }
         }
 
+        // ESTADO INICIAL: 1 CARGA (Como pediste, y luego el botón añade las demás)
         let cargas = [
-            { estilo: '1717.0', talla: 'M', metaPzaHr: 700.0, hechas: 126 },
-            { estilo: '9018.0', talla: 'S', metaPzaHr: 550.0, hechas: 220 }
+            { id: 1, meta: 700.0, hechas: 0 }
         ];
 
-        // LÓGICA DE TIEMPOS DE LA IMAGEN
-        const RECESOS_FIJOS = [
-            { id: 1, nombre: 'PARO FIJO: RECESO', inicioMin: 70, finMin: 85, duracion: 15, tag: '08:10 AM - 08:25 AM (15 min)' },
-            { id: 2, nombre: 'PARO FIJO: ALMUERZO', inicioMin: 260, finMin: 290, duracion: 30, tag: '11:20 AM - 11:50 AM (30 min)' },
-            { id: 3, nombre: 'PARO FIJO: RECESO', inicioMin: 490, finMin: 505, duracion: 15, tag: '03:10 PM - 03:25 PM (15 min)' }
+        // LÓGICA DE TIEMPOS EXACTA A LA IMAGEN 149374_2.jpg
+        const RECESOS = [
+            { id: 'r1', nombre: 'PARO FIJO: RECESO 8:10 AM - 8:25 AM', inicioMin: 70, finMin: 85, duracion: 15 },
+            { id: 'r2', nombre: 'PARO FIJO: ALMUERZO 11:20 AM - 11:50 AM', inicioMin: 260, finMin: 290, duracion: 30 },
+            { id: 'r3', nombre: 'PARO FIJO: RECESO 3:10 PM - 3:25 PM', inicioMin: 490, finMin: 505, duracion: 15 }
         ];
 
         const usuariosAutorizados = [
-            { pin: "2004", nombre: "Ángel Castillo" },
-            { pin: "1234", nombre: "Karina Cabrera" }
+            { pin: "2004", nombre: "Angel Castillo 🚢" },
+            { pin: "1234", nombre: "Karina Cabrera" },
+            { pin: "5863", nombre: "Kevin Ramón Pineda ⚔️" },
+            { pin: "8198", nombre: "Carlos David Garcia 🦅" },
+            { pin: "1734", nombre: "Libny Castillo ⚡" },
+            { pin: "1800", nombre: "Usuario Invitado 🗺️" }
         ];
 
-        function verificarAcceso() {
-            const pin = document.getElementById('pin').value;
-            const user = usuariosAutorizados.find(u => u.pin === pin);
+        const frasesDragonBall = [
+            '"¡El poder viene en respuesta a una necesidad, no a un deseo!"',
+            '"Trabajar duro y superar tus límites es la clave de todo guerrero."',
+            '"Los límites solo existen si tú los permites en tu mente."',
+            '"Incluso el guerrero más ordinario puede superar a un élite con esfuerzo."'
+        ];
 
-            if (user) {
-                playPowerUp();
-                document.getElementById('nombre-usuario').innerText = "OPERADOR: " + user.nombre.toUpperCase();
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('pwa-install-banner').style.display = 'block';
+        });
+
+        function triggerInstalacionPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        document.getElementById('pwa-install-banner').style.display = 'none';
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+
+        function verificarAcceso() {
+            const pinIngresado = document.getElementById('pin').value;
+            const usuario = usuariosAutorizados.find(u => u.pin === pinIngresado);
+
+            if (usuario) {
+                playTransformSound();
+                triggerInstalacionPWA();
+                document.getElementById('intro-user-name').innerText = usuario.nombre;
                 
+                const fraseAzar = frasesDragonBall[Math.floor(Math.random() * frasesDragonBall.length)];
+                document.getElementById('intro-quote-text').innerText = fraseAzar;
+
                 const splash = document.getElementById('splash-screen');
+                const intro = document.getElementById('intro-screen');
+
                 splash.style.opacity = '0';
                 setTimeout(() => {
                     splash.style.display = 'none';
-                    document.getElementById('app-wrapper').style.display = 'block';
-                    renderizarCargas();
+                    intro.style.display = 'flex';
+                    setTimeout(() => { intro.style.opacity = '1'; }, 50);
+
+                    setTimeout(() => {
+                        intro.style.opacity = '0';
+                        setTimeout(() => {
+                            intro.style.display = 'none';
+                            document.getElementById('app-main').style.display = 'block';
+                            renderizarCargas();
+                        }, 800);
+                    }, 3200);
+
                 }, 600);
             } else {
-                playBeep();
-                document.getElementById('error-msg').innerText = "PIN INCORRECTO";
-                document.getElementById('error-msg').style.display = 'block';
+                playEsferaSound();
+                const errorMsg = document.getElementById('error-msg');
+                errorMsg.innerText = "PIN Incorrecto.";
+                errorMsg.style.display = 'block';
             }
         }
 
         function agregarCarga() {
-            cargas.push({ estilo: 'NUEVO', talla: 'M', metaPzaHr: 500.0, hechas: 0 });
+            cargas.push({ id: cargas.length + 1, meta: 500, hechas: 0 });
             renderizarCargas();
         }
 
         function eliminarCarga(index) {
             if (cargas.length > 1) {
-                playBeep();
+                playEsferaSound();
                 cargas.splice(index, 1);
                 renderizarCargas();
             }
         }
 
-        function actualizarCarga(index, campo, valor) {
-            cargas[index][campo] = (campo === 'hechas' || campo === 'metaPzaHr') ? (parseFloat(valor) || 0) : valor;
+        function actualizarValor(index, campo, valor) {
+            cargas[index][campo] = parseFloat(valor) || 0;
             calcularTodo();
         }
 
         function renderizarCargas() {
             const container = document.getElementById('contenedor-cargas');
             container.innerHTML = '';
-
-            cargas.forEach((c, i) => {
+            
+            cargas.forEach((c, index) => {
                 container.innerHTML += `
                     <div class="carga-card">
-                        <div class="carga-title">CARGA #${i + 1}</div>
-                        <button class="btn-remove" onclick="eliminarCarga(${i})">QUITAR</button>
-                        
                         <div class="input-group">
-                            <label>ESTILO</label>
-                            <input type="text" value="${c.estilo}" onchange="actualizarCarga(${i}, 'estilo', this.value)">
+                            <label style="color: var(--neon-magenta); font-weight: bold;">CARGA #${index + 1}</label>
                         </div>
                         <div class="input-group">
-                            <label>TALLA</label>
-                            <input type="text" value="${c.talla}" onchange="actualizarCarga(${i}, 'talla', this.value)">
+                            <label>Meta Vinculada (pza/h)</label>
+                            <input type="number" value="${c.meta}" oninput="actualizarValor(${index}, 'meta', this.value)" style="color: var(--neon-yellow);">
                         </div>
                         <div class="input-group">
-                            <label>META (PZA/H)</label>
-                            <input type="number" value="${c.metaPzaHr}" oninput="actualizarCarga(${i}, 'metaPzaHr', this.value)">
+                            <label>Docenas Hechas</label>
+                            <input type="number" value="${c.hechas}" oninput="actualizarValor(${index}, 'hechas', this.value)" style="color: var(--neon-green); font-weight: bold;">
                         </div>
-                        <div class="input-group">
-                            <label>DOCENAS HECHAS</label>
-                            <input type="number" class="docenas-input" value="${c.hechas}" oninput="actualizarCarga(${i}, 'hechas', this.value)">
-                        </div>
+                        <button onclick="eliminarCarga(${index})" style="position: absolute; right: 15px; top: 15px; background: transparent; border: none; color: #ff4500; cursor: pointer; font-weight: bold;">Quitar</button>
                     </div>
                 `;
             });
@@ -385,86 +456,172 @@
             return `${displayH.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
         }
 
-        function formatoDuracion(minutos) {
-            let h = Math.floor(minutos / 60);
-            let m = Math.round(minutos % 60);
-            if (h > 0) return `(${h}H ${m.toString().padStart(2, '0')}M)`;
-            return `(${m}M)`;
+        function actualizarAuraNeón(eficiencia) {
+            let root = document.documentElement;
+            let tag = document.getElementById('aura-tag');
+            let color = "#1a1d24";
+            let nombreNivel = "Aura Base Oscura";
+
+            if (eficiencia === 0) {
+                color = "#2a2e3d";
+                nombreNivel = "ESPERANDO DATOS...";
+            } else if (eficiencia < 50) {
+                color = "#ffea00";
+                nombreNivel = "Aura Amarilla Neón";
+            } else if (eficiencia < 75) {
+                color = "#ffd700";
+                nombreNivel = "Aura Dorado Intenso Neón";
+            } else if (eficiencia < 95) {
+                color = "#ff003c";
+                nombreNivel = "Aura Rojo Fuego Neón";
+            } else if (eficiencia <= 100.2) {
+                color = "#d946ef";
+                nombreNivel = "AURA PREMIUM STO 🔥";
+            } else {
+                color = "#22c55e";
+                nombreNivel = "Aura Plata Verde Neón ⚡";
+            }
+
+            root.style.setProperty('--aura-color', color);
+            tag.innerText = nombreNivel;
         }
 
         function calcularTodo() {
-            let totalDocenas = cargas.reduce((acc, c) => acc + c.hechas, 0);
-            let metaPromedioPzaHr = cargas.reduce((acc, c) => acc + c.metaPzaHr, 0) / (cargas.length || 1);
-            let metaDiaDocenas = (metaPromedioPzaHr * 11) / 12; 
-
-            let parosMins = parseFloat(document.getElementById('paros-mins').value) || 0;
-            let horasOn = 11 - (parosMins / 60);
-            let metaOn = (metaPromedioPzaHr * horasOn) / 12;
-
-            let efiOff = metaDiaDocenas > 0 ? (totalDocenas / metaDiaDocenas) * 100 : 0;
-            let efiOn = metaOn > 0 ? (totalDocenas / metaOn) * 100 : 0;
-
-            document.getElementById('efi-final').innerText = efiOff.toFixed(2) + '%';
-            document.getElementById('val-efi-on').innerText = efiOn.toFixed(2) + '%';
-            document.getElementById('val-efi-off').innerText = efiOff.toFixed(2) + '%';
-            document.getElementById('val-doc-on').innerText = totalDocenas.toFixed(1);
-            document.getElementById('val-doc-off').innerText = metaDiaDocenas.toFixed(1);
-
-            // MANTENEMOS LA LÓGICA DE TIEMPOS DE TU IMAGEN
-            generarBitacora(totalDocenas);
-        }
-
-        function generarBitacora(totalDocenas) {
-            const container = document.getElementById('bitacora-list');
-            container.innerHTML = '';
-
-            if (cargas.length === 0) return;
-
-            let minutosTrabajoPuro = cargas.map(c => {
-                if (totalDocenas === 0) return 660 / cargas.length;
-                return (c.hechas / totalDocenas) * 660; // 660 mins = 11 Horas
+            // Lógica MATEMÁTICA IDÉNTICA al Cuadre de 12 Horas de la imagen
+            let sumaMetasPzaH = 0;
+            let totalDocenas = 0;
+            cargas.forEach(c => {
+                sumaMetasPzaH += c.meta;
+                totalDocenas += c.hechas;
             });
 
-            let relojActualMins = 0; // 0 = 07:00 AM
+            let metaPromedioPzaH = cargas.length > 0 ? (sumaMetasPzaH / cargas.length) : 0;
+            // Meta del día basada en 11 horas de producción pura
+            let metaDiaDocenas = (metaPromedioPzaH * 11) / 12; 
+
+            let parosExternosMins = parseFloat(document.getElementById('paro-minutos').value) || 0;
+            let eficienciaOff = metaDiaDocenas > 0 ? (totalDocenas / metaDiaDocenas) * 100 : 0;
+            let eficienciaOn = eficienciaOff; // En el diseño original OFF y ON marcan lo mismo si no hay ajuste manual
+
+            document.getElementById('efi-final').innerText = eficienciaOff.toFixed(2) + '%';
+            document.getElementById('efi-on-val').innerText = eficienciaOn.toFixed(2) + '%';
+            document.getElementById('efi-off-val').innerText = eficienciaOff.toFixed(2) + '%';
+            document.getElementById('meta-dia-val').innerText = metaDiaDocenas.toFixed(1);
+            document.getElementById('docenas-hechas-val').innerText = totalDocenas.toFixed(2);
+
+            actualizarAuraNeón(eficienciaOff);
+            generarBitacoraExacta(totalDocenas, parosExternosMins);
+        }
+
+        /* LÓGICA DE TIEMPOS DINÁMICOS SEGÚN PESO DE CADA CARGA (DOCENAS / META) */
+        function generarBitacoraExacta(totalDocenas, parosExternosMins) {
+            const container = document.getElementById('timeline-container');
+            container.innerHTML = '';
+            if (cargas.length === 0) return;
+
+            // 1. Asignar el "peso" de cada carga.
+            // Según la imagen, una carga requiere tiempo proporcional a (Docenas / Meta)
+            let pesosCargas = cargas.map(c => {
+                return c.meta > 0 ? (c.hechas / c.meta) : 0;
+            });
+
+            let sumaPesos = pesosCargas.reduce((a, b) => a + b, 0);
+            if (sumaPesos === 0) sumaPesos = 1; // Prevenir división por cero si no hay docenas aún
+
+            // 2. El tiempo de producción puro es 660 mins (11 horas) menos los paros externos
+            let minutosTrabajoPuro = 660 - parosExternosMins;
+            
+            // Reparto proporcional
+            let minsTrabajoAsignados = pesosCargas.map(p => (p / sumaPesos) * minutosTrabajoPuro);
+
+            let relojActual = 0; // Inicia 07:00 AM (0 mins)
+            let html = '';
 
             cargas.forEach((c, idx) => {
-                let minsPuros = minutosTrabajoPuro[idx];
-                let inicioCargaMins = relojActualMins;
-                let parosEncontrados = [];
-                let acumuladoParosCarga = 0;
-
-                RECESOS_FIJOS.forEach(r => {
-                    let finEstimado = inicioCargaMins + minsPuros + acumuladoParosCarga;
-                    if (inicioCargaMins < r.finMin && finEstimado > r.inicioMin) {
-                        parosEncontrados.push(r);
-                        acumuladoParosCarga += r.duracion;
+                let tiempoRestanteCarga = minsTrabajoAsignados[idx];
+                let inicioCargaMins = relojActual;
+                
+                // Algoritmo de avance en el reloj absorbiendo recesos
+                while (tiempoRestanteCarga > 0.01) {
+                    // Ver si el reloj actual está dentro de un receso
+                    let recesoActual = RECESOS.find(r => relojActual >= r.inicioMin && relojActual < r.finMin);
+                    
+                    if (recesoActual) {
+                        // Saltar al fin del receso sin restar tiempo de carga
+                        let minsEnReceso = recesoActual.finMin - relojActual;
+                        relojActual += minsEnReceso;
+                        
+                        html += `
+                            <div class="time-row receso">
+                                <div>↳ ${recesoActual.nombre}</div>
+                                <div class="hora">${formatoHora(recesoActual.inicioMin)} - ${formatoHora(recesoActual.finMin)} <span class="duracion-badge">(${recesoActual.duracion} min)</span></div>
+                            </div>
+                        `;
+                    } else {
+                        // Buscar el próximo receso para ver cuánto podemos avanzar
+                        let proxReceso = RECESOS.find(r => r.inicioMin > relojActual);
+                        let minsHastaProxReceso = proxReceso ? (proxReceso.inicioMin - relojActual) : Infinity;
+                        
+                        let paso = Math.min(tiempoRestanteCarga, minsHastaProxReceso);
+                        relojActual += paso;
+                        tiempoRestanteCarga -= paso;
                     }
-                });
+                }
 
-                let duracionTotalBloque = minsPuros + acumuladoParosCarga;
-                let finCargaMins = inicioCargaMins + duracionTotalBloque;
-                relojActualMins = finCargaMins;
+                let duracionRealEnReloj = relojActual - inicioCargaMins;
+                let h = Math.floor(duracionRealEnReloj / 60);
+                let m = Math.round(duracionRealEnReloj % 60);
+                let badgeDuracion = h > 0 ? `(${h}h ${m}m)` : `(${m}m)`;
 
-                container.innerHTML += `
-                    <div class="carga-row">
-                        <div class="name">CARGA ${idx + 1}</div>
-                        <div class="time">
-                            ${formatoHora(inicioCargaMins)} - ${formatoHora(finCargaMins)}
-                            <span class="dur">${formatoDuracion(duracionTotalBloque)}</span>
-                        </div>
+                html = html.substring(0, html.lastIndexOf('<div class="time-row receso"')); // truco para ordenar el HTML si se insertó el receso antes de la fila de la carga
+
+                // Insertar el bloque de la carga en la posición correcta
+                let bloqueCarga = `
+                    <div class="time-row carga">
+                        <div>CARGA ${idx + 1}</div>
+                        <div class="hora">${formatoHora(inicioCargaMins)} - ${formatoHora(relojActual)} <span class="duracion-badge">${badgeDuracion}</span></div>
                     </div>
                 `;
 
-                parosEncontrados.forEach(rf => {
-                    container.innerHTML += `
-                        <div class="paro-row">
-                            <div>↳ ${rf.nombre}</div>
-                            <div class="time-tag">${rf.tag}</div>
-                        </div>
-                    `;
-                });
+                // Aquí reconstruimos para que el bloque de carga quede por encima de los recesos que haya "tragado"
+                let prevHtml = container.innerHTML;
+                container.innerHTML += bloqueCarga;
+                
+                // Procesar recesos dentro del bloque de ESTA carga específica para renderizarlos debajo
+                let inicioIteracion = inicioCargaMins;
+                let tiempoTemp = minsTrabajoAsignados[idx];
+                
+                while(tiempoTemp > 0.01) {
+                    let rec = RECESOS.find(r => inicioIteracion >= r.inicioMin && inicioIteracion < r.finMin);
+                    if (rec) {
+                        container.innerHTML += `
+                            <div class="time-row receso">
+                                <div>↳ ${rec.nombre}</div>
+                                <div class="hora">${formatoHora(rec.inicioMin)} - ${formatoHora(rec.finMin)} <span class="duracion-badge">(${rec.duracion} min)</span></div>
+                            </div>
+                        `;
+                        inicioIteracion = rec.finMin;
+                    } else {
+                        let nextR = RECESOS.find(r => r.inicioMin > inicioIteracion);
+                        let limit = nextR ? (nextR.inicioMin - inicioIteracion) : Infinity;
+                        let jump = Math.min(tiempoTemp, limit);
+                        inicioIteracion += jump;
+                        tiempoTemp -= jump;
+                    }
+                }
             });
         }
+
+        const manifestObj = {
+            "name": "MetaFlow App",
+            "short_name": "MetaFlow",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#050508",
+            "theme_color": "#00f3ff"
+        };
+        const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/json'});
+        document.getElementById('manifest-placeholder').setAttribute('href', URL.createObjectURL(manifestBlob));
     </script>
 </body>
 </html>
