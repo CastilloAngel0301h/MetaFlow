@@ -255,9 +255,9 @@
 
     <div id="dragon-loader-screen">
         <div class="real-dragon-wrapper">
-            <img src="https://media.giphy.com/media/fV4G76T48J9xNqH1tN/giphy.gif" alt="Shenlong Neon Gif Real">
+            <img src="https://share.google/jtfrOGT9Ns0xd2OdN" alt="Shenlong Neon Gif Real">
         </div>
-        <div class="loading-text">INVOCANDO A SHENLONG NEÓN...</div>
+        <div class="loading-text">INVOCANDO A SHENLONG...</div>
     </div>
 
     <div id="splash-screen">
@@ -286,7 +286,7 @@
         <div class="intro-title">MetaFlow</div>
         <div class="intro-author">Creado por Ángel Castillo</div>
         <div class="intro-quote" id="intro-quote-text">"¡El poder viene en respuesta a una necesidad, no a un deseo!"</div>
-        <div class="intro-welcome">Bienvenido guerrero: <span id="intro-user-name" style="color: var(--neon-yellow);"></span></div>
+        <div class="intro-welcome">Bienvenido Usuario: <span id="intro-user-name" style="color: var(--neon-yellow);"></span></div>
     </div>
 
     <div id="app-wrapper">
@@ -422,6 +422,9 @@
             '"¡El poder viene en respuesta a una necesidad, no a un deseo!"',
             '"Trabajar duro y superar tus límites es la clave de todo guerrero SAU."',
             '"Los límites solo existen si tú los permites en tu mente."'
+            '"No importa cuánto te golpeen, si puedes levantarte, aún puedes luchar."'
+            '"El ser humano es una criatura que se supera a sí misma con cada batalla."'
+            '"Para mejorar y evolucionar, primero hay que destruirlo todo."'
         ];
 
         function verificarAccesoConDragon() {
@@ -568,35 +571,39 @@
             return `${displayH.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
         }
 
-        /* --- LÓGICA DE TIEMPOS MUERTOS Y CÁLCULOS PRINCIPALES --- */
+                /* --- LÓGICA DE TIEMPOS MUERTOS Y CÁLCULOS PRINCIPALES --- */
         function calcularTodo() {
-            let metaOn = 0;
+            let sumaMetas = 0;
             let totalDocenasHechas = 0;
+            let cantidadCargas = cargas.length;
 
             cargas.forEach(c => {
-                metaOn += c.meta;
+                sumaMetas += c.meta;
                 totalDocenasHechas += c.hechas;
             });
 
-            // Capturar Horas y Minutos de Time Off
+            // 1. Meta On = Promedio de metas (Suma / Cantidad de cargas)
+            let metaOn = cantidadCargas > 0 ? (sumaMetas / cantidadCargas) : 0;
+
+            // 2. Capturar Horas y Minutos de Time Off
             let hrsParo = parseFloat(document.getElementById('paro-horas-input').value) || 0;
             let minsParo = parseFloat(document.getElementById('paro-minutos-input').value) || 0;
 
-            // Convertir a tiempo decimal
+            // Convertir a tiempo decimal (ej: 1h 30m = 1.50)
             let tiempoParoDecimal = hrsParo + (minsParo / 60);
             document.getElementById('paro-decimal-display').innerText = `${tiempoParoDecimal.toFixed(2)} hrs (${hrsParo}h ${minsParo}m)`;
 
-            // Calcular Docenas Perdidas según la regla: Meta On / 11 * Tiempo de Paro
+            // 3. Docenas Perdidas = (Meta On / 11) * Tiempo Decimal
             let docenasPerdidas = 0;
             if (metaOn > 0 && tiempoParoDecimal > 0) {
                 docenasPerdidas = (metaOn / 11) * tiempoParoDecimal;
             }
 
-            // Meta Final
+            // 4. Meta Final
             let metaFinal = metaOn - docenasPerdidas;
             if (metaFinal < 0) metaFinal = 0;
 
-            // Eficiencia Final
+            // 5. Eficiencia Final
             let eficienciaFinal = 0;
             if (metaFinal > 0) {
                 eficienciaFinal = (totalDocenasHechas / metaFinal) * 100;
@@ -604,10 +611,14 @@
 
             // Actualizar interfaz
             document.getElementById('efi-final').innerText = eficienciaFinal.toFixed(2) + '%';
-            document.getElementById('suma-metas-val').innerText = metaOn.toFixed(1);
+            document.getElementById('suma-metas-val').innerText = metaOn.toFixed(1); // Muestra la Meta On (Promedio)
             document.getElementById('meta-dia-val').innerText = metaFinal.toFixed(1);
             document.getElementById('docenas-hechas-val').innerText = totalDocenasHechas.toFixed(2);
             document.getElementById('docenas-perdidas-val').innerText = docenasPerdidas.toFixed(2);
+
+            generarBitacoraExacta();
+        }
+
 
             generarBitacoraExacta();
         }
