@@ -115,14 +115,19 @@
         }
 
         .real-dragon-wrapper {
-            width: 340px; height: 340px; position: relative;
-            filter: drop-shadow(0 0 35px var(--neon-green)) drop-shadow(0 0 15px var(--neon-yellow));
+            width: 320px; height: 320px; position: relative;
+            filter: drop-shadow(0 0 35px var(--neon-green)) drop-shadow(0 0 20px var(--neon-yellow));
             animation: dragonFloatComplex 3.5s ease-in-out infinite alternate;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .real-dragon-wrapper img {
+            width: 100%; height: 100%; object-fit: contain; border-radius: 50%;
         }
 
         @keyframes dragonFloatComplex {
             0% { transform: translateY(0) scale(0.95) rotate(-2deg); }
-            100% { transform: translateY(-25px) scale(1.05) rotate(3deg); }
+            100% { transform: translateY(-20px) scale(1.05) rotate(3deg); }
         }
 
         .loading-text {
@@ -250,31 +255,9 @@
 
     <div id="dragon-loader-screen">
         <div class="real-dragon-wrapper">
-            <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
-                <path d="M 30,150 Q 80,30 150,150 T 270,150 T 150,260 T 40,150" fill="none" stroke="#117711" stroke-width="22" stroke-linecap="round"/>
-                <path d="M 30,150 Q 80,30 150,150 T 270,150 T 150,260 T 40,150" fill="none" stroke="#21ff14" stroke-width="12" stroke-linecap="round"/>
-                <path d="M 30,150 Q 80,30 150,150 T 270,150 T 150,260 T 40,150" fill="none" stroke="#a3ff99" stroke-width="3" stroke-dasharray="6,6"/>
-                <path d="M 25,145 Q 75,25 145,145 T 265,145" fill="none" stroke="#ffee00" stroke-width="4"/>
-                <g transform="translate(225, 125)">
-                    <path d="M 10,5 Q 30,-30 45,-20 Q 25,-10 5,0" fill="#ffee00" stroke="#cc9900" stroke-width="2"/>
-                    <path d="M 10,25 Q 30,60 45,50 Q 25,40 5,20" fill="#ffee00" stroke="#cc9900" stroke-width="2"/>
-                    <path d="M -10,0 L 25,-5 L 40,10 L 20,20 L -10,15 Z" fill="#158815" stroke="#21ff14" stroke-width="2"/>
-                    <circle cx="15" cy="2" r="4" fill="#ff0000" filter="drop-shadow(0 0 6px #ff0000)"/>
-                    <path d="M 35,10 Q 60,0 80,25" fill="none" stroke="#ffee00" stroke-width="3" stroke-linecap="round"/>
-                    <path d="M 35,15 Q 60,30 80,5" fill="none" stroke="#ffee00" stroke-width="3" stroke-linecap="round"/>
-                </g>
-                <circle cx="150" cy="150" r="22" fill="url(#dragonBallGrad)" filter="drop-shadow(0 0 20px #ffee00)"/>
-                <defs>
-                    <radialGradient id="dragonBallGrad" cx="35%" cy="35%" r="65%">
-                        <stop offset="0%" stop-color="#ffffaa"/>
-                        <stop offset="50%" stop-color="#ff9900"/>
-                        <stop offset="100%" stop-color="#cc1100"/>
-                    </radialGradient>
-                </defs>
-                <polygon points="150,138 153,145 160,145 155,149 157,156 150,152 143,156 145,149 140,145 147,145" fill="#990000"/>
-            </svg>
+            <img src="https://media.giphy.com/media/fV4G76T48J9xNqH1tN/giphy.gif" alt="Shenlong Neon Gif Real">
         </div>
-        <div class="loading-text">INVOCANDO A SHENLONG REAL...</div>
+        <div class="loading-text">INVOCANDO A SHENLONG NEÓN...</div>
     </div>
 
     <div id="splash-screen">
@@ -325,11 +308,19 @@
         </div>
 
         <div id="app-main">
+            <!-- SECCIÓN DE TIEMPOS MUERTOS (TIME OFF) MEJORADA -->
             <div class="paros-container">
-                <h4>⏱️ Paros Externos / Docenas Perdidas</h4>
-                <div class="input-group" style="flex: 1; min-width: 140px;">
-                    <label>Docenas Perdidas</label>
-                    <input type="number" id="docenas-perdidas-input" value="0" min="0" oninput="calcularTodo();" style="text-align: center; color: #ff4500; font-weight: bold;">
+                <h4>⏱️ Tiempos Muertos / Paros (Time Off)</h4>
+                <div class="input-group" style="flex: 1; min-width: 120px;">
+                    <label>Horas de Paro</label>
+                    <input type="number" id="paro-horas-input" value="0" min="0" oninput="calcularTodo();" style="text-align: center; color: #ff4500; font-weight: bold;">
+                </div>
+                <div class="input-group" style="flex: 1; min-width: 120px;">
+                    <label>Minutos de Paro</label>
+                    <input type="number" id="paro-minutos-input" value="0" min="0" max="59" oninput="calcularTodo();" style="text-align: center; color: #ff4500; font-weight: bold;">
+                </div>
+                <div style="width: 100%; font-size: 0.8rem; color: var(--neon-cyan); margin-top: 4px;">
+                    Total Tiempo Paro: <b id="paro-decimal-display" style="color: var(--neon-yellow);">0.00 hrs</b>
                 </div>
             </div>
 
@@ -344,10 +335,10 @@
                     <div class="aura-nivel-tag" id="aura-tag" style="margin-top: 10px;">AURA GOKU NEÓN</div>
                 </div>
                 <div class="stats-grid">
-                    <div class="stat-box">SUMA METAS<span><b id="suma-metas-val">0.0</b> <small style="font-size: 0.7rem; color: #aaa;">dz</small></span></div>
-                    <div class="stat-box">META FINAL (11H)<span><b id="meta-dia-val">0.0</b> <small style="font-size: 0.7rem; color: #aaa;">dz</small></span></div>
+                    <div class="stat-box">META ON (11H)<span><b id="suma-metas-val">0.0</b> <small style="font-size: 0.7rem; color: #aaa;">dz</small></span></div>
+                    <div class="stat-box">META FINAL AJUSTADA<span><b id="meta-dia-val">0.0</b> <small style="font-size: 0.7rem; color: #aaa;">dz</small></span></div>
                     <div class="stat-box">TOTAL HECHAS<span><b id="docenas-hechas-val">0.00</b> <small style="font-size: 0.7rem; color: #aaa;">dz</small></span></div>
-                    <div class="stat-box">DOCENAS PERDIDAS<span><b id="docenas-perdidas-val" style="color: #ff4500;">0.00</b></span></div>
+                    <div class="stat-box">DOCENAS PERDIDAS<span><b id="docenas-perdidas-val" style="color: #ff4500;">0.00</b> <small style="font-size: 0.7rem; color: #aaa;">dz</small></span></div>
                 </div>
             </div>
 
@@ -356,7 +347,7 @@
         </div>
     </div>
 
-    <button class="btn-bg-changer" onclick="rotarFondoPantalla()">🖼️ CAMBIAR WALLPAPER DBZ</button>
+    <button class="btn-bg-changer" onclick="rotarFondoPantalla()">🖼️ CAMBIAR NEÓN DBZ</button>
 
     <script>
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -365,7 +356,8 @@
             'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=1920&auto=format&fit=crop',
             'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1920&auto=format&fit=crop',
             'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1920&auto=format&fit=crop',
-            'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1920&auto=format&fit=crop'
+            'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1920&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=1920&auto=format&fit=crop'
         ];
         let idxFondo = 0;
 
@@ -490,7 +482,6 @@
             }
         }
 
-        /* --- ACTUALIZACIÓN FLUIDA SIN RECONSTRUIR EL DOM --- */
         function actualizarValor(index, campo, valor) {
             cargas[index][campo] = parseFloat(valor) || 0;
             actualizarBadgesCarga(index);
@@ -577,49 +568,71 @@
             return `${displayH.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
         }
 
+        /* --- LÓGICA DE TIEMPOS MUERTOS Y CÁLCULOS PRINCIPALES --- */
         function calcularTodo() {
-            let sumaMetas = 0;
-            let totalDocenas = 0;
+            let metaOn = 0;
+            let totalDocenasHechas = 0;
 
             cargas.forEach(c => {
-                sumaMetas += c.meta;
-                totalDocenas += c.hechas;
+                metaOn += c.meta;
+                totalDocenasHechas += c.hechas;
             });
 
-            let docenasPerdidasInput = parseFloat(document.getElementById('docenas-perdidas-input').value) || 0;
+            // Capturar Horas y Minutos de Time Off
+            let hrsParo = parseFloat(document.getElementById('paro-horas-input').value) || 0;
+            let minsParo = parseFloat(document.getElementById('paro-minutos-input').value) || 0;
 
-            let promedioMetas = cargas.length > 0 ? (sumaMetas / cargas.length) : 0;
-            let metaFinalDia = promedioMetas - docenasPerdidasInput;
-            if (metaFinalDia < 0) metaFinalDia = 0;
+            // Convertir a tiempo decimal
+            let tiempoParoDecimal = hrsParo + (minsParo / 60);
+            document.getElementById('paro-decimal-display').innerText = `${tiempoParoDecimal.toFixed(2)} hrs (${hrsParo}h ${minsParo}m)`;
 
-            let eficienciaFinal = metaFinalDia > 0 ? (totalDocenas / metaFinalDia) * 100 : 0;
+            // Calcular Docenas Perdidas según la regla: Meta On / 11 * Tiempo de Paro
+            let docenasPerdidas = 0;
+            if (metaOn > 0 && tiempoParoDecimal > 0) {
+                docenasPerdidas = (metaOn / 11) * tiempoParoDecimal;
+            }
 
+            // Meta Final
+            let metaFinal = metaOn - docenasPerdidas;
+            if (metaFinal < 0) metaFinal = 0;
+
+            // Eficiencia Final
+            let eficienciaFinal = 0;
+            if (metaFinal > 0) {
+                eficienciaFinal = (totalDocenasHechas / metaFinal) * 100;
+            }
+
+            // Actualizar interfaz
             document.getElementById('efi-final').innerText = eficienciaFinal.toFixed(2) + '%';
-            document.getElementById('suma-metas-val').innerText = sumaMetas.toFixed(1);
-            document.getElementById('meta-dia-val').innerText = metaFinalDia.toFixed(1);
-            document.getElementById('docenas-hechas-val').innerText = totalDocenas.toFixed(2);
-            document.getElementById('docenas-perdidas-val').innerText = docenasPerdidasInput.toFixed(2);
+            document.getElementById('suma-metas-val').innerText = metaOn.toFixed(1);
+            document.getElementById('meta-dia-val').innerText = metaFinal.toFixed(1);
+            document.getElementById('docenas-hechas-val').innerText = totalDocenasHechas.toFixed(2);
+            document.getElementById('docenas-perdidas-val').innerText = docenasPerdidas.toFixed(2);
 
-            generarBitacoraExacta(eficienciaFinal);
+            generarBitacoraExacta();
         }
 
-        function generarBitacoraExacta(eficienciaFinal) {
+        function generarBitacoraExacta() {
             const container = document.getElementById('timeline-container');
             container.innerHTML = '';
             if (cargas.length === 0) return;
 
-            let factorEficiencia = eficienciaFinal > 0 ? (eficienciaFinal / 100) : 1.0;
+            let totalDocenasTrabajo = 0;
+            cargas.forEach(c => {
+                totalDocenasTrabajo += (c.hechas > 0 ? c.hechas : c.meta);
+            });
+
+            const MINUTOS_PRODUCCION = 660; 
             let relojActual = 0;
 
             cargas.forEach((c, idx) => {
-                let ritmoNormal = c.meta / 11;
-                let ritmoAjustado = ritmoNormal * factorEficiencia;
-                if (ritmoAjustado <= 0) ritmoAjustado = ritmoNormal;
-
                 let docenasAProcesar = c.hechas > 0 ? c.hechas : c.meta;
-                let horasPurasPeticion = docenasAProcesar / ritmoAjustado;
-                let tiempoRestanteMins = horasPurasPeticion * 60;
+                
+                let proporcion = totalDocenasTrabajo > 0 ? (docenasAProcesar / totalDocenasTrabajo) : (1 / cargas.length);
+                let tiempoAsignadoMinutos = proporcion * MINUTOS_PRODUCCION;
+                let ritmoEfectivoDzHora = tiempoAsignadoMinutos > 0 ? (docenasAProcesar / (tiempoAsignadoMinutos / 60)) : 0;
 
+                let tiempoRestanteMins = tiempoAsignadoMinutos;
                 let inicioCargaMins = relojActual;
 
                 while (tiempoRestanteMins > 0.01) {
@@ -652,7 +665,7 @@
 
                 container.innerHTML += `
                     <div class="time-row carga">
-                        <div>CARGA #${idx + 1} - ${docenasAProcesar} dz (@ ${(ritmoAjustado).toFixed(1)} dz/h)</div>
+                        <div>CARGA #${idx + 1} - ${docenasAProcesar} dz (@ ${ritmoEfectivoDzHora.toFixed(1)} dz/h)</div>
                         <div class="hora">${formatoHora(inicioCargaMins)} - ${formatoHora(relojActual)} <span class="duracion-badge">${badgeDuracion}</span></div>
                     </div>
                 `;
