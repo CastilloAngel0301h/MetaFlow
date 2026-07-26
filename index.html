@@ -335,7 +335,7 @@
                     <div class="aura-nivel-tag" id="aura-tag" style="margin-top: 10px;">AURA GOKU NEÓN</div>
                 </div>
                 <div class="stats-grid">
-                    <div class="stat-box">META ON (11H)<span><b id="suma-metas-val">0.0</b> <small style="font-size: 0.7rem; color: #aaa;">dz</small></span></div>
+                    <div class="stat-box">META ON (PROMEDIO)<span><b id="suma-metas-val">0.0</b> <small style="font-size: 0.7rem; color: #aaa;">dz</small></span></div>
                     <div class="stat-box">META FINAL AJUSTADA<span><b id="meta-dia-val">0.0</b> <small style="font-size: 0.7rem; color: #aaa;">dz</small></span></div>
                     <div class="stat-box">TOTAL HECHAS<span><b id="docenas-hechas-val">0.00</b> <small style="font-size: 0.7rem; color: #aaa;">dz</small></span></div>
                     <div class="stat-box">DOCENAS PERDIDAS<span><b id="docenas-perdidas-val" style="color: #ff4500;">0.00</b> <small style="font-size: 0.7rem; color: #aaa;">dz</small></span></div>
@@ -368,30 +368,33 @@
         }
 
         function playEsferaSound() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(784, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(1567, audioCtx.currentTime + 0.15);
-            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.15);
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(784, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(1567, audioCtx.currentTime + 0.15);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.15);
+            } catch(e) { console.log(e); }
         }
 
         function playTransformSound() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            
-            const osc1 = audioCtx.createOscillator();
-            const gain1 = audioCtx.createGain();
-            osc1.type = 'sawtooth';
-            osc1.frequency.setValueAtTime(100, audioCtx.currentTime);
-            osc1.frequency.exponentialRampToValueAtTime(850, audioCtx.currentTime + 0.5);
-            gain1.gain.setValueAtTime(0.2, audioCtx.currentTime);
-            gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-            osc1.connect(gain1); gain1.connect(audioCtx.destination);
-            osc1.start(); osc1.stop(audioCtx.currentTime + 0.5);
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc1 = audioCtx.createOscillator();
+                const gain1 = audioCtx.createGain();
+                osc1.type = 'sawtooth';
+                osc1.frequency.setValueAtTime(100, audioCtx.currentTime);
+                osc1.frequency.exponentialRampToValueAtTime(850, audioCtx.currentTime + 0.5);
+                gain1.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+                osc1.connect(gain1); gain1.connect(audioCtx.destination);
+                osc1.start(); osc1.stop(audioCtx.currentTime + 0.5);
+            } catch(e) { console.log(e); }
         }
 
         function toggleMusica() {
@@ -422,13 +425,11 @@
             '"¡El poder viene en respuesta a una necesidad, no a un deseo!"',
             '"Trabajar duro y superar tus límites es la clave de todo guerrero SAU."',
             '"Los límites solo existen si tú los permites en tu mente."'
-            '"No importa cuánto te golpeen, si puedes levantarte, aún puedes luchar."'
-            '"El ser humano es una criatura que se supera a sí misma con cada batalla."'
-            '"Para mejorar y evolucionar, primero hay que destruirlo todo."'
         ];
 
         function verificarAccesoConDragon() {
-            const pinIngresado = document.getElementById('pin').value;
+            const pinInput = document.getElementById('pin');
+            const pinIngresado = pinInput ? pinInput.value.trim() : "";
             const usuario = usuariosAutorizados.find(u => u.pin === pinIngresado);
 
             if (usuario) {
@@ -521,6 +522,7 @@
 
         function renderizarCargas() {
             const container = document.getElementById('contenedor-cargas');
+            if (!container) return;
             container.innerHTML = '';
             
             cargas.forEach((c, index) => {
@@ -582,44 +584,51 @@
                 totalDocenasHechas += c.hechas;
             });
 
-            // 1. Meta On = Promedio de metas (Suma / Cantidad de cargas)
+            // META ON = Suma de todas las metas / Cantidad de cargas
             let metaOn = cantidadCargas > 0 ? (sumaMetas / cantidadCargas) : 0;
 
-            // 2. Capturar Horas y Minutos de Time Off
-            let hrsParo = parseFloat(document.getElementById('paro-horas-input').value) || 0;
-            let minsParo = parseFloat(document.getElementById('paro-minutos-input').value) || 0;
+            // Capturar Horas y Minutos de Time Off
+            let hrsParoInput = document.getElementById('paro-horas-input');
+            let minsParoInput = document.getElementById('paro-minutos-input');
+            
+            let hrsParo = hrsParoInput ? (parseFloat(hrsParoInput.value) || 0) : 0;
+            let minsParo = minsParoInput ? (parseFloat(minsParoInput.value) || 0) : 0;
 
-            // Convertir a tiempo decimal (ej: 1h 30m = 1.50)
+            // Convertir a tiempo decimal
             let tiempoParoDecimal = hrsParo + (minsParo / 60);
-            document.getElementById('paro-decimal-display').innerText = `${tiempoParoDecimal.toFixed(2)} hrs (${hrsParo}h ${minsParo}m)`;
+            
+            let displayParo = document.getElementById('paro-decimal-display');
+            if(displayParo) displayParo.innerText = `${tiempoParoDecimal.toFixed(2)} hrs (${hrsParo}h ${minsParo}m)`;
 
-            // 3. Docenas Perdidas = (Meta On / 11) * Tiempo Decimal
+            // Calcular Docenas Perdidas según la regla: (Meta On / 11) * Tiempo de Paro
             let docenasPerdidas = 0;
             if (metaOn > 0 && tiempoParoDecimal > 0) {
                 docenasPerdidas = (metaOn / 11) * tiempoParoDecimal;
             }
 
-            // 4. Meta Final
+            // Meta Final
             let metaFinal = metaOn - docenasPerdidas;
             if (metaFinal < 0) metaFinal = 0;
 
-            // 5. Eficiencia Final
+            // Eficiencia Final
             let eficienciaFinal = 0;
             if (metaFinal > 0) {
                 eficienciaFinal = (totalDocenasHechas / metaFinal) * 100;
             }
+
             // Actualizar interfaz
-            document.getElementById('efi-final').innerText = eficienciaFinal.toFixed(2) + '%';
-            document.getElementById('suma-metas-val').innerText = metaOn.toFixed(1);
-            document.getElementById('meta-dia-val').innerText = metaFinal.toFixed(1);
-            document.getElementById('docenas-hechas-val').innerText = totalDocenasHechas.toFixed(2);
-            document.getElementById('docenas-perdidas-val').innerText = docenasPerdidas.toFixed(2);
+            if(document.getElementById('efi-final')) document.getElementById('efi-final').innerText = eficienciaFinal.toFixed(2) + '%';
+            if(document.getElementById('suma-metas-val')) document.getElementById('suma-metas-val').innerText = metaOn.toFixed(1);
+            if(document.getElementById('meta-dia-val')) document.getElementById('meta-dia-val').innerText = metaFinal.toFixed(1);
+            if(document.getElementById('docenas-hechas-val')) document.getElementById('docenas-hechas-val').innerText = totalDocenasHechas.toFixed(2);
+            if(document.getElementById('docenas-perdidas-val')) document.getElementById('docenas-perdidas-val').innerText = docenasPerdidas.toFixed(2);
 
             generarBitacoraExacta();
         }
 
         function generarBitacoraExacta() {
             const container = document.getElementById('timeline-container');
+            if (!container) return;
             container.innerHTML = '';
             if (cargas.length === 0) return;
 
