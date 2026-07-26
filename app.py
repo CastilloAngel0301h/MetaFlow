@@ -11,7 +11,7 @@ USUARIOS_AUTORIZADOS = {
     "1734": {"nombre": "Libny Castillo ⚡"},
     "4321": {"nombre": "Derick Alexander Carvajal 🔥"},
     "3455": {"nombre": "Josué Rivera 🌀"},
-    "1301": {"nombre": "Olvin Ramírez 🧠"},
+    "1301": {"nombre": "Jack Perdomo 🦈"},
     "2064": {"nombre": "Arnoldo Alvarenga 🤠"},
     "2711": {"nombre": "Yervi Mejia 🐯"},
     "3855": {"nombre": "Yeison Murillo 💀"},
@@ -42,4 +42,3 @@ def login():
 if __name__ == '__main__':
     # Ejecuta el servidor en el puerto 5000 (Asegúrate de que la indentación de este bloque de código sea de 4 espacios)
     app.run(host='0.0.0.0', port=5000, debug=True)
-
